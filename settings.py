@@ -1,0 +1,3 @@
+DEBUG = True
+SECRET_KEY = "cH4ng3_M3"
+BABEL_DEFAULT_LOCALE = "de"
