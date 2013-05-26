@@ -39,15 +39,21 @@ def sip():
     return render_template('sip.html')
 
 @app.route('/alsa')
-def alsa(idx=0):
+@app.route('/alsa/<card>')
+def alsa(card="ALSA"):
+    devices = alsaaudio.cards()
+    try:
+        idx=devices.index(card)
+    except ValueError:
+        card = "ALSA"
+        idx=devices.index(card)
     mixers = alsaaudio.mixers(idx)
-    mixer = alsaaudio.Mixer(mixers[0], cardindex=idx)
-    volumes = mixer.getvolume()
-    volumes_txt = ""
-    for i in range(len(volumes)):
-        volumes_txt = volumes_txt + "Channel %i volume: %i%%\n" % (i,volumes[i])
+    volumes = {}
+    for i in range(len(mixers)):
+        mixer = alsaaudio.Mixer(mixers[i], cardindex=idx)
+        volumes[mixers[i]] = {'levels': mixer.getvolume(), 'mutes': mixer.getmute()}
 
-    return render_template('alsa.html', mixers=mixers, volumes=volumes)
+    return render_template('alsa.html', devices=devices, volumes=volumes)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

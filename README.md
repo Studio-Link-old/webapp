@@ -2,7 +2,7 @@
 
 ## About
 
-Use the Raspberry PI hardware for podcasting and broadcasting with inspiration from Tim Pritlove!
+Use the Raspberry Pi hardware for podcasting and broadcasting with inspiration from Tim Pritlove!
 
 
 ## Image 
