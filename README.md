@@ -7,15 +7,13 @@ Use the Raspberry Pi hardware for podcasting and broadcasting with inspiration f
 
 ## Developer Image 
 
-http://80.190.240.193/2013-05-26-podlove-0.1.0-dev.img.bz2
+http://80.190.240.193/2013-05-31-podlove-0.1.0-dev.img.bz2
 
-* MD5SUM: f0c05f3cd15e8d4bbd740b31720df648
-* SHA1SUM: d3512fadd188658619ea5a2741a2a7dccff8b96f
+* MD5SUM: 2236bdef1533563eeff3cdb561bee910
+* SHA1SUM: 040464558503fe0553647c519a02ecc3f6610003
 
 * User: pi
 * Password: raspberry
-
-You find the current virtualenv at /opt/podlove. 
 
 
 ## Tested Audio Hardware
