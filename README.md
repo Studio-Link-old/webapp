@@ -7,10 +7,10 @@ Use the Raspberry Pi hardware for podcasting and broadcasting with inspiration f
 
 ## Developer Image 
 
-http://80.190.240.193/2013-05-31-podlove-0.1.0-dev.img.bz2
+http://80.190.240.193/2013-06-17-podlove-0.1.1-dev.img.bz2
 
-* MD5SUM: 2236bdef1533563eeff3cdb561bee910
-* SHA1SUM: 040464558503fe0553647c519a02ecc3f6610003
+* MD5SUM: c98e4c0608d6151f59a4c2c703903045
+* SHA1SUM: f4713ab9868a86411e62718cade8f3293c39280c
 
 * User: pi
 * Password: raspberry
