@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block body_container %}
+
+<h1>Alsa</h1>
+
+{{ _('Device') }}:
+<form>
+    <select onchange="top.location.href=this.form.device.options[this.form.device.selectedIndex].value" name="device">
+    {% for device in devices %}
+    <option{% if device == request.view_args['card'] %} selected="selected"{% endif %} value="/mixer/{{ device }}">{{ device }}</option>
+    {% endfor %}
+    </select>
+</form>
+
+
+<div class="row">
+{% for volume, value in volumes.items() recursive %}
+<div class="span2">
+      <div style="clear:both;"></div>
+    <h2>{{ volume }}</h2>
+    <div id="eq">
+        {% for lkey, lvalue in value.items() recursive %}
+        {% if (lkey == "levels") %}
+            {% for pegel in lvalue %}
+            <div style="float:left; margin:15px">
+                <span id="level" style="height: 200px; float:left;"></span>
+            </div>
+            <script>
+                $(function() {
+                    // setup graphic EQ
+                    $( "#level" ).slider({
+                            value: "{{ pegel }}",
+                            range: "min",
+                            animate: true,
+                            orientation: "vertical",
+                            slide: function( event, ui ) {
+                                
+                            }
+                        });
+                });
+            </script>
+            {% endfor %}
+            {% endif %}
+      <div style="clear:both;"></div>
+        {% if (lkey == "mutes") %}
+            {% for mute in lvalue %}
+            <p style="float:left; margin-left:15px;margin-right:15px"><input type="checkbox" {% if mute %}checked{% endif %}></p>
+            {% endfor %}
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endfor %}
+</div>
+
+
+
+{% endblock %}
