@@ -7,34 +7,35 @@
 <form>
     <select onchange="top.location.href=this.form.device.options[this.form.device.selectedIndex].value" name="device">
     {% for device in devices %}
-    <option{% if device == request.view_args['card'] %} selected="selected"{% endif %} value="/mixer/{{ device }}">{{ device }}</option>
+    <option{% if device == card %} selected="selected"{% endif %} value="/mixer/{{ device }}">{{ device }}</option>
     {% endfor %}
     </select>
 </form>
 
 
+<h2>{{ _('Playback') }}</h2>
 <div class="row">
 {% for volume, value in volumes.items() recursive %}
 <div class="span2">
       <div style="clear:both;"></div>
-    <h2>{{ volume }}</h2>
+      <h3>{{ volume }}</h3>
     <div id="eq">
-        {% for lkey, lvalue in value.items() recursive %}
+        {% for lkey, lvalue  in value.items() recursive %}
         {% if (lkey == "levels") %}
             {% for pegel in lvalue %}
             <div style="float:left; margin:15px">
-                <span id="level" style="height: 200px; float:left;"></span>
+                <span id="levelplay{{ value['mixer'] }}{{ loop.index0 }}" style="height: 200px; float:left;"></span>
             </div>
             <script>
                 $(function() {
                     // setup graphic EQ
-                    $( "#level" ).slider({
+                    $( "#levelplay{{ value['mixer'] }}{{ loop.index0 }} }}" ).slider({
                             value: "{{ pegel }}",
                             range: "min",
                             animate: true,
                             orientation: "vertical",
                             slide: function( event, ui ) {
-                                
+                                $.get("/mixer/volume/{{ card }}/{{ value['mixer'] }}/{{ loop.index0 }}/"+ui.value);
                             }
                         });
                 });
@@ -44,7 +45,19 @@
       <div style="clear:both;"></div>
         {% if (lkey == "mutes") %}
             {% for mute in lvalue %}
-            <p style="float:left; margin-left:15px;margin-right:15px"><input type="checkbox" {% if mute %}checked{% endif %}></p>
+            <p style="float:left; margin-left:15px;margin-right:15px"><input id="muteplay{{ value['mixer'] }}{{ loop.index0 }}" type="checkbox" {% if mute %}checked{% endif %}></p>
+            <script>
+                $(function() {
+                    $( "#muteplay{{ value['mixer'] }}{{ loop.index0 }}" ).change(
+                        function(e){
+                            if ($(this).is(':checked')) {
+                                $.get("/mixer/muteplay/{{ card }}/{{ value['mixer'] }}/{{ loop.index0 }}/1");
+                            } else {
+                                $.get("/mixer/muteplay/{{ card }}/{{ value['mixer'] }}/{{ loop.index0 }}/0");
+                            }
+                    });
+                });
+            </script>
             {% endfor %}
         {% endif %}
         {% endfor %}
@@ -53,6 +66,5 @@
 {% endfor %}
 </div>
 
-
-
+<h2>Capture</h2>
 {% endblock %}

@@ -38,22 +38,51 @@ def openob():
 def sip():
     return render_template('sip.html')
 
-@app.route('/alsa')
-@app.route('/alsa/<card>')
-def alsa(card="ALSA"):
+@app.route('/mixer')
+@app.route('/mixer/<card>')
+def mixer(card=""):
+    volumes = {}
     devices = alsaaudio.cards()
     try:
         idx=devices.index(card)
     except ValueError:
-        card = "ALSA"
-        idx=devices.index(card)
-    mixers = alsaaudio.mixers(idx)
-    volumes = {}
+        idx=0
+        card=devices[0]
+    try:
+        mixers = alsaaudio.mixers(idx)
+    except:
+        devices = {"No ALSA Device detected"}
+        return render_template('mixer.html', devices=devices, volumes=volumes)
+
     for i in range(len(mixers)):
         mixer = alsaaudio.Mixer(mixers[i], cardindex=idx)
-        volumes[mixers[i]] = {'levels': mixer.getvolume(), 'mutes': mixer.getmute()}
+        volumes[mixers[i]] = {'mixer': i, 'levels': mixer.getvolume(), 'mutes': mixer.getmute()}
+    return render_template('mixer.html', devices=devices, volumes=volumes, card=card)
 
-    return render_template('alsa.html', devices=devices, volumes=volumes)
+@app.route('/mixer/volume/<card>/<mixeridx>/<channel>/<value>')
+def set_volume(card="",mixeridx=0,channel=0,value=50):
+    #channel = alsaaudio.MIXER_CHANNEL_ALL
+    devices = alsaaudio.cards()
+    try:
+        idx=devices.index(card)
+    except ValueError:
+        idx=0
+    mixers = alsaaudio.mixers(idx)
+    mixer = alsaaudio.Mixer(mixers[int(mixeridx)], cardindex=idx)
+    mixer.setvolume(int(value), int(channel))
+    return ""
+
+@app.route('/mixer/muteplay/<card>/<mixeridx>/<channel>/<value>')
+def mute_playback(card="",mixeridx=0,channel=0,value=0):
+    devices = alsaaudio.cards()
+    try:
+        idx=devices.index(card)
+    except ValueError:
+        idx=0
+    mixers = alsaaudio.mixers(idx)
+    mixer = alsaaudio.Mixer(mixers[int(mixeridx)], cardindex=idx)
+    mixer.setmute(int(value), int(channel))
+    return ""
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

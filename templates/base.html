@@ -29,7 +29,7 @@
                   ('index', 'Home'),
                   ('openob', 'Broadcast'),
                   ('sip', 'SIP'),
-                  ('alsa', 'ALSA'),
+                  ('mixer', 'Mixer'),
               ] %}
                   <li{% if endpoint == request.endpoint %} class=active{% endif
                   %}><a href={{ url_for(endpoint) }}>{{ caption }}</a></li>
