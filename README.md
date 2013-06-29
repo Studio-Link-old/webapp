@@ -1,8 +1,8 @@
-# Podlove Raspberry
+# Podlove Studio Connect
 
 ## About
 
-Use the Raspberry Pi hardware for podcasting and broadcasting with inspiration from Tim Pritlove!
+Use ARM hardware (e.g. raspberry pi) for podcasting and broadcasting with inspiration from Tim Pritlove!
 
 
 ## Developer Image 

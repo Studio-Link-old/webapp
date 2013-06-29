@@ -1,6 +1,6 @@
 {% extends "bootstrap_responsive.html" %}
 
-{% block title %}Podlove Raspberry{% endblock %}
+{% block title %}Studio Connect{% endblock %}
 
 {% block style %}
 {{super()}}
@@ -21,14 +21,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Podlove Raspberry</a>
+          <a class="brand" href="#">Studio Connect</a>
           <div class="nav-collapse">
 
             <ul class="nav">
               {%- for endpoint, caption in [
                   ('index', 'Home'),
-                  ('openob', 'Broadcast'),
-                  ('sip', 'SIP'),
+                  ('broadcast', 'Broadcast'),
                   ('mixer', 'Mixer'),
               ] %}
                   <li{% if endpoint == request.endpoint %} class=active{% endif
@@ -43,7 +42,7 @@
     <div class="container" role="main" id="main">
         {% block body_container %}{% endblock %}
         <hr>
-    <footer>© 2013 <a href="https://github.com/sreimers/podlove-raspberry">Podlove Raspberry</a> Version: 0.1.0-dev</footer>
+    <footer>© 2013 <a href="https://github.com/sreimers/podlove-studio-connect">Podlove Studio Connect</a> Version: 0.1.0-dev</footer>
     </div>
 {% endblock %}
 

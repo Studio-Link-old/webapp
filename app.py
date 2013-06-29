@@ -30,13 +30,10 @@ def index():
     uptime = p.stdout.read()
     return render_template('index.html', uptime=uptime)
 
-@app.route('/openob')
-def openob():
-    return render_template('openob.html')
+@app.route('/broadcast')
+def broadcast():
+    return render_template('broadcast.html')
 
-@app.route('/sip')
-def sip():
-    return render_template('sip.html')
 
 @app.route('/mixer')
 @app.route('/mixer/<card>')
