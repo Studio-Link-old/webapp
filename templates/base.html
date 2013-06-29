@@ -9,6 +9,7 @@
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 {% endblock style %}
 {% block bootstrap_js_bottom %}
+<script src="{{'js/bootstrap.js'|bootstrap_find_resource}}"></script>
 {% endblock bootstrap_js_bottom %}
 
 
@@ -21,7 +22,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Studio Connect</a>
+          <a class="brand" href="/">Studio Connect</a>
           <div class="nav-collapse">
 
             <ul class="nav">
