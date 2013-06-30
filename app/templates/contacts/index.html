@@ -3,4 +3,36 @@
 
 <h1>Contacts</h1>
 
+<p><button class="btn btn-success" type="button"><i class="icon-plus-sign icon-white"></i> New Contact</button></p>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Host</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for contact in contacts %}
+    <tr>
+        <td>{{ contact.id }}</td>
+        <td>{{ contact.name }}</td>
+        <td>{{ contact.host }}</td>
+        <td><span class="badge badge-success">Online</span></td>
+        <td>
+            <p>
+              <button class="btn btn-small btn-primary" type="button"><i class="icon-bell icon-white"></i> Call</button>
+              <button class="btn btn-small btn-warning" type="button"><i class="icon-edit icon-white"></i> Edit</button>
+              <button class="btn btn-small btn-danger" type="button"><i class="icon-remove-sign icon-white"></i> Delete</button>
+            </p>
+        </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+ </table>
+
+
 {% endblock %}
