@@ -7,7 +7,7 @@
 <form>
     <select onchange="top.location.href=this.form.device.options[this.form.device.selectedIndex].value" name="device">
     {% for device in devices %}
-    <option{% if device == card %} selected="selected"{% endif %} value="/mixer/{{ device }}">{{ device }}</option>
+    <option{% if device == card %} selected="selected"{% endif %} value="/mixers/{{ device }}">{{ device }}</option>
     {% endfor %}
     </select>
 </form>
@@ -35,7 +35,7 @@
                             animate: true,
                             orientation: "vertical",
                             slide: function( event, ui ) {
-                                $.get("/mixer/volume/{{ card }}/{{ value['mixer'] }}/{{ loop.index0 }}/"+ui.value);
+                                $.get("/mixers/volume/{{ card }}/{{ value['mixer'] }}/{{ loop.index0 }}/"+ui.value);
                             }
                         });
                 });
@@ -51,9 +51,9 @@
                     $( "#muteplay{{ value['mixer'] }}{{ loop.index0 }}" ).change(
                         function(e){
                             if ($(this).is(':checked')) {
-                                $.get("/mixer/muteplay/{{ card }}/{{ value['mixer'] }}/{{ loop.index0 }}/1");
+                                $.get("/mixers/muteplay/{{ card }}/{{ value['mixer'] }}/{{ loop.index0 }}/1");
                             } else {
-                                $.get("/mixer/muteplay/{{ card }}/{{ value['mixer'] }}/{{ loop.index0 }}/0");
+                                $.get("/mixers/muteplay/{{ card }}/{{ value['mixer'] }}/{{ loop.index0 }}/0");
                             }
                     });
                 });

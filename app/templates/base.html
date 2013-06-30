@@ -28,8 +28,8 @@
             <ul class="nav">
               {%- for endpoint, caption in [
                   ('index', 'Home'),
-                  ('broadcast', 'Broadcast'),
-                  ('mixer', 'Mixer'),
+                  ('contacts.index', 'Contacts'),
+                  ('mixers.index', 'Mixer'),
               ] %}
                   <li{% if endpoint == request.endpoint %} class=active{% endif
                   %}><a href={{ url_for(endpoint) }}>{{ caption }}</a></li>
@@ -43,7 +43,7 @@
     <div class="container" role="main" id="main">
         {% block body_container %}{% endblock %}
         <hr>
-    <footer>© 2013 <a href="https://github.com/sreimers/podlove-studio-connect">Podlove Studio Connect</a> Version: 0.1.0-dev</footer>
+    <footer>© 2013 <a href="https://github.com/sreimers/podlove-studio-connect">Podlove Studio Connect</a> Version: 0.2.0-dev</footer>
     </div>
 {% endblock %}
 
