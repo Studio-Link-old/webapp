@@ -26,7 +26,7 @@ def index(card=""):
         except alsaaudio.ALSAAudioError:
             pass
         volumes[mixers[i]] = {'mixer': i, 'levels': mixer.getvolume(), 'mutes': mutes}
-    return render_template('mixers.html', devices=devices, volumes=volumes, card=card)
+    return render_template('mixers/index.html', devices=devices, volumes=volumes, card=card)
 
 @mod.route('/volume/<card>/<mixeridx>/<channel>/<value>')
 def set_volume(card="",mixeridx=0,channel=0,value=50):
