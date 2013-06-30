@@ -25,7 +25,7 @@ http://80.190.240.193/2013-06-17-podlove-0.1.1-dev.img.bz2
 
 Contributors: [Sebastian Reimers](https://github.com/sreimers/)  
 Donate: [podlove.org/donations/](http://podlove.org/donations/)  
-Version: 0.1.0 
+Version: 0.2.0-dev 
 
 License: [BSD 2-Clause License](http://opensource.org/licenses/BSD-2-Clause)
 
