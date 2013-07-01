@@ -22,8 +22,8 @@ db = SQLAlchemy(app)
 from app.controllers.mixers import mod as mixersModule
 app.register_blueprint(mixersModule)
 
-from app.controllers.contacts import mod as contactsModule
-app.register_blueprint(contactsModule)
+from app.controllers.peers import mod as peersModule
+app.register_blueprint(peersModule)
 
 @app.route('/')
 def index():

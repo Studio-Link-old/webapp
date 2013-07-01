@@ -28,7 +28,7 @@
             <ul class="nav">
               {%- for endpoint, caption in [
                   ('index', 'Home'),
-                  ('contacts.index', 'Contacts'),
+                  ('peers.index', 'Peers'),
                   ('mixers.index', 'Mixer'),
               ] %}
                   <li{% if endpoint == request.endpoint %} class=active{% endif

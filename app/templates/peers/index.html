@@ -1,14 +1,13 @@
 {% extends "base.html" %}
 {% block body_container %}
 
-<h1>Contacts</h1>
+<h1>Peers</h1>
 
-<p><button class="btn btn-success" type="button"><i class="icon-plus-sign icon-white"></i> New Contact</button></p>
+<p><button class="btn btn-success" type="button"><i class="icon-plus-sign icon-white"></i> New Peer</button></p>
 
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>#</th>
       <th>Name</th>
       <th>Host</th>
       <th>Status</th>
@@ -16,12 +15,15 @@
     </tr>
   </thead>
   <tbody>
-    {% for contact in contacts %}
+    {% for peer in peers %}
     <tr>
-        <td>{{ contact.id }}</td>
-        <td>{{ contact.name }}</td>
-        <td>{{ contact.host }}</td>
-        <td><span class="badge badge-success">Online</span></td>
+        <td>{{ peer.name }}</td>
+        <td>{{ peer.host }}</td>
+        <td>
+            <span class="badge badge-warning"><abbr title="The Peer has not accept your request">Pending</abbr></span>
+            <span class="badge badge-success">Online</span>
+            <span class="badge badge-inverse">Offline</span>
+        </td>
         <td>
             <p>
               <button class="btn btn-small btn-primary" type="button"><i class="icon-bell icon-white"></i> Call</button>
