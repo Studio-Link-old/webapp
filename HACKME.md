@@ -1,5 +1,10 @@
 # Hackme - Howto contribute
 
+## Install requirements
+
+`pip install -r requirements.txt`
+
+
 ## Translation
 
 `$ pybabel extract -F babel.cfg -o messages.pot .`
@@ -17,3 +22,4 @@ Afterwards some strings might be marked as fuzzy (where it tried to figure out i
 >>> from app import db
 >>> db.create_all()
 >>> exit()
+
