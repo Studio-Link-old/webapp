@@ -5,3 +5,4 @@ Flask-SQLAlchemy==0.16
 Flask-WTF==0.8.3
 celery==3.0.20
 pyalsaaudio==0.7
+redis==2.7.6

@@ -3,6 +3,7 @@ from flask import Blueprint, render_template, redirect, request, url_for, flash
 from app import db
 from app.models.peers import Peer
 from app.forms.peers import AddForm
+from app import tasks
 
 mod = Blueprint('peers', __name__, url_prefix='/peers')
 
@@ -19,6 +20,7 @@ def add():
         db.session.add(peer)
         try:
             db.session.commit()
+            flash(tasks.add.delay(2,2).id)
             return redirect(url_for('peers.index'))
         except:
             flash(u'IPv6 address already exist', 'error')
