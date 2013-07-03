@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect, request, url_for, flash
 
 from app import db
 from app.models.peers import Peer
+from app.forms.peers import AddForm
 
 mod = Blueprint('peers', __name__, url_prefix='/peers')
 
@@ -10,9 +11,15 @@ def index():
     peers = Peer.query.all()
     return render_template("peers/index.html", peers=peers)
 
-@mod.route('/add/')
+@mod.route('/add/', methods=('GET', 'POST'))
 def add():
-    peer = Peer('test3', 'test1.hugo-will-es-wissen.example.com')
-    db.session.add(peer)
-    db.session.commit()
-    return render_template("peers/add.html")
+    form = AddForm(request.form)
+    if form.validate_on_submit():
+        peer = Peer(name=form.name.data, host=form.host.data)
+        db.session.add(peer)
+        try:
+            db.session.commit()
+            return redirect(url_for('peers.index'))
+        except:
+            flash(u'IPv6 address already exist', 'error')
+    return render_template("peers/add.html", form=form)
