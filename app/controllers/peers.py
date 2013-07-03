@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, request, url_for, flash
 
 from app import db
 from app.models.peers import Peer
-from app.forms.peers import AddForm
+from app.forms.peers import AddForm, CallForm
 from app import tasks
 
 mod = Blueprint('peers', __name__, url_prefix='/peers')
@@ -25,3 +25,8 @@ def add():
         except:
             flash(u'IPv6 address already exist', 'error')
     return render_template("peers/add.html", form=form)
+
+@mod.route('/call/')
+def call():
+    form = CallForm()
+    return render_template("peers/call.html", form=form)
