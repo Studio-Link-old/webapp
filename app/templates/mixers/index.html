@@ -32,6 +32,7 @@
                     $( "#levelplay{{ value['mixer'] }}{{ loop.index0 }} }}" ).slider({
                             value: "{{ pegel }}",
                             range: "min",
+            			    step: 5,
                             animate: true,
                             orientation: "vertical",
                             slide: function( event, ui ) {
