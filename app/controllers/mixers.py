@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, url_for, redirect, flash
 import alsaaudio
+from app import tasks
 
 mod = Blueprint('mixers', __name__, url_prefix='/mixers')
 
@@ -52,3 +53,9 @@ def mute_playback(card="",mixeridx=0,channel=0,value=0):
     mixer = alsaaudio.Mixer(mixers[int(mixeridx)], cardindex=idx)
     mixer.setmute(int(value), int(channel))
     return ""
+
+@mod.route('/play/')
+def play():
+    flash("You should hear something...")
+    tasks.play_audio.delay()
+    return redirect(url_for('mixers.index'))
