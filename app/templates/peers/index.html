@@ -20,14 +20,24 @@
         <td>{{ peer.name }}</td>
         <td>{{ peer.host }}</td>
         <td>
-            <span class="badge badge-warning"><abbr title="The Peer has not accept your request">Pending</abbr></span>
+            {% if peer.status == 0 %}
+            <span class="badge badge-warning">
+                <abbr title="The Peer has not accept your request">Pending</abbr>
+            </span>
+            {% elif peer.status == 1 %}
             <span class="badge badge-success">Online</span>
+            {% elif peer.status == 2 %}
             <span class="badge badge-inverse">Offline</span>
+            {% elif peer.status == 3 %}
+            <span class="badge badge-important">Busy</span>
+            {% endif %}
         </td>
         <td>
             <p>
+            {% if peer.status == 1 %}
             <a href="{{ url_for('peers.call') }}"class="btn btn-small btn-primary"><i class="icon-bell icon-white"></i> Call</a>
-              <button class="btn btn-small btn-danger" type="button"><i class="icon-remove-sign icon-white"></i> Delete</button>
+            {% endif %}
+            <a href="/peers/delete/{{ peer.id }}" class="btn btn-small btn-danger delete-button"><i class="icon-remove-sign icon-white"></i> Delete</a>
             </p>
         </td>
     </tr>
@@ -35,5 +45,16 @@
   </tbody>
  </table>
 
-
+<script>
+ $(document).ready(function() {
+     $('.delete-button').click(function() {
+         var answer = confirm("Are you sure you want delete this item?");
+         if (answer) {
+             return true;
+         } else {
+             return false;
+         }
+     });
+ });
+</script>
 {% endblock %}

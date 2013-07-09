@@ -1,8 +1,18 @@
-from flask.ext.wtf import Form, TextField, Required, SelectField
+from flask.ext.wtf import Form, TextField, Required, SelectField, ValidationError
+
+import socket
+
+def check_ipv6(form,field):
+    try:
+        socket.inet_pton(socket.AF_INET6, field.data)
+        return True
+    except socket.error:
+        raise ValidationError('Not a valid IPv6 address!')
+
 
 class AddForm(Form):
     name = TextField('Name', [Required()])
-    host = TextField('Host IPv6', [Required()])
+    host = TextField('Host IPv6', [Required(), check_ipv6])
 
 class CallForm(Form):
     codec = SelectField('Codec', choices=[('opus','Opus')])

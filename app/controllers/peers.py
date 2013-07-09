@@ -4,6 +4,7 @@ from app import db
 from app.models.peers import Peer
 from app.forms.peers import AddForm, CallForm
 from app import tasks
+from sqlalchemy.exc import IntegrityError
 
 mod = Blueprint('peers', __name__, url_prefix='/peers')
 
@@ -20,11 +21,18 @@ def add():
         db.session.add(peer)
         try:
             db.session.commit()
-            flash(tasks.add.delay(2,2).id)
+            #TODO: 
+            #flash(tasks.add.delay(2,2).id)
             return redirect(url_for('peers.index'))
-        except:
+        except IntegrityError:
             flash(u'IPv6 address already exist', 'error')
     return render_template("peers/add.html", form=form)
+
+@mod.route('/delete/<id>')
+def delete(id):
+    db.session.delete(Peer.query.get(id))
+    db.session.commit()
+    return redirect(url_for('peers.index'))
 
 @mod.route('/call/')
 def call():
