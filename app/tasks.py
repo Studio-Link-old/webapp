@@ -22,9 +22,9 @@ def rtp_rx():
 @celery.task
 def play_audio():
     store = redis.Redis('127.0.0.1')
-    store.set('lock_play_audio', 'true')
+    store.set('lock_play_audio', 'true', '30')
     player = Play()
     player.run()
     player.loop()
-    store.set('lock_play_audio', 'false')
+    store.set('lock_play_audio', 'false', '30')
     return True
