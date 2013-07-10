@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, url_for, redirect, flash
 import alsaaudio
 from app import tasks
+import redis
 
 mod = Blueprint('mixers', __name__, url_prefix='/mixers')
 
@@ -57,5 +58,7 @@ def mute_playback(card="",mixeridx=0,channel=0,value=0):
 @mod.route('/play/')
 def play():
     flash("You should hear something...")
-    tasks.play_audio.delay()
+    store = redis.Redis('127.0.0.1')
+    if store.get('lock_play_audio') != 'true':
+        tasks.play_audio.delay()
     return redirect(url_for('mixers.index'))

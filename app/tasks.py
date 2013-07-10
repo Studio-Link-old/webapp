@@ -1,8 +1,7 @@
 from __future__ import absolute_import
-
 from app.celery import celery
-
 from app.libs.audio.play import Play
+import redis
 
 @celery.task
 def add(x, y):
@@ -22,7 +21,10 @@ def rtp_rx():
 
 @celery.task
 def play_audio():
+    store = redis.Redis('127.0.0.1')
+    store.set('lock_play_audio', 'true')
     player = Play()
     player.run()
     player.loop()
+    store.set('lock_play_audio', 'false')
     return True
