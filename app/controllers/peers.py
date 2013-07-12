@@ -38,3 +38,12 @@ def delete(id):
 def call():
     form = CallForm()
     return render_template("peers/call.html", form=form)
+
+@mod.route('/accept/<id>')
+def accept(id):
+    peer = Peer.query.get(id)
+    peer.status = 0
+    db.session.add(peer)
+    db.session.commit()
+    return redirect(url_for('peers.index'))
+

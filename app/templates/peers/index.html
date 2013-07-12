@@ -30,12 +30,16 @@
             <span class="badge badge-inverse">Offline</span>
             {% elif peer.status == 3 %}
             <span class="badge badge-important">Busy</span>
+            {% elif peer.status == 4 %}
+            <span class="badge badge-info">Invite</span>
             {% endif %}
         </td>
         <td>
             <p>
             {% if peer.status == 1 %}
             <a href="{{ url_for('peers.call') }}"class="btn btn-small btn-primary"><i class="icon-bell icon-white"></i> Call</a>
+            {% elif peer.status == 4 %}
+            <a href="/peers/accept/{{ peer.id }}"class="btn btn-small btn-success"><i class="icon-ok-sign  icon-white"></i> Accept Invite</a>
             {% endif %}
             <a href="/peers/delete/{{ peer.id }}" class="btn btn-small btn-danger delete-button"><i class="icon-remove-sign icon-white"></i> Delete</a>
             </p>

@@ -25,6 +25,9 @@ app.register_blueprint(mixersModule)
 from app.controllers.peers import mod as peersModule
 app.register_blueprint(peersModule)
 
+from app.controllers.api import mod as apiModule
+app.register_blueprint(apiModule)
+
 @app.route('/')
 def index():
     p = Popen('uptime', stdout=PIPE, stderr=STDOUT, close_fds=True)
