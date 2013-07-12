@@ -20,7 +20,7 @@ class Peer(db.Model):
     host = db.Column(db.String(100), unique=True)
     status = db.Column(db.SmallInteger, default=PENDING)
 
-    def __init__(self, name, host, status):
+    def __init__(self, name, host, status=PENDING):
         self.name = name
         self.host = host
         self.status = status
