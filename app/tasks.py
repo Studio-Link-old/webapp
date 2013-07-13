@@ -2,6 +2,7 @@ from __future__ import absolute_import
 from app.celery import celery
 from app.libs.audio.play import Play
 import redis
+import requests
 
 @celery.task
 def add(x, y):
@@ -27,4 +28,15 @@ def play_audio():
     player.run()
     player.loop()
     store.set('lock_play_audio', 'false', '30')
+    return True
+
+@celery.task
+def api_peer_status(host):
+    requests.get('http://['+host+']/api1/peer_status')
+    return True
+
+@celery.task
+def api_peer_invite(host):
+    payload = {'name': 'value1', 'host': '::33'}
+    requests.post('http://['+host+']/api1/peer_status', params=payload)
     return True
