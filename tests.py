@@ -35,5 +35,14 @@ class AppTestCase(unittest.TestCase):
         rv = self.client.get('/peers/')
         assert b'Test1' in rv.data
 
+    def test_edit_peer(self):
+        self.add_peer()
+        self.client.post('/peers/edit/1', data=dict(
+            name='Test2',
+            host='::'
+            ))
+        rv = self.client.get('/peers/')
+        assert b'Test2' in rv.data
+
 if __name__ == '__main__':
     unittest.main()

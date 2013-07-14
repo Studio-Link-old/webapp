@@ -37,6 +37,6 @@ def api_peer_status(host):
 
 @celery.task
 def api_peer_invite(host):
-    payload = {'name': 'value1', 'host': '::33'}
+    payload = {'name': 'value1'} # TODO: Name handling
     requests.post('http://['+host+']/api1/peer_status', params=payload)
     return True

@@ -26,7 +26,18 @@ def add():
             return redirect(url_for('peers.index'))
         except IntegrityError:
             flash(u'IPv6 address already exist', 'error')
-    return render_template("peers/add.html", form=form)
+    return render_template("peers/form.html", form=form)
+
+@mod.route('/edit/<id>', methods=('GET', 'POST'))
+def edit(id):
+    peer = Peer.query.get(id)
+    form = AddForm(obj=peer)
+    if form.validate_on_submit():
+        form.populate_obj(peer)
+        db.session.add(peer)
+        db.session.commit()
+        return redirect(url_for('peers.index'))
+    return render_template("peers/form.html", form=form, action='/peers/edit/'+id)
 
 @mod.route('/delete/<id>')
 def delete(id):

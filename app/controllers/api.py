@@ -9,7 +9,7 @@ mod = Blueprint('api', __name__, url_prefix='/api1')
 
 @mod.route('/peers', methods=('GET', 'POST'))
 def peer_invite():
-    peer = Peer(request.form['name'], request.form['host'], 4)
+    peer = Peer(request.remote_addr, request.remote_addr, 4)
     db.session.add(peer)
     db.session.commit()
     return jsonify({'result': True })
