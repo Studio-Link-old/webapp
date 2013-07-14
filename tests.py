@@ -43,6 +43,7 @@ class AppTestCase(unittest.TestCase):
             ))
         rv = self.client.get('/peers/')
         assert b'Test2' in rv.data
+        assert b'Test1' not in rv.data
 
 if __name__ == '__main__':
     unittest.main()
