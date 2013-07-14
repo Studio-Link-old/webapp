@@ -9,6 +9,7 @@ Full integrated Gstreamer Opus Webinterface with peering.
 - Peering (invite and status) REST API
 - Unittests
 - Audio Playbacktest
+- Shutdown and Reboot
 
 ## v0.1.0-dev (29.06.2013)
 First prototype release.
