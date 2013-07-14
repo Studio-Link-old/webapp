@@ -19,6 +19,9 @@ Babel(app)
 db = SQLAlchemy(app)
 
 # Import blueprints
+from app.controllers.system import mod as systemModule
+app.register_blueprint(systemModule)
+
 from app.controllers.mixers import mod as mixersModule
 app.register_blueprint(mixersModule)
 
