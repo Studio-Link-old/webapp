@@ -17,6 +17,8 @@ def peer_invite():
 @mod.route('/peer_status')
 def peer_status():
     peer = Peer.query.filter_by(host=request.remote_addr).first()
+    if not peer:
+        return jsonify({'result': 'denied'})
     peer.status = 1
     db.session.add(peer)
     db.session.commit()

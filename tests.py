@@ -22,7 +22,7 @@ class AppTestCase(unittest.TestCase):
     def add_peer(self):
         self.client.post('/peers/add/', data=dict(
             name='Test1',
-            host='::'
+            host='::1'
             ))
 
     def test_empty_db(self):
@@ -39,7 +39,7 @@ class AppTestCase(unittest.TestCase):
         self.add_peer()
         self.client.post('/peers/edit/1', data=dict(
             name='Test2',
-            host='::'
+            host='::1'
             ))
         rv = self.client.get('/peers/')
         assert b'Test2' in rv.data
@@ -50,6 +50,16 @@ class AppTestCase(unittest.TestCase):
         self.client.get('/peers/delete/1')
         rv = self.client.get('/peers/')
         assert b'Test1' not in rv.data
+
+    def test_api_peer_status(self):
+        self.add_peer()
+        self.client.get('/api1/peer_status',environ_base={'REMOTE_ADDR': '::1'})
+        rv = self.client.get('/peers/')
+        assert b'Online' in rv.data
+        
+    def test_api_peer_status_bad(self):
+        rv = self.client.get('/api1/peer_status',environ_base={'REMOTE_ADDR': 'BAD'})
+        assert b'denied' in rv.data
 
 if __name__ == '__main__':
     unittest.main()
