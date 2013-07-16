@@ -34,6 +34,7 @@ class AppTestCase(unittest.TestCase):
         self.add_peer()
         rv = self.client.get('/peers/')
         assert b'Test1' in rv.data
+        assert b'Pending' in rv.data
 
     def test_edit_peer(self):
         self.add_peer()
@@ -44,6 +45,7 @@ class AppTestCase(unittest.TestCase):
         rv = self.client.get('/peers/')
         assert b'Test2' in rv.data
         assert b'Test1' not in rv.data
+        assert b'Pending' in rv.data
 
     def test_delete_peer(self):
         self.add_peer()
@@ -58,8 +60,11 @@ class AppTestCase(unittest.TestCase):
         assert b'Online' in rv.data
         
     def test_api_peer_status_bad(self):
+        self.add_peer()
         rv = self.client.get('/api1/peer_status',environ_base={'REMOTE_ADDR': 'BAD'})
         assert b'denied' in rv.data
+        rv = self.client.get('/peers/')
+        assert b'Pending' in rv.data
 
 if __name__ == '__main__':
     unittest.main()
