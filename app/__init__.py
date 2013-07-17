@@ -31,13 +31,14 @@ app.register_blueprint(peersModule)
 from app.controllers.api import mod as apiModule
 app.register_blueprint(apiModule)
 
+
 @app.route('/')
 def index():
     p = Popen('uptime', stdout=PIPE, stderr=STDOUT, close_fds=True)
     uptime = p.stdout.read()
     return render_template('index.html', uptime=uptime)
 
+
 @app.errorhandler(404)
 def not_found(error):
     return render_template('404.html'), 404
-

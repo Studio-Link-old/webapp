@@ -8,10 +8,12 @@ from sqlalchemy.exc import IntegrityError
 
 mod = Blueprint('peers', __name__, url_prefix='/peers')
 
+
 @mod.route('/')
 def index():
     peers = Peer.query.all()
     return render_template("peers/index.html", peers=peers)
+
 
 @mod.route('/add/', methods=('GET', 'POST'))
 def add():
@@ -21,12 +23,12 @@ def add():
         db.session.add(peer)
         try:
             db.session.commit()
-            #TODO: 
-            #flash(tasks.add.delay(2,2).id)
+            # flash(tasks.add.delay(2,2).id)
             return redirect(url_for('peers.index'))
         except IntegrityError:
             flash(u'IPv6 address already exist', 'error')
     return render_template("peers/form.html", form=form)
+
 
 @mod.route('/edit/<id>', methods=('GET', 'POST'))
 def edit(id):
@@ -37,7 +39,9 @@ def edit(id):
         db.session.add(peer)
         db.session.commit()
         return redirect(url_for('peers.index'))
-    return render_template("peers/form.html", form=form, action='/peers/edit/'+id)
+    return render_template("peers/form.html",
+                           form=form, action='/peers/edit/'+id)
+
 
 @mod.route('/delete/<id>')
 def delete(id):
@@ -45,10 +49,12 @@ def delete(id):
     db.session.commit()
     return redirect(url_for('peers.index'))
 
+
 @mod.route('/call/')
 def call():
     form = CallForm()
     return render_template("peers/call.html", form=form)
+
 
 @mod.route('/accept/<id>')
 def accept(id):
@@ -57,4 +63,3 @@ def accept(id):
     db.session.add(peer)
     db.session.commit()
     return redirect(url_for('peers.index'))
-

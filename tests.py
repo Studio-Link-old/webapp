@@ -8,8 +8,9 @@ import tempfile
 
 class AppTestCase(unittest.TestCase):
     def setUp(self):
-        self.db_fd, self.db_filename = tempfile.mkstemp() 
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////' + self.db_filename
+        self.db_fd, self.db_filename = tempfile.mkstemp()
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////' + \
+                                                self.db_filename
         app.config['TESTING'] = True
         app.config['CSRF_ENABLED'] = False
         self.client = app.test_client()
@@ -55,13 +56,15 @@ class AppTestCase(unittest.TestCase):
 
     def test_api_peer_status(self):
         self.add_peer()
-        self.client.get('/api1/peer_status',environ_base={'REMOTE_ADDR': '::1'})
+        self.client.get('/api1/peer_status',
+                        environ_base={'REMOTE_ADDR': '::1'})
         rv = self.client.get('/peers/')
         assert b'Online' in rv.data
-        
+
     def test_api_peer_status_bad(self):
         self.add_peer()
-        rv = self.client.get('/api1/peer_status',environ_base={'REMOTE_ADDR': 'BAD'})
+        rv = self.client.get('/api1/peer_status',
+                             environ_base={'REMOTE_ADDR': 'BAD'})
         assert b'denied' in rv.data
         rv = self.client.get('/peers/')
         assert b'Pending' in rv.data

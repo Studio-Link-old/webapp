@@ -7,12 +7,14 @@ from sqlalchemy.exc import IntegrityError
 
 mod = Blueprint('api', __name__, url_prefix='/api1')
 
+
 @mod.route('/peers', methods=('GET', 'POST'))
 def peer_invite():
     peer = Peer(request.remote_addr, request.remote_addr, 4)
     db.session.add(peer)
     db.session.commit()
-    return jsonify({'result': True })
+    return jsonify({'result': True})
+
 
 @mod.route('/peer_status')
 def peer_status():

@@ -7,12 +7,13 @@ BUSY = 3
 INVITE = 4
 
 STATUS = {
-	PENDING: 'Pending',
-	ONLINE: 'Online',
-	OFFLINE: 'Offline',
-	BUSY: 'Busy',
+    PENDING: 'Pending',
+    ONLINE: 'Online',
+    OFFLINE: 'Offline',
+    BUSY: 'Busy',
     INVITE: 'Invite'
 }
+
 
 class Peer(db.Model):
     id = db.Column(db.Integer, primary_key=True)

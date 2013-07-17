@@ -23,3 +23,7 @@ Afterwards some strings might be marked as fuzzy (where it tried to figure out i
 >>> db.create_all()
 >>> exit()
 
+## Check pep8 style guide
+
+`$ pip install pep8`
+`$ pep8 --first app`

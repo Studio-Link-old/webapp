@@ -3,12 +3,14 @@ import subprocess
 
 mod = Blueprint('system', __name__, url_prefix='/system')
 
+
 @mod.route('/shutdown')
 def shutdown():
     flash("Shutting down. When the LEDs on the board stop flashing, \
     it should be safe to unplug your Raspberry Pi.")
     subprocess.call(["sudo", "halt"])
     return redirect(url_for('index'))
+
 
 @mod.route('/reboot')
 def reboot():
