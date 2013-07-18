@@ -1,7 +1,7 @@
 # Changelog
 
 ## v0.2.0-dev (xx.xx.2013)
-Full integrated Gstreamer Opus Webinterface with peering.
+Full integrated Gstreamer Opus Webinterface with IPv6 peering.
 
 - Replace Debian Wheezy with Archlinux (newer packages etc.)
 - Fix Shure X2u Sound Quality (only 32kHz at the moment)

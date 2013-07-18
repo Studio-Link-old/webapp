@@ -2,7 +2,7 @@
 
 ## About
 
-Use ARM hardware (e.g. raspberry pi) for podcasting and broadcasting with inspiration from Tim Pritlove!
+Use ARM/x86 hardware (e.g. raspberry pi) for podcasting and broadcasting with inspiration from Tim Pritlove!
 
 
 ## Developer Image 
