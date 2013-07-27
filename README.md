@@ -7,14 +7,7 @@ Use ARM/x86 hardware (e.g. raspberry pi) for podcasting and broadcasting with in
 
 ## Developer Image 
 
-http://80.190.240.193/2013-06-17-podlove-0.1.1-dev.img.bz2
-
-* MD5SUM: c98e4c0608d6151f59a4c2c703903045
-* SHA1SUM: f4713ab9868a86411e62718cade8f3293c39280c
-
-* User: pi
-* Password: raspberry
-
+NEW ONE WILL BE RELEASED SOON!
 
 ## Tested Audio Hardware
 
