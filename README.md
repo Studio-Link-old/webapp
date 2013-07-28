@@ -4,7 +4,7 @@
 
 Use ARM/x86 hardware (e.g. Raspberry Pi, Cubieboard2) for podcasting and broadcasting with inspiration from Tim Pritlove!
 
-## Developer Image 
+## Image 
 
 COMING SOON!
 
