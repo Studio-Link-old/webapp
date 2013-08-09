@@ -1,5 +1,5 @@
 Flask==0.10.1
-Flask-Babel==0.8
+Flask-Babel==0.9
 Flask-Bootstrap==2.3.2.1
 Flask-SQLAlchemy==1.0
 Flask-WTF==0.8.4
