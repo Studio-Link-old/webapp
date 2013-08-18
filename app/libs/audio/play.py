@@ -1,8 +1,14 @@
 import gi
+import os
 gi.require_version('Gst', '1.0')
 from gi.repository import Gst, GObject, GLib
 GObject.threads_init()
 Gst.init(None)
+
+Gst.debug_set_active(True)
+Gst.debug_set_default_threshold(3)
+
+_basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Play:
     def __init__(self):
@@ -11,7 +17,7 @@ class Play:
 
         # Location
         self.filesrc = Gst.ElementFactory.make('filesrc', None)
-        self.filesrc.set_property('location', '/opt/podlove/www/app/libs/audio/speech_orig.wav')
+        self.filesrc.set_property('location', os.path.join(_basedir, 'speech_orig.wav'))
 
         # wavparse
         self.wavparse = Gst.ElementFactory.make('wavparse', None)
