@@ -13,7 +13,7 @@ Gst.init(None)
 
 
 class RTPtransmitter:
-    def __init__(self, audio_device='hw:0', base_port=3000, ipv6=True, bitrate=96, receiver_address='localhost', opus_options={'audio': True, 'bandwidth': -1000, 'frame-size': 20, 'complexity': 7, 'constrained-vbr': True, 'inband-fec': True, 'packet-loss-percentage': 3, 'dtx': False}):
+    def __init__(self, audio_device='hw:0', base_port=3000, ipv6=True, bitrate=96, receiver_address='::', opus_options={'audio': True, 'bandwidth': -1000, 'frame-size': 20, 'complexity': 7, 'constrained-vbr': True, 'inband-fec': True, 'packet-loss-percentage': 3, 'dtx': False}):
         """Sets up a new RTP transmitter"""
 
         self.pipeline = Gst.Pipeline()
@@ -28,7 +28,6 @@ class RTPtransmitter:
         self.audioconvert = Gst.ElementFactory.make("audioconvert", None)
         self.audioresample = Gst.ElementFactory.make("audioresample", None)
         self.audioresample.set_property('quality', 9) # SRC
-        self.audiorate = Gst.ElementFactory.make("audiorate", None)
 
         self.encoder = Gst.ElementFactory.make("opusenc", "encoder")
         self.encoder.set_property('bitrate', bitrate*1000)
@@ -56,21 +55,19 @@ class RTPtransmitter:
         self.rtpbin = Gst.ElementFactory.make("rtpbin",None)
 
         # Add to the pipeline
+        self.pipeline.add(self.rtpbin)
         self.pipeline.add(self.source)
         self.pipeline.add(self.audioconvert)
         self.pipeline.add(self.audioresample)
-        self.pipeline.add(self.audiorate)
+        self.pipeline.add(self.encoder)
         self.pipeline.add(self.payloader)
         self.pipeline.add(self.udpsink_rtpout)
         self.pipeline.add(self.udpsink_rtcpout)
         self.pipeline.add(self.udpsrc_rtcpin)
-        self.pipeline.add(self.rtpbin)
 
-        self.pipeline.add(self.encoder)
 
         self.source.link(self.audioresample)
-        self.audioresample.link(self.audiorate)
-        self.audiorate.link(self.audioconvert)
+        self.audioresample.link(self.audioconvert)
         self.audioconvert.link(self.encoder)
         self.encoder.link(self.payloader)
 
@@ -108,9 +105,10 @@ class RTPtransmitter:
             print msg.parse_warning()
 
 if __name__ == "__main__":
-    transmitter = RTPtransmitter(audio_device="hw:2")
+    transmitter = RTPtransmitter(audio_device="hw:2", ipv6=False, receiver_address='127.0.0.1')
     transmitter.run()
     print("   - Caps:          %s" % transmitter.caps)
     while True:
-        pass
-        #Gst.Bus.poll(transmitter.pipeline.get_bus(), 0, 1)
+        Gst.Bus.poll(transmitter.pipeline.get_bus(), 0, 1)
+        time.sleep(1)
+

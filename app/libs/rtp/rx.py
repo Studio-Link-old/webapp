@@ -4,8 +4,8 @@ import gi
 gi.require_version('Gst', '1.0')
 from gi.repository import Gst, GObject
 
-Gst.debug_set_active(True)
-Gst.debug_set_default_threshold(3)
+#Gst.debug_set_active(True)
+#Gst.debug_set_default_threshold(3)
 
 GObject.threads_init()
 Gst.init(None)
@@ -25,7 +25,6 @@ class RTPreceiver:
         self.audioconvert = Gst.ElementFactory.make("audioconvert", None)
         self.audioresample = Gst.ElementFactory.make("audioresample", None)
         self.audioresample.set_property('quality', 9)
-        self.audiorate = Gst.ElementFactory.make("audiorate", None)
 
         self.decoder = Gst.ElementFactory.make("opusdec", "decoder")
         self.decoder.set_property('use-inband-fec', True)  # FEC
@@ -61,7 +60,6 @@ class RTPreceiver:
             self.udpsink_rtcpout.set_property('host', "0.0.0.0")
 
         # And now we've got it all set up we need to add the elements
-        self.pipeline.add(self.audiorate)
         self.pipeline.add(self.audioresample)
         self.pipeline.add(self.audioconvert)
         self.pipeline.add(self.sink)
@@ -75,8 +73,7 @@ class RTPreceiver:
         self.depayloader.link(self.decoder)
         self.decoder.link(self.audioconvert)
         self.audioconvert.link(self.audioresample)
-        self.audioresample.link(self.audiorate)
-        self.audiorate.link(self.sink)
+        self.audioresample.link(self.sink)
 
         # Now the RTP pads
         self.udpsrc_rtpin.link_pads('src', self.rtpbin, 'recv_rtp_sink_0')
@@ -117,9 +114,11 @@ class RTPreceiver:
             print msg.parse_warning()
 
 if __name__ == "__main__":
-    caps = "application/x-rtp, media=(string)audio, clock-rate=(int)48000, encoding-name=(string)X-GST-OPUS-DRAFT-SPITTKA-00, ssrc=(uint)1916756776, payload=(int)96, timestamp-offset=(uint)3804827182, seqnum-offset=(uint)3810"
-    receiver = RTPreceiver(caps=caps, audio_device='hw:2')
+    caps = "application/x-rtp,media=(string)audio,clock-rate=(int)48000,encoding-name=(string)X-GST-OPUS-DRAFT-SPITTKA-00"
+    receiver = RTPreceiver(caps=caps, audio_device='hw:2', ipv6=False)
     receiver.run()
     while True:
-        pass
-        #Gst.Bus.poll(receiver.pipeline.get_bus(), 0, 1)
+        Gst.Bus.poll(receiver.pipeline.get_bus(), 0, 1)
+        time.sleep(1)
+#    loop = GLib.MainLoop()
+#    loop.run()
