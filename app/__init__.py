@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, render_template
 from flask.ext.bootstrap import Bootstrap
-from flaskext.babel import Babel
+from flask.ext.babel import Babel
 from flask.ext.sqlalchemy import SQLAlchemy
 from subprocess import Popen, PIPE, STDOUT
 

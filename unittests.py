@@ -12,7 +12,7 @@ class AppTestCase(unittest.TestCase):
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////' + \
                                                 self.db_filename
         app.config['TESTING'] = True
-        app.config['CSRF_ENABLED'] = False
+        app.config['WTF_CSRF_ENABLED'] = False
         self.client = app.test_client()
         db.create_all()
 

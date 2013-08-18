@@ -1,5 +1,6 @@
-from flask.ext.wtf import Form, TextField, Required, SelectField
-from flask.ext.wtf import ValidationError
+from flask.ext.wtf import Form
+from wtforms import TextField, SelectField
+from wtforms.validators import Required, ValidationError
 import socket
 
 
