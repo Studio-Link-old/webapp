@@ -4,7 +4,7 @@
 Full integrated Gstreamer Opus Webinterface with IPv6 peering.
 
 - Replace Debian Wheezy with Archlinux (newer packages etc.)
-- Fix Shure X2u Sound Quality (only 32kHz at the moment)
+- Fix Shure X2u Sound Quality (only 32kHz on RaspberryPi)
 - Simple Peer CRUD functions
 - Peering (invite and status) REST API
 - Unittests

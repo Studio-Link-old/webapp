@@ -1,6 +1,9 @@
 from __future__ import absolute_import
 from app.celery import celery
 from app.libs.audio.play import Play
+from app.libs.rtp.rx import RTPreceiver
+from app.libs.rtp.tx import RTPtransmitter
+from gi.repository import Gst
 import redis
 import requests
 
@@ -17,11 +20,22 @@ def sync_peers():
 
 @celery.task
 def rtp_tx():
+    transmitter = RTPtransmitter(audio_device="hw:2", ipv6=False, receiver_address='127.0.0.1')
+    transmitter.run()
+    while True:
+        Gst.Bus.poll(transmitter.pipeline.get_bus(), 0, 1)
+        time.sleep(1)
     return True
 
 
 @celery.task
 def rtp_rx():
+    caps = "application/x-rtp,media=(string)audio,clock-rate=(int)48000,encoding-name=(string)X-GST-OPUS-DRAFT-SPITTKA-00"
+    receiver = RTPreceiver(caps=caps, audio_device='hw:2', ipv6=False)
+    receiver.run()
+    while True:
+        Gst.Bus.poll(receiver.pipeline.get_bus(), 0, 1)
+        time.sleep(1)
     return True
 
 
