@@ -1,3 +1,5 @@
+# Copyright (c) 2012, James Harrison https://github.com/JamesHarrison/openob
+
 import sys
 import time
 import gi
