@@ -93,11 +93,11 @@ class AppTestCase(unittest.TestCase):
         assert b'Pending' in rv.data
 
     def test_api_peer_invite(self):
-        rv = self.client.post('/api1/peers', environ_base={'REMOTE_ADDR': '::1'})
+        rv = self.client.post('/api1/peers',
+                              environ_base={'REMOTE_ADDR': '::1'})
         assert b'true' in rv.data
         rv = self.client.get('/peers/')
         assert b'Invite' in rv.data
-
 
 
 if __name__ == '__main__':
