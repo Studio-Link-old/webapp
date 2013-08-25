@@ -13,4 +13,4 @@ celery.conf.update(
 )
 
 if __name__ == '__main__':
-    celery.start()
+    celery.start() # pragma: no cover

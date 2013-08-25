@@ -21,24 +21,38 @@ class AppTestCase(unittest.TestCase):
         os.unlink(self.db_filename)
 
     def add_peer(self):
-        self.client.post('/peers/add/', data=dict(
+        rv = self.client.post('/peers/add/', data=dict(
             name='Test1',
             host='::1'
             ))
+        return rv
 
     def test_empty_db(self):
         """Start with a blank database."""
         rv = self.client.get('/peers/')
         assert b'No entries here so far' in rv.data
 
-    def test_add_peer(self):
+    def test_index(self):
+        rv = self.client.get('/')
+        assert b'load' in rv.data
+
+    def test_404_not_found(self):
+        rv = self.client.get('/bigbangtheory')
+        assert b'Ups, site not found!' in rv.data
+
+    def test_peers_add(self):
         self.add_peer()
         rv = self.client.get('/peers/')
         assert b'Test1' in rv.data
         assert b'Pending' in rv.data
+        rv = self.add_peer()
+        assert b'IPv6 address already exist' in rv.data
 
-    def test_edit_peer(self):
+    def test_peers_edit(self):
         self.add_peer()
+        rv = self.client.get('/peers/edit/1')
+        assert b'Add Peer' in rv.data
+
         self.client.post('/peers/edit/1', data=dict(
             name='Test2',
             host='::1'
@@ -48,11 +62,20 @@ class AppTestCase(unittest.TestCase):
         assert b'Test1' not in rv.data
         assert b'Pending' in rv.data
 
-    def test_delete_peer(self):
+    def test_peers_delete(self):
         self.add_peer()
         self.client.get('/peers/delete/1')
         rv = self.client.get('/peers/')
         assert b'Test1' not in rv.data
+
+    def test_peers_call(self):
+        rv = self.client.get('/peers/call/')
+
+    def test_accept_peer(self):
+        self.test_api_peer_invite()
+        self.client.get('/peers/accept/1')
+        rv = self.client.get('/peers/')
+        assert b'Pending' in rv.data
 
     def test_api_peer_status(self):
         self.add_peer()
@@ -68,6 +91,13 @@ class AppTestCase(unittest.TestCase):
         assert b'denied' in rv.data
         rv = self.client.get('/peers/')
         assert b'Pending' in rv.data
+
+    def test_api_peer_invite(self):
+        rv = self.client.post('/api1/peers', environ_base={'REMOTE_ADDR': '::1'})
+        assert b'true' in rv.data
+        rv = self.client.get('/peers/')
+        assert b'Invite' in rv.data
+
 
 
 if __name__ == '__main__':
