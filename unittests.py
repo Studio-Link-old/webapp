@@ -47,6 +47,13 @@ class AppTestCase(unittest.TestCase):
         assert b'Pending' in rv.data
         rv = self.add_peer()
         assert b'IPv6 address already exist' in rv.data
+        
+    def test_peers_add_not_valid(self):
+        rv = self.client.post('/peers/add/', data=dict(
+            name='Test1',
+            host='xxx'
+            ))
+        assert b'Not a valid IPv6 address' in rv.data
 
     def test_peers_edit(self):
         self.add_peer()
