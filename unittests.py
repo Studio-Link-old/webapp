@@ -78,7 +78,7 @@ class AppTestCase(unittest.TestCase):
     def test_peers_call(self):
         rv = self.client.get('/peers/call/')
 
-    def test_accept_peer(self):
+    def test_peers_accept(self):
         self.test_api_peer_invite()
         self.client.get('/peers/accept/1')
         rv = self.client.get('/peers/')
@@ -90,6 +90,14 @@ class AppTestCase(unittest.TestCase):
                         environ_base={'REMOTE_ADDR': '::1'})
         rv = self.client.get('/peers/')
         assert b'Online' in rv.data
+    
+    def test_api_peer_status_bad_invite(self):
+        self.client.post('/api1/peers',
+                              environ_base={'REMOTE_ADDR': '::1'})
+        self.client.get('/api1/peer_status',
+                        environ_base={'REMOTE_ADDR': '::1'})
+        rv = self.client.get('/peers/')
+        assert b'Invite' in rv.data
 
     def test_api_peer_status_bad(self):
         self.add_peer()
