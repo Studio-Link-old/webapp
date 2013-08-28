@@ -16,6 +16,8 @@ class AddForm(Form):
     name = TextField('Name', [Required()])
     host = TextField('Host IPv6', [Required(), check_ipv6])
 
+class EditForm(Form):
+    name = TextField('Name', [Required()])
 
 class CallForm(Form):
     codec = SelectField('Codec', choices=[('opus', 'Opus')])

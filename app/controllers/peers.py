@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, request, url_for, flash
 
 from app import db
 from app.models.peers import Peer
-from app.forms.peers import AddForm, CallForm
+from app.forms.peers import AddForm, EditForm, CallForm
 from app import tasks
 from sqlalchemy.exc import IntegrityError
 
@@ -23,7 +23,7 @@ def add():
         db.session.add(peer)
         try:
             db.session.commit()
-            # flash(tasks.add.delay(2,2).id)
+            tasks.api_peer_invite.delay(form.host.data)
             return redirect(url_for('peers.index'))
         except IntegrityError:
             flash(u'IPv6 address already exist', 'error')
@@ -33,7 +33,7 @@ def add():
 @mod.route('/edit/<id>', methods=('GET', 'POST'))
 def edit(id):
     peer = Peer.query.get(id)
-    form = AddForm(obj=peer)
+    form = EditForm(obj=peer)
     if form.validate_on_submit():
         form.populate_obj(peer)
         db.session.add(peer)

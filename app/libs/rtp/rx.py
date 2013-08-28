@@ -122,5 +122,3 @@ if __name__ == "__main__":
     while True:
         Gst.Bus.poll(receiver.pipeline.get_bus(), 0, 1)
         time.sleep(1)
-#    loop = GLib.MainLoop()
-#    loop.run()

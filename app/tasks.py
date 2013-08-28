@@ -5,8 +5,9 @@ from app.libs.rtp.rx import RTPreceiver
 from app.libs.rtp.tx import RTPtransmitter
 from gi.repository import Gst
 import redis
-import requests
+import urllib3
 
+http = urllib3.PoolManager()
 
 @celery.task
 def add(x, y):
@@ -58,6 +59,5 @@ def api_peer_status(host):
 
 @celery.task
 def api_peer_invite(host):
-    payload = {'name': 'value1'}  # TODO: Name handling
-    requests.post('http://['+host+']/api1/peer_status', params=payload)
+    r = http.request('GET', 'http://['+host+']:5000/api1/peer_status')
     return True
