@@ -10,20 +10,11 @@ import urllib3
 http = urllib3.PoolManager()
 
 @celery.task
-def add(x, y):
-    return x + y
-
-
-@celery.task
-def sync_peers():
-    return True
-
-
-@celery.task
 def rtp_tx():
-    transmitter = RTPtransmitter(audio_device="hw:2", ipv6=False, receiver_address='127.0.0.1')
+    transmitter = RTPtransmitter(audio_device="hw:2", ipv6=True, receiver_address='::1')
     transmitter.run()
-    while True:
+    store = redis.Redis('127.0.0.1')
+    while store.get('lock_audio_stream') == 'true':
         Gst.Bus.poll(transmitter.pipeline.get_bus(), 0, 1)
         time.sleep(1)
     return True
@@ -32,9 +23,10 @@ def rtp_tx():
 @celery.task
 def rtp_rx():
     caps = "application/x-rtp,media=(string)audio,clock-rate=(int)48000,encoding-name=(string)X-GST-OPUS-DRAFT-SPITTKA-00"
-    receiver = RTPreceiver(caps=caps, audio_device='hw:2', ipv6=False)
+    receiver = RTPreceiver(caps=caps, audio_device='hw:2', ipv6=True)
     receiver.run()
-    while True:
+    store = redis.Redis('127.0.0.1')
+    while store.get('lock_audio_stream') == 'true':
         Gst.Bus.poll(receiver.pipeline.get_bus(), 0, 1)
         time.sleep(1)
     return True
@@ -53,11 +45,11 @@ def play_audio():
 
 @celery.task
 def api_peer_status(host):
-    requests.get('http://['+host+']/api1/peer_status')
+    r = http.request('GET', 'http://['+host+']/api1/peer_status')
     return True
 
 
 @celery.task
 def api_peer_invite(host):
-    r = http.request('GET', 'http://['+host+']:5000/api1/peer_status')
+    r = http.request('GET', 'http://['+host+']/api1/peer_status')
     return True

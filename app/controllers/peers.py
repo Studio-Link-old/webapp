@@ -5,7 +5,10 @@ from app.models.peers import Peer
 from app.forms.peers import AddForm, EditForm, CallForm
 from app import tasks
 from sqlalchemy.exc import IntegrityError
+import redis
+import urllib3
 
+http = urllib3.PoolManager(timeout=1)
 mod = Blueprint('peers', __name__, url_prefix='/peers')
 
 
@@ -17,6 +20,15 @@ def index():
 
 @mod.route('/add/', methods=('GET', 'POST'))
 def add():
+    ipv4 = "Empty"
+    ipv6 = "Empty"
+    try:
+        #@TODO: Deploy ipv4.studio-connect.de and ipv6.studio-connect.de
+        ipv4 = http.request('GET', 'http://37.187.56.6/').data
+        ipv6 = http.request('GET', 'http://[2001:41d0:b:406::1]/').data
+    except:
+        pass
+
     form = AddForm(request.form)
     if form.validate_on_submit():
         peer = Peer(name=form.name.data, host=form.host.data)
@@ -27,7 +39,7 @@ def add():
             return redirect(url_for('peers.index'))
         except IntegrityError:
             flash(u'IPv6 address already exist', 'error')
-    return render_template("peers/form.html", form=form)
+    return render_template("peers/form.html", form=form, ipv4=ipv4, ipv6=ipv6)
 
 
 @mod.route('/edit/<id>', methods=('GET', 'POST'))
@@ -50,9 +62,16 @@ def delete(id):
     return redirect(url_for('peers.index'))
 
 
-@mod.route('/call/')
+@mod.route('/call/', methods=('GET', 'POST'))
 def call():
     form = CallForm()
+    if form.validate_on_submit():
+        store = redis.Redis('127.0.0.1')
+        store.set('lock_audio_stream', 'true')
+        tasks.rtp_tx.delay()
+        tasks.rtp_rx.delay()
+        flash(u'RingRingRing ;-)', 'warning')
+        return redirect(url_for('peers.index'))
     return render_template("peers/call.html", form=form)
 
 

@@ -1,4 +1,4 @@
-# Podlove Studio Connect
+# Studio Connect
 
 ## About
 
@@ -16,7 +16,6 @@ COMING SOON!
 ## Info
 
 Contributors: [Sebastian Reimers](https://github.com/sreimers/)  
-Donate: [podlove.org/donations/](http://podlove.org/donations/)  
 Version: 0.2.0-dev 
 
 License: [BSD 2-Clause License](http://opensource.org/licenses/BSD-2-Clause)
