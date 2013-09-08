@@ -28,6 +28,9 @@ app.register_blueprint(mixersModule)
 from app.controllers.peers import mod as peersModule
 app.register_blueprint(peersModule)
 
+from app.controllers.settings import mod as settingsModule
+app.register_blueprint(settingsModule)
+
 from app.controllers.api import mod as apiModule
 app.register_blueprint(apiModule)
 

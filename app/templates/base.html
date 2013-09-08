@@ -29,6 +29,7 @@
                   ('index', 'Home'),
                   ('peers.index', 'Peers'),
                   ('mixers.index', 'Mixer'),
+                  ('settings.settings', 'Settings'),
               ] %}
                   <li{% if endpoint == request.endpoint %} class=active{% endif
                   %}><a href={{ url_for(endpoint) }}>{{ caption }}</a></li>
