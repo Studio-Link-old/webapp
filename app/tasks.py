@@ -9,9 +9,11 @@ import urllib3
 
 http = urllib3.PoolManager()
 
+
 @celery.task
 def rtp_tx():
-    transmitter = RTPtransmitter(audio_device="hw:2", ipv6=True, receiver_address='::1')
+    transmitter = RTPtransmitter(audio_device="hw:2", ipv6=True,
+                                 receiver_address='::1')
     transmitter.run()
     store = redis.Redis('127.0.0.1')
     while store.get('lock_audio_stream') == 'true':

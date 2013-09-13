@@ -8,7 +8,8 @@ from sqlalchemy.exc import IntegrityError
 
 mod = Blueprint('settings', __name__, url_prefix='/settings')
 
-@mod.route('/', methods=["GET","POST"])
+
+@mod.route('/', methods=["GET", "POST"])
 def settings():
     """ show settings """
     settings = Settings.query.get(1)
