@@ -1,14 +1,17 @@
 from flask import Blueprint, render_template, url_for, redirect, flash
 import alsaaudio
 from app import tasks
+from app.models.settings import Settings
 import redis
 
 mod = Blueprint('mixers', __name__, url_prefix='/mixers')
 
 
 @mod.route('/')
-@mod.route('/<card>')
 def index(card=""):
+    settings = Settings.query.get(1)
+    if settings:
+        card = settings.device
     volumes = {}
     devices = alsaaudio.cards()
     try:

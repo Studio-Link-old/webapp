@@ -5,16 +5,6 @@
 
 <p><a href="/mixers/play/" class="btn btn-success"><i class="icon-play icon-white"></i> Playback Test</a></p>
 
-{{ _('Select device:') }}:
-<form>
-    <select onchange="top.location.href=this.form.device.options[this.form.device.selectedIndex].value" name="device">
-    {% for device in devices %}
-    <option{% if device == card %} selected="selected"{% endif %} value="/mixers/{{ device }}">{{ device }}</option>
-    {% endfor %}
-    </select>
-</form>
-
-
 <h2>{{ _('Playback') }}</h2>
 <div class="row">
 {% for volume, value in volumes.items() recursive %}
