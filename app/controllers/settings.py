@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, redirect, request, url_for, flash
 
 from app import db
-from app.models.provider import Provider
 from app.models.settings import Settings
 from app.forms.settings import SettingsForm
 from sqlalchemy.exc import IntegrityError
