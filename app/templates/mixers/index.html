@@ -27,7 +27,7 @@
             			    step: 5,
                             animate: true,
                             orientation: "vertical",
-                            slide: function( event, ui ) {
+                            change: function( event, ui ) {
                                 $.get("/mixers/volume/{{ card }}/{{ value['mixer'] }}/{{ loop.index0 }}/"+ui.value);
                             }
                         });
