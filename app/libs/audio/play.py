@@ -11,7 +11,7 @@ Gst.debug_set_default_threshold(3)
 _basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Play:
-    def __init__(self):
+    def __init__(self, audio_device='hw:0'):
         self.pipeline = Gst.Pipeline()
 
 
@@ -27,6 +27,7 @@ class Play:
     
         # alsasink
         self.alsasink = Gst.ElementFactory.make('alsasink', None)
+        self.alsasink.set_property('device', audio_device)
 
         # Pipe Adding/Linking
         self.pipeline.add(self.filesrc)

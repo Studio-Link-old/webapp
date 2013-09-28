@@ -10,40 +10,38 @@ import urllib3
 import alsaaudio
 
 http = urllib3.PoolManager()
+store = redis.Redis('127.0.0.1')
+settings = Settings.query.get(1)
+devices = alsaaudio.cards()
+idx = devices.index(settings.device)
+device = 'hw:' + str(idx)
 
 
 @celery.task
 def rtp_tx():
-    transmitter = RTPtransmitter(audio_device="hw:2", ipv6=True,
+    transmitter = RTPtransmitter(audio_device=device, ipv6=True,
                                  receiver_address='::1')
     transmitter.run()
-    store = redis.Redis('127.0.0.1')
     while store.get('lock_audio_stream') == 'true':
         Gst.Bus.poll(transmitter.pipeline.get_bus(), 0, 1)
-        time.sleep(1)
+        time.sleep(2)
     return True
 
 
 @celery.task
 def rtp_rx():
     caps = "application/x-rtp,media=(string)audio,clock-rate=(int)48000,encoding-name=(string)X-GST-OPUS-DRAFT-SPITTKA-00"
-    receiver = RTPreceiver(caps=caps, audio_device='hw:2', ipv6=True)
+    receiver = RTPreceiver(caps=caps, audio_device=device, ipv6=True)
     receiver.run()
-    store = redis.Redis('127.0.0.1')
     while store.get('lock_audio_stream') == 'true':
         Gst.Bus.poll(receiver.pipeline.get_bus(), 0, 1)
-        time.sleep(1)
+        time.sleep(2)
     return True
 
 
 @celery.task
 def play_audio():
-    store = redis.Redis('127.0.0.1')
     store.setex('lock_play_audio', 'true', '30')
-    settings = Settings.query.get(1)
-    devices = alsaaudio.cards()
-    idx = devices.index(settings.device)
-    device = 'hw:' + str(idx)
     player = Play(audio_device=device)
     player.run()
     player.loop()
