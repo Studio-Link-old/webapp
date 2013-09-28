@@ -10,6 +10,7 @@ Full integrated Gstreamer Opus Webinterface with IPv6 peering.
 - Unittests
 - Audio Playbacktest
 - Shutdown and Reboot
+- Add settings menu (select audio device)
 
 ## v0.1.0-dev (29.06.2013)
 First prototype release.

@@ -17,8 +17,7 @@ def index(card=""):
     try:
         idx = devices.index(card)
     except ValueError:
-        idx = 0
-        card = devices[0]
+        return render_template('mixers/device_error.html')
     try:
         mixers = alsaaudio.mixers(idx)
     except:

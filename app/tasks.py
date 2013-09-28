@@ -1,11 +1,13 @@
 from __future__ import absolute_import
 from app.celery import celery
 from app.libs.audio.play import Play
+from app.models.settings import Settings
 from app.libs.rtp.rx import RTPreceiver
 from app.libs.rtp.tx import RTPtransmitter
 from gi.repository import Gst
 import redis
 import urllib3
+import alsaaudio
 
 http = urllib3.PoolManager()
 
@@ -38,7 +40,11 @@ def rtp_rx():
 def play_audio():
     store = redis.Redis('127.0.0.1')
     store.setex('lock_play_audio', 'true', '30')
-    player = Play()
+    settings = Settings.query.get(1)
+    devices = alsaaudio.cards()
+    idx = devices.index(settings.device)
+    device = 'hw:' + str(idx)
+    player = Play(audio_device=device)
     player.run()
     player.loop()
     store.setex('lock_play_audio', 'false', '30')
