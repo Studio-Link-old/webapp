@@ -4,6 +4,7 @@ from app import db
 from app.models.settings import Settings
 from app.forms.settings import SettingsForm
 from sqlalchemy.exc import IntegrityError
+import alsaaudio
 
 mod = Blueprint('settings', __name__, url_prefix='/settings')
 
@@ -13,6 +14,11 @@ def settings():
     """ show settings """
     settings = Settings.query.get(1)
     form = SettingsForm(request.form, obj=settings)
+    devices = []
+    raw_devices = alsaaudio.cards()
+    for raw_device in raw_devices:
+        devices.append((raw_device, raw_device))
+    form.device.choices = devices
 
     if form.validate_on_submit():
         if settings:
