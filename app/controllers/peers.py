@@ -38,7 +38,7 @@ def add():
             tasks.api_peer_invite.delay(form.host.data)
             return redirect(url_for('peers.index'))
         except IntegrityError:
-            flash(u'IPv6 address already exist', 'error')
+            flash(u'IPv6 address already exist', 'danger')
     return render_template("peers/form.html", form=form, ipv4=ipv4, ipv6=ipv6)
 
 

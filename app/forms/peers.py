@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import TextField, SelectField
+from wtforms import TextField, SelectField, SubmitField
 from wtforms.validators import Required, ValidationError
 import socket
 
@@ -15,10 +15,12 @@ def check_ipv6(form, field):
 class AddForm(Form):
     name = TextField('Name', [Required()])
     host = TextField('Host IPv6', [Required(), check_ipv6])
+    submit_button = SubmitField('Save')
 
 
 class EditForm(Form):
     name = TextField('Name', [Required()])
+    submit_button = SubmitField('Save')
 
 
 class CallForm(Form):
@@ -53,3 +55,4 @@ class CallForm(Form):
         ('5', '5ms'),
         ('2', '2ms'),
         ], default='20')
+    submit_button = SubmitField('Call')
