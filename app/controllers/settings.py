@@ -5,6 +5,7 @@ from app.models.settings import Settings
 from app.forms.settings import SettingsForm
 from sqlalchemy.exc import IntegrityError
 import alsaaudio
+import subprocess
 
 mod = Blueprint('settings', __name__, url_prefix='/settings')
 
@@ -31,4 +32,5 @@ def settings():
             db.session.add(settings)
             db.session.commit()
             flash("Settings added", "success")
-    return render_template("settings.html", form=form)
+    platform = subprocess.call(["uname", "-m"])
+    return render_template("settings.html", form=form, platform=platform)
