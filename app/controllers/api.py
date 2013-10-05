@@ -4,6 +4,7 @@ from app import db
 from app.models.peers import Peer
 from app import tasks
 from sqlalchemy.exc import IntegrityError
+import socket
 
 mod = Blueprint('api', __name__, url_prefix='/api1')
 
@@ -13,7 +14,7 @@ def peer_invite():
     try:
         socket.inet_pton(socket.AF_INET6, request.remote_addr)
     except socket.error:
-        return jsonify({'result': False})
+        return jsonify({'result': 'denied'})
     peer = Peer(request.remote_addr, request.remote_addr, 4)
     db.session.add(peer)
     db.session.commit()
@@ -25,7 +26,7 @@ def peer_status():
     try:
         socket.inet_pton(socket.AF_INET6, request.remote_addr)
     except socket.error:
-        return jsonify({'result': False})
+        return jsonify({'result': 'denied'})
     peer = Peer.query.filter_by(host=request.remote_addr).first()
     if not peer or peer.status == 4:
         return jsonify({'result': 'denied'})

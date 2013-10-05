@@ -114,6 +114,13 @@ class AppTestCase(unittest.TestCase):
         assert b'true' in rv.data
         rv = self.client.get('/peers/')
         assert b'Invite' in rv.data
+    
+    def test_api_peer_invite_bad(self):
+        rv = self.client.post('/api1/peers',
+                              environ_base={'REMOTE_ADDR': '127.0.0.1'})
+        assert b'denied' in rv.data
+        rv = self.client.get('/peers/')
+        assert b'127.0.0.1' not in rv.data
 
 
 if __name__ == '__main__':
