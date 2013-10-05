@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 {% block body_container %}
 
-{{ wtf.quick_form(form, action) }}
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#home" data-toggle="tab">Device</a></li>
+    <li><a href="#update" data-toggle="tab">Update</a></li>
+    <li><a href="#login" data-toggle="tab">Login</a></li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane active" id="home"><br />{{ wtf.quick_form(form, action) }}</div>
+    <div class="tab-pane" id="update">...</div>
+    <div class="tab-pane" id="login">...</div>
+</div>
 
 {% endblock %}

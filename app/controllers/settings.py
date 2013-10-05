@@ -25,10 +25,10 @@ def settings():
             settings.device = form.device.data
             #db.session.merge(provider)
             db.session.commit()
-            flash("Settings changed")
+            flash("Settings changed", "success")
         else:
             settings = Settings(form.device.data)
             db.session.add(settings)
             db.session.commit()
-            flash("Settings added")
+            flash("Settings added", "success")
     return render_template("settings.html", form=form)

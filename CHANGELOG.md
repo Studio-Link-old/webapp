@@ -4,6 +4,7 @@
 Bootstrap3 and Bugfix release
 
 - Update template to Bootstrap 3
+- Autoupdate (only Studio Connect Pro)
 
 ## v0.2.0-dev (04.10.2013)
 Full integrated Gstreamer Opus Webinterface with IPv6 peering.
