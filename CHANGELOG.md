@@ -1,9 +1,12 @@
 # Changelog
 
 ## v0.2.1-alpha (xx.xx.2013)
-Bootstrap3 and Bugfix release
+Bootstrap3, security and bugfix release
 
 - Update template to Bootstrap 3
+- add ip6tables ruleset
+- Optimize shutdown/reboot handling
+- HTTP basic access authentication
 
 ## v0.2.0-dev (04.10.2013)
 Full integrated Gstreamer Opus Webinterface with IPv6 peering.

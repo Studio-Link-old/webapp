@@ -76,7 +76,8 @@ class AppTestCase(unittest.TestCase):
         assert b'Test1' not in rv.data
 
     def test_peers_call(self):
-        rv = self.client.get('/peers/call/')
+        self.add_peer()
+        rv = self.client.get('/peers/call/1')
 
     def test_peers_accept(self):
         self.test_api_peer_invite()

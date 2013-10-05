@@ -38,7 +38,7 @@
         <td>
             <p>
             {% if peer.status == 1 %}
-            <a href="{{ url_for('peers.call') }}"class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-earphone"></span> Call</a>
+            <a href="/peers/call/{{ peer.id }}"class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-earphone"></span> Call</a>
             {% elif peer.status == 4 %}
             <a href="/peers/accept/{{ peer.id }}"class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-ok-circle"></span> Accept Invite</a>
             {% endif %}

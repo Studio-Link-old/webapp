@@ -62,17 +62,18 @@ def delete(id):
     return redirect(url_for('peers.index'))
 
 
-@mod.route('/call/', methods=('GET', 'POST'))
-def call():
+@mod.route('/call/<id>', methods=('GET', 'POST'))
+def call(id):
+    peer = Peer.query.get(id)
     form = CallForm()
     if form.validate_on_submit():
         store = redis.Redis('127.0.0.1')
         store.set('lock_audio_stream', 'true')
-        tasks.rtp_tx.delay()
-        tasks.rtp_rx.delay()
+        tasks.rtp_tx.delay(peer.host)
+        tasks.rtp_rx.delay(peer.host)
         flash(u'RingRingRing ;-)', 'warning')
         return redirect(url_for('peers.index'))
-    return render_template("peers/call.html", form=form)
+    return render_template("peers/call.html", form=form, action='/peers/call/'+id)
 
 
 @mod.route('/accept/<id>')
