@@ -8,6 +8,7 @@ from gi.repository import Gst
 import redis
 import urllib3
 import alsaaudio
+import subprocess
 
 http = urllib3.PoolManager()
 store = redis.Redis('127.0.0.1')
@@ -53,6 +54,17 @@ def play_audio():
     store.setex('lock_play_audio', 'false', '30')
     return True
 
+@celery.task
+def system_shutdown():
+    time.sleep(3)
+    subprocess.call(["sudo", "halt"])
+    return True
+
+@celery.task
+def system_reboot():
+    time.sleep(3)
+    subprocess.call(["sudo", "reboot"])
+    return True
 
 @celery.task
 def api_peer_status(host):

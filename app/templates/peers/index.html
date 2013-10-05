@@ -3,7 +3,7 @@
 
 <h1>Peers</h1>
 
-<p><a href="{{ url_for('peers.add') }}" class="btn btn-success"><i class="icon-plus-sign icon-white"></i> New Peer</a></p>
+<p><a href="{{ url_for('peers.add') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> New Peer</a></p>
 
 {% if peers %}
 <table class="table table-striped">
@@ -40,12 +40,12 @@
             {% if peer.status == 1 %}
             <a href="{{ url_for('peers.call') }}"class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-earphone"></span> Call</a>
             {% elif peer.status == 4 %}
-            <a href="/peers/accept/{{ peer.id }}"class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-earphone"></span> Accept Invite</a>
+            <a href="/peers/accept/{{ peer.id }}"class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-ok-circle"></span> Accept Invite</a>
             {% endif %}
             {% if peer.status == 1 or peer.status == 2 %}
-            <a href="/peers/edit/{{ peer.id }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-earphone"></span> Edit</a>
+            <a href="/peers/edit/{{ peer.id }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit"></span> Edit</a>
             {% endif %}
-            <a href="/peers/delete/{{ peer.id }}" class="btn btn-danger btn-sm delete-button"><span class="glyphicon glyphicon-earphone"></span> Delete</a>
+            <a href="/peers/delete/{{ peer.id }}" class="btn btn-danger btn-sm delete-button"><span class="glyphicon glyphicon-remove-circle"></span> Delete</a>
             </p>
         </td>
     </tr>
