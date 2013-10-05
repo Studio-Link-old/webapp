@@ -9,6 +9,7 @@ import redis
 import urllib3
 import alsaaudio
 import subprocess
+import time
 
 http = urllib3.PoolManager()
 store = redis.Redis('127.0.0.1')
