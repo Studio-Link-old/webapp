@@ -9,13 +9,17 @@ import redis
 import urllib3
 
 http = urllib3.PoolManager(timeout=1)
+store = redis.Redis('127.0.0.1')
 mod = Blueprint('peers', __name__, url_prefix='/peers')
 
 
 @mod.route('/')
 def index():
-    peers = Peer.query.all()
-    return render_template("peers/index.html", peers=peers)
+    if store.get('lock_audio_stream') != 'true':
+        peers = Peer.query.all()
+        return render_template("peers/index.html", peers=peers)
+    else:
+        return render_template("peers/oncall.html")
 
 
 @mod.route('/add/', methods=('GET', 'POST'))
@@ -23,9 +27,8 @@ def add():
     ipv4 = "Empty"
     ipv6 = "Empty"
     try:
-        #@TODO: Deploy ipv4.studio-connect.de and ipv6.studio-connect.de
-        ipv4 = http.request('GET', 'http://37.187.56.6/').data
-        ipv6 = http.request('GET', 'http://[2001:41d0:b:406::1]/').data
+        ipv4 = http.request('GET', 'http://ipv4.studio-connect.de/').data
+        ipv6 = http.request('GET', 'http://ipv6.studio-connect.de/').data
     except:
         pass
 
@@ -67,7 +70,6 @@ def call(id):
     peer = Peer.query.get(id)
     form = CallForm()
     if form.validate_on_submit():
-        store = redis.Redis('127.0.0.1')
         store.set('lock_audio_stream', 'true')
         tasks.rtp_tx.delay(peer.host)
         tasks.rtp_rx.delay(peer.host)
