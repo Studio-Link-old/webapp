@@ -2,6 +2,7 @@ from __future__ import absolute_import
 from app.celery import celery
 from app.libs.audio.play import Play
 from app.models.settings import Settings
+from app.models.peers import Peer
 from app.libs.rtp.rx import RTPreceiver
 from app.libs.rtp.tx import RTPtransmitter
 from gi.repository import Gst
@@ -11,7 +12,7 @@ import alsaaudio
 import subprocess
 import time
 
-http = urllib3.PoolManager()
+http = urllib3.PoolManager(timeout=3)
 store = redis.Redis('127.0.0.1')
 
 
@@ -83,4 +84,11 @@ def api_peer_status(host):
 @celery.task
 def api_peer_invite(host):
     r = http.request('GET', 'http://['+host+']/api1/peers/')
+    return True
+
+@celery.task
+def periodic_status_update():
+    peers = Peer.query.all()
+    for peer in peers:
+        http.request('GET', 'http://['+peer.host+']/api1/peers/')
     return True

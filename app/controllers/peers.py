@@ -93,4 +93,5 @@ def accept(id):
     peer.status = 0
     db.session.add(peer)
     db.session.commit()
+    tasks.api_peer_status.delay(peer.host)
     return redirect(url_for('peers.index'))
