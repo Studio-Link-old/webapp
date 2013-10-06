@@ -82,5 +82,5 @@ def api_peer_status(host):
 
 @celery.task
 def api_peer_invite(host):
-    r = http.request('GET', 'http://['+host+']/api1/peer_status/')
+    r = http.request('GET', 'http://['+host+']/api1/peers/')
     return True

@@ -71,6 +71,7 @@ def call(id):
     form = CallForm()
     if form.validate_on_submit():
         store.set('lock_audio_stream', 'true')
+        store.set('audio_stream_host', peer.host)
         tasks.rtp_tx.delay(peer.host)
         tasks.rtp_rx.delay(peer.host)
         http.request('GET', 'http://['+peer.host+']/api1/incoming_call/')
@@ -81,7 +82,8 @@ def call(id):
 @mod.route('/cancel_call/')
 def cancel_call():
     store.set('lock_audio_stream', 'false')
-    http.request('GET', 'http://['+peer.host+']/cancel_call/')
+    host = store.get('audio_stream_host')
+    http.request('GET', 'http://['+host+']/cancel_call/')
     flash(u'Call canceld', 'warning')
     return redirect(url_for('peers.index'))
 
