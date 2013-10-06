@@ -73,10 +73,17 @@ def call(id):
         store.set('lock_audio_stream', 'true')
         tasks.rtp_tx.delay(peer.host)
         tasks.rtp_rx.delay(peer.host)
+        http.request('GET', 'http://['+peer.host+']/api1/incoming_call/')
         flash(u'RingRingRing ;-)', 'warning')
         return redirect(url_for('peers.index'))
     return render_template("peers/call.html", form=form, action='/peers/call/'+id)
 
+@mod.route('/cancel_call/')
+def cancel_call():
+    store.set('lock_audio_stream', 'false')
+    http.request('GET', 'http://['+peer.host+']/cancel_call/')
+    flash(u'Call canceld', 'warning')
+    return redirect(url_for('peers.index'))
 
 @mod.route('/accept/<id>')
 def accept(id):
