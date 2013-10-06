@@ -1,3 +1,3 @@
 #!/bin/bash
 
-../bin/celery worker --app=app -l info
+../bin/celery worker --app=app -l info -B

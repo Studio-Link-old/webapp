@@ -5,7 +5,7 @@ from flask.ext.babel import Babel
 from flask.ext.sqlalchemy import SQLAlchemy
 from subprocess import Popen, PIPE, STDOUT
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='templates/static')
 app.config.from_object('config')
 
 # Bootstrap init

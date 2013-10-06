@@ -76,7 +76,8 @@ class AppTestCase(unittest.TestCase):
         assert b'Test1' not in rv.data
 
     def test_peers_call(self):
-        rv = self.client.get('/peers/call/')
+        self.add_peer()
+        rv = self.client.get('/peers/call/1')
 
     def test_peers_accept(self):
         self.test_api_peer_invite()
@@ -86,13 +87,13 @@ class AppTestCase(unittest.TestCase):
 
     def test_api_peer_status(self):
         self.add_peer()
-        self.client.get('/api1/peer_status',
+        self.client.get('/api1/peer_status/',
                         environ_base={'REMOTE_ADDR': '::1'})
         rv = self.client.get('/peers/')
         assert b'Online' in rv.data
 
     def test_api_peer_status_bad_invite(self):
-        self.client.post('/api1/peers',
+        self.client.post('/api1/peers/',
                          environ_base={'REMOTE_ADDR': '::1'})
         self.client.get('/api1/peer_status',
                         environ_base={'REMOTE_ADDR': '::1'})
@@ -101,18 +102,25 @@ class AppTestCase(unittest.TestCase):
 
     def test_api_peer_status_bad(self):
         self.add_peer()
-        rv = self.client.get('/api1/peer_status',
+        rv = self.client.get('/api1/peer_status/',
                              environ_base={'REMOTE_ADDR': 'BAD'})
         assert b'denied' in rv.data
         rv = self.client.get('/peers/')
         assert b'Pending' in rv.data
 
     def test_api_peer_invite(self):
-        rv = self.client.post('/api1/peers',
+        rv = self.client.post('/api1/peers/',
                               environ_base={'REMOTE_ADDR': '::1'})
         assert b'true' in rv.data
         rv = self.client.get('/peers/')
         assert b'Invite' in rv.data
+    
+    def test_api_peer_invite_bad(self):
+        rv = self.client.post('/api1/peers/',
+                              environ_base={'REMOTE_ADDR': '127.0.0.1'})
+        assert b'denied' in rv.data
+        rv = self.client.get('/peers/')
+        assert b'127.0.0.1' not in rv.data
 
 
 if __name__ == '__main__':
