@@ -7,6 +7,3 @@ class Settings(db.Model):
 
     def __init__(self, device):
         self.device = device
-
-    def __repr__(self):
-        return '<Device %r>' % self.device

@@ -40,12 +40,14 @@ def rtp_tx(host):
 def rtp_rx(host):
     device = device_init()
     subprocess.call("sudo ip6tables -A INPUT -p udp --source '" + host + "' -j ACCEPT", shell=True)
+    #@TODO: WAIT UNTIL CAPS FROM REDIS store.get('rtpcaps') ARE READY
     caps = "application/x-rtp,media=(string)audio,clock-rate=(int)48000,encoding-name=(string)X-GST-OPUS-DRAFT-SPITTKA-00"
     receiver = RTPreceiver(caps=caps, audio_device=device, ipv6=True)
     receiver.run()
     while store.get('lock_audio_stream') == 'true':
         Gst.Bus.poll(receiver.pipeline.get_bus(), 0, 1)
         time.sleep(2)
+    #@TODO: RESET CAPS
     subprocess.call("sudo ip6tables -D INPUT -p udp --source '" + host + "' -j ACCEPT", shell=True)
     return True
 

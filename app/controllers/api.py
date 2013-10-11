@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 
 from app import db
 from app.models.peers import Peer
+from app.models.peers import STATUS
 from app import tasks
 from sqlalchemy.exc import IntegrityError
 import socket
@@ -17,7 +18,7 @@ def peer_invite():
         socket.inet_pton(socket.AF_INET6, request.remote_addr)
     except socket.error:
         return jsonify({'result': 'denied'})
-    peer = Peer(request.remote_addr, request.remote_addr, 4)
+    peer = Peer(request.remote_addr, request.remote_addr, STATUS['INVITE'])
     db.session.add(peer)
     db.session.commit()
     return jsonify({'result': True})
@@ -30,9 +31,9 @@ def peer_status():
     except socket.error:
         return jsonify({'result': 'denied'})
     peer = Peer.query.filter_by(host=request.remote_addr).first()
-    if not peer or peer.status == 4:
+    if not peer or peer.status == STATUS['INVITE']:
         return jsonify({'result': 'denied'})
-    peer.status = 1
+    peer.status = STATUS['ONLINE']
     db.session.add(peer)
     db.session.commit()
     return jsonify({'result': request.remote_addr})
@@ -45,7 +46,7 @@ def incoming_call():
     except socket.error:
         return jsonify({'result': 'denied'})
     peer = Peer.query.filter_by(host=request.remote_addr).first()
-    if not peer or peer.status == 4:
+    if not peer or peer.status == STATUS['INVITE']:
         return jsonify({'result': 'denied'})
     store.set('lock_audio_stream', 'true')
     tasks.rtp_tx.delay(request.remote_addr)
@@ -60,7 +61,7 @@ def cancel_call():
     except socket.error:
         return jsonify({'result': 'denied'})
     peer = Peer.query.filter_by(host=request.remote_addr).first()
-    if not peer or peer.status == 4:
+    if not peer or peer.status == STATUS.INVITE:
         return jsonify({'result': 'denied'})
     store.set('lock_audio_stream', 'false')
     return jsonify({'result': request.remote_addr})

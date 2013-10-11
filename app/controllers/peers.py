@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, redirect, request, url_for, flash
 
 from app import db
 from app.models.peers import Peer
+from app.models.peers import STATUS
 from app.forms.peers import AddForm, EditForm, CallForm
 from app import tasks
 from sqlalchemy.exc import IntegrityError
@@ -90,7 +91,7 @@ def cancel_call():
 @mod.route('/accept/<id>')
 def accept(id):
     peer = Peer.query.get(id)
-    peer.status = 0
+    peer.status = STATUS['PENDING']
     db.session.add(peer)
     db.session.commit()
     tasks.api_peer_status.delay(peer.host)

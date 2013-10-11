@@ -4,6 +4,7 @@ from app import app
 from app import db
 import unittest
 import tempfile
+from mock import Mock
 
 
 class AppTestCase(unittest.TestCase):
@@ -27,19 +28,71 @@ class AppTestCase(unittest.TestCase):
             ))
         return rv
 
-    def test_empty_db(self):
+##############################################################
+# app Tests
+##############################################################
+    def test_app_empty_db(self):
         """Start with a blank database."""
         rv = self.client.get('/peers/')
         assert b'No entries here so far' in rv.data
 
-    def test_index(self):
+    def test_app_index(self):
         rv = self.client.get('/')
         assert b'load' in rv.data
 
-    def test_404_not_found(self):
+    def test_app_404_not_found(self):
         rv = self.client.get('/bigbangtheory')
         assert b'Ups, site not found!' in rv.data
 
+##############################################################
+# app.controllers.api Tests
+##############################################################
+    def test_api_peer_invite(self):
+        rv = self.client.post('/api1/peers/',
+                              environ_base={'REMOTE_ADDR': '::1'})
+        assert b'true' in rv.data
+        rv = self.client.get('/peers/')
+        assert b'Invite' in rv.data
+
+    def test_api_peer_invite_bad(self):
+        rv = self.client.post('/api1/peers/',
+                              environ_base={'REMOTE_ADDR': '127.0.0.1'})
+        assert b'denied' in rv.data
+        rv = self.client.get('/peers/')
+        assert b'127.0.0.1' not in rv.data
+
+    def test_api_peer_status(self):
+        self.add_peer()
+        self.client.get('/api1/peer_status/',
+                        environ_base={'REMOTE_ADDR': '::1'})
+        rv = self.client.get('/peers/')
+        assert b'Online' in rv.data
+
+    def test_api_peer_status_bad_invite(self):
+        self.client.post('/api1/peers/',
+                         environ_base={'REMOTE_ADDR': '::1'})
+        self.client.get('/api1/peer_status',
+                        environ_base={'REMOTE_ADDR': '::1'})
+        rv = self.client.get('/peers/')
+        assert b'Invite' in rv.data
+
+    def test_api_peer_status_bad(self):
+        self.add_peer()
+        rv = self.client.get('/api1/peer_status/',
+                             environ_base={'REMOTE_ADDR': 'BAD'})
+        assert b'denied' in rv.data
+        rv = self.client.get('/peers/')
+        assert b'Pending' in rv.data
+
+##############################################################
+# app.controllers.mixers Tests
+##############################################################
+
+# @TODO
+
+##############################################################
+# app.controllers.peers Tests
+##############################################################
     def test_peers_add(self):
         self.add_peer()
         rv = self.client.get('/peers/')
@@ -85,42 +138,29 @@ class AppTestCase(unittest.TestCase):
         rv = self.client.get('/peers/')
         assert b'Pending' in rv.data
 
-    def test_api_peer_status(self):
-        self.add_peer()
-        self.client.get('/api1/peer_status/',
-                        environ_base={'REMOTE_ADDR': '::1'})
-        rv = self.client.get('/peers/')
-        assert b'Online' in rv.data
+##############################################################
+# app.controllers.settings Tests
+##############################################################
 
-    def test_api_peer_status_bad_invite(self):
-        self.client.post('/api1/peers/',
-                         environ_base={'REMOTE_ADDR': '::1'})
-        self.client.get('/api1/peer_status',
-                        environ_base={'REMOTE_ADDR': '::1'})
-        rv = self.client.get('/peers/')
-        assert b'Invite' in rv.data
+# @TODO
 
-    def test_api_peer_status_bad(self):
-        self.add_peer()
-        rv = self.client.get('/api1/peer_status/',
-                             environ_base={'REMOTE_ADDR': 'BAD'})
-        assert b'denied' in rv.data
-        rv = self.client.get('/peers/')
-        assert b'Pending' in rv.data
+##############################################################
+# app.controllers.system Tests
+##############################################################
 
-    def test_api_peer_invite(self):
-        rv = self.client.post('/api1/peers/',
-                              environ_base={'REMOTE_ADDR': '::1'})
-        assert b'true' in rv.data
-        rv = self.client.get('/peers/')
-        assert b'Invite' in rv.data
-    
-    def test_api_peer_invite_bad(self):
-        rv = self.client.post('/api1/peers/',
-                              environ_base={'REMOTE_ADDR': '127.0.0.1'})
-        assert b'denied' in rv.data
-        rv = self.client.get('/peers/')
-        assert b'127.0.0.1' not in rv.data
+# @TODO
+
+##############################################################
+# app.libs.rtp.rx Tests
+##############################################################
+
+# @TODO
+
+##############################################################
+# app.libs.rtp.tx Tests
+##############################################################
+
+# @TODO
 
 
 if __name__ == '__main__':
