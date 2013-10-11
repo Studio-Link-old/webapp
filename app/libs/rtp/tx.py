@@ -1,3 +1,5 @@
+# -*- encoding: utf-8; py-indent-offset: 4 -*-
+
 # Copyright (c) 2012, James Harrison https://github.com/JamesHarrison/openob
 
 import sys
