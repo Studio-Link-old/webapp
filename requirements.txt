@@ -3,7 +3,7 @@ Flask-Babel==0.9
 Flask-Bootstrap==3.0.0.1
 Flask-SQLAlchemy==1.0
 Flask-WTF==0.9.3
-celery==3.0.23
+celery==3.0.24
 pyalsaaudio==0.7
 redis==2.8.0
 htpasswd==2.0
