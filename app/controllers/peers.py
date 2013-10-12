@@ -20,7 +20,7 @@ from sqlalchemy.exc import IntegrityError
 import redis
 import urllib3
 
-http = urllib3.PoolManager(timeout=1)
+http = urllib3.PoolManager(timeout=5)
 store = redis.Redis('127.0.0.1')
 mod = Blueprint('peers', __name__, url_prefix='/peers')
 
@@ -82,12 +82,15 @@ def call(id):
     peer = Peer.query.get(id)
     form = CallForm()
     if form.validate_on_submit():
+        try:
+            http.request('GET', 'http://['+peer.host+']/api1/incoming_call/')
+        except:
+            flash(u'Peer not reachable ;-(', 'danger')
         store.set('lock_audio_stream', 'true')
         store.set('audio_stream_host', peer.host)
         tasks.rtp_tx.delay(peer.host)
         tasks.rtp_rx.delay(peer.host)
-        http.request('GET', 'http://['+peer.host+']/api1/incoming_call/')
-        flash(u'RingRingRing ;-)', 'warning')
+        flash(u'RingRingRing ;-)', 'success')
         return redirect(url_for('peers.index'))
     return render_template("peers/call.html", form=form, action='/peers/call/'+id)
 
@@ -95,7 +98,10 @@ def call(id):
 def cancel_call():
     store.set('lock_audio_stream', 'false')
     host = store.get('audio_stream_host')
-    http.request('GET', 'http://['+host+']/cancel_call/')
+    try:
+        http.request('GET', 'http://['+host+']/api1/cancel_call/')
+    except:
+        pass
     flash(u'Call canceld', 'warning')
     return redirect(url_for('peers.index'))
 

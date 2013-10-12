@@ -15,10 +15,16 @@ from app import app
 from app import db
 import unittest
 import tempfile
+import redis
 from mock import Mock
 
 
 class AppTestCase(unittest.TestCase):
+    @classmethod
+    def setUpClass(self):
+        self.store = redis.Redis('127.0.0.1')
+        self.store.flushall()
+
     def setUp(self):
         self.db_fd, self.db_filename = tempfile.mkstemp()
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////' + \
@@ -142,6 +148,16 @@ class AppTestCase(unittest.TestCase):
     def test_peers_call(self):
         self.add_peer()
         rv = self.client.get('/peers/call/1')
+        assert b'Codec' in rv.data
+        rv = self.client.post('/peers/call/1', data=dict(
+                codec='opus',
+                audio='voice',
+                bitrate='24',
+                jitter='250',
+                framesize='20'
+                ))
+        assert b'Redirecting' in rv.data
+        rv = self.client.get('/peers/cancel_call/')
 
     def test_peers_accept(self):
         self.test_api_peer_invite()
