@@ -9,7 +9,6 @@
 # |License: BSD-2-Clause (see LICENSE File)                                  |
 # +--------------------------------------------------------------------------+
 
-# -*- coding: utf-8 -*-
 from flask import Flask, render_template
 from flask.ext.bootstrap import Bootstrap
 from flask.ext.babel import Babel

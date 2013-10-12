@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.2.1-alpha (xx.xx.2013)
+## v13.10.0-alpha (xx.xx.2013)
 Bootstrap3, security and bugfix release
 
 - Update template to Bootstrap 3
