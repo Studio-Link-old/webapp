@@ -55,6 +55,8 @@ class RTPreceiver:
         # (a black hole - we assume we can't contact the sender,
         # and this is optional)
         self.udpsink_rtcpout = Gst.ElementFactory.make('udpsink', None)
+        self.udpsink_rtcpout.set_property('sync', 'false')
+        self.udpsink_rtcpout.set_property('async', 'false')
         self.udpsink_rtcpout.set_property('port', base_port+2)
         if (ipv6):
             self.udpsrc_rtpin.set_property('multicast-group', "::")
@@ -118,8 +120,8 @@ class RTPreceiver:
             print msg.parse_warning()
 
 if __name__ == "__main__":
-    caps = "application/x-rtp,media=(string)audio,clock-rate=(int)48000,encoding-name=(string)X-GST-OPUS-DRAFT-SPITTKA-00"
-    receiver = RTPreceiver(caps=caps, audio_device='hw:2', ipv6=False)
+    caps = "application/x-rtp,media=(string)audio,clock-rate=(int)48000,encoding-name=(string)X-GST-OPUS-DRAFT-SPITTKA-00,ssrc=(uint)2789384965,payload=(int)96,timestamp-offset=(uint)404045675,seqnum-offset=(uint)54804"
+    receiver = RTPreceiver(caps=caps, audio_device='hw:0', ipv6=False)
     receiver.run()
     while True:
         Gst.Bus.poll(receiver.pipeline.get_bus(), 0, 1)

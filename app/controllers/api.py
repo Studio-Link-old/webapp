@@ -76,3 +76,15 @@ def cancel_call():
         return jsonify({'result': 'denied'})
     store.set('lock_audio_stream', 'false')
     return jsonify({'result': request.remote_addr})
+
+
+@mod.route('/audio_caps/')
+def audio_caps():
+    try:
+        socket.inet_pton(socket.AF_INET6, request.remote_addr)
+    except socket.error:
+        return jsonify({'result': 'denied'})
+    peer = Peer.query.filter_by(host=request.remote_addr).first()
+    if not peer or peer.status == STATUS.INVITE:
+        return jsonify({'result': 'denied'})
+    return jsonify({'result': store.get('audio_caps')}) 
