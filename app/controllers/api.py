@@ -72,7 +72,7 @@ def cancel_call():
     except socket.error:
         return jsonify({'result': 'denied'})
     peer = Peer.query.filter_by(host=request.remote_addr).first()
-    if not peer or peer.status == STATUS.INVITE:
+    if not peer or peer.status == STATUS['INVITE']:
         return jsonify({'result': 'denied'})
     store.set('lock_audio_stream', 'false')
     return jsonify({'result': request.remote_addr})
@@ -85,6 +85,6 @@ def audio_caps():
     except socket.error:
         return jsonify({'result': 'denied'})
     peer = Peer.query.filter_by(host=request.remote_addr).first()
-    if not peer or peer.status == STATUS.INVITE:
+    if not peer or peer.status == STATUS['INVITE']:
         return jsonify({'result': 'denied'})
     return jsonify({'result': store.get('audio_caps')}) 
