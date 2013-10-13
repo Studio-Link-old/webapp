@@ -47,6 +47,7 @@ def rtp_tx(host):
         Gst.Bus.poll(transmitter.pipeline.get_bus(), 0, 1)
         time.sleep(2)
     store.set('audio_caps', '')
+    transmitter.pipeline.set_state(Gst.State.NULL)
     return True
 
 
@@ -71,6 +72,7 @@ def rtp_rx(host):
     while store.get('lock_audio_stream') == 'true':
         Gst.Bus.poll(receiver.pipeline.get_bus(), 0, 1)
         time.sleep(2)
+    receiver.pipeline.set_state(Gst.State.NULL)
     subprocess.call("sudo ip6tables -D INPUT -p udp --source '" + host + "' -j ACCEPT", shell=True)
     return True
 
