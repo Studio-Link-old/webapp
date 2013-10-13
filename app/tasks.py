@@ -55,15 +55,15 @@ def rtp_rx(host):
     device = device_init()
     subprocess.call("sudo ip6tables -A INPUT -p udp --source '" + host + "' -j ACCEPT", shell=True)
     get_caps = True
-    while get_caps and store.get('lock_audio_stream') == 'true':
+    while get_caps:
         time.sleep(2)
         try:
             audio_caps_json = json.loads(http.request('GET', 'http://['+host+']/api1/audio_caps/').data)
         except:
             pass
         else:
-            get_caps = False
-
+            if audio_caps_json['result']:
+                get_caps = False
     caps = audio_caps_json['result']
     print caps
     receiver = RTPreceiver(caps=caps, audio_device=device, ipv6=True)
