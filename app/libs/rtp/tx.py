@@ -17,7 +17,7 @@ Gst.init(None)
 
 
 class RTPtransmitter:
-    def __init__(self, audio_device='hw:0', base_port=3000, ipv6=True, bitrate=96, receiver_address='::', opus_options={'audio': True, 'bandwidth': -1000, 'frame-size': 20, 'complexity': 7, 'constrained-vbr': True, 'inband-fec': True, 'packet-loss-percentage': 3, 'dtx': False}):
+    def __init__(self, audio_device='hw:0', base_port=3000, ipv6=True, bitrate=64, receiver_address='::', opus_options={'audio': True, 'bandwidth': -1000, 'frame-size': 20, 'complexity': 3, 'constrained-vbr': True, 'inband-fec': True, 'packet-loss-percentage': 1, 'dtx': False}):
         """Sets up a new RTP transmitter"""
 
         self.pipeline = Gst.Pipeline()
@@ -31,7 +31,7 @@ class RTPtransmitter:
         # Audio conversion and resampling
         self.audioconvert = Gst.ElementFactory.make("audioconvert", None)
         self.audioresample = Gst.ElementFactory.make("audioresample", None)
-        self.audioresample.set_property('quality', 9) # SRC
+        self.audioresample.set_property('quality', 5) # SRC
 
         self.encoder = Gst.ElementFactory.make("opusenc", "encoder")
         self.encoder.set_property('bitrate', bitrate*1000)
@@ -109,7 +109,7 @@ class RTPtransmitter:
             print msg.parse_warning()
 
 if __name__ == "__main__":
-    transmitter = RTPtransmitter(audio_device="hw:2", ipv6=False, receiver_address='127.0.0.1')
+    transmitter = RTPtransmitter(audio_device="hw:0", ipv6=False, receiver_address='127.0.0.1')
     transmitter.run()
     print("   - Caps:          %s" % transmitter.caps)
     while True:
