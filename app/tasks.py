@@ -54,7 +54,7 @@ def rtp_tx(host):
     transmitter = RTPtransmitter(audio_device=device,
                                  ipv6=True,
                                  receiver_address=host,
-                                 bitrate=settings.bitrate,
+                                 bitrate=int(settings.bitrate),
                                  opus_options=opus_options)
     transmitter.run()
     store.set('audio_caps', transmitter.caps)
