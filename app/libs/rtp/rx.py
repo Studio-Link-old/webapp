@@ -55,8 +55,9 @@ class RTPreceiver:
         # (a black hole - we assume we can't contact the sender,
         # and this is optional)
         self.udpsink_rtcpout = Gst.ElementFactory.make('udpsink', None)
-        self.udpsink_rtcpout.set_property('sync', 'false')
-        self.udpsink_rtcpout.set_property('async', 'false')
+        self.udpsink_rtcpout.set_property('sync', False)
+        self.udpsink_rtcpout.set_property('async', False)
+
         self.udpsink_rtcpout.set_property('port', base_port+2)
         if (ipv6):
             self.udpsrc_rtpin.set_property('multicast-group', "::")

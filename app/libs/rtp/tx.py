@@ -31,7 +31,7 @@ class RTPtransmitter:
         # Audio conversion and resampling
         self.audioconvert = Gst.ElementFactory.make("audioconvert", None)
         self.audioresample = Gst.ElementFactory.make("audioresample", None)
-        self.audioresample.set_property('quality', 5) # SRC
+        self.audioresample.set_property('quality', 9) # SRC
 
         self.encoder = Gst.ElementFactory.make("opusenc", "encoder")
         self.encoder.set_property('bitrate', bitrate*1000)
@@ -48,6 +48,9 @@ class RTPtransmitter:
         self.udpsink_rtcpout = Gst.ElementFactory.make("udpsink", "udpsink_rtcp")
         self.udpsink_rtcpout.set_property('host', receiver_address)
         self.udpsink_rtcpout.set_property('port', base_port+1)
+        self.udpsink_rtcpout.set_property('sync', False)
+        self.udpsink_rtcpout.set_property('async', False)
+
         # And the receiver will send us RTCP Sender Reports on this
         self.udpsrc_rtcpin = Gst.ElementFactory.make("udpsrc", "udpsrc_rtcp")
         self.udpsrc_rtcpin.set_property('port', base_port+2)
