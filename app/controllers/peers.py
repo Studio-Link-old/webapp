@@ -14,7 +14,7 @@ from flask import Blueprint, render_template, redirect, request, url_for, flash
 from app import db
 from app.models.peers import Peer
 from app.models.peers import STATUS
-from app.forms.peers import AddForm, EditForm, CallForm
+from app.forms.peers import AddForm, EditForm
 from app import tasks
 from sqlalchemy.exc import IntegrityError
 import redis
@@ -77,22 +77,19 @@ def delete(id):
     return redirect(url_for('peers.index'))
 
 
-@mod.route('/call/<id>', methods=('GET', 'POST'))
+@mod.route('/call/<id>')
 def call(id):
     peer = Peer.query.get(id)
-    form = CallForm()
-    if form.validate_on_submit():
-        try:
-            http.request('GET', 'http://['+peer.host+']/api1/incoming_call/')
-        except:
-            flash(u'Peer not reachable ;-(', 'danger')
-        store.set('lock_audio_stream', 'true')
-        store.set('audio_stream_host', peer.host)
-        tasks.rtp_tx.delay(peer.host)
-        tasks.rtp_rx.delay(peer.host)
-        flash(u'RingRingRing ;-)', 'success')
-        return redirect(url_for('peers.index'))
-    return render_template("peers/call.html", form=form, action='/peers/call/'+id)
+    try:
+        http.request('GET', 'http://['+peer.host+']/api1/incoming_call/')
+    except:
+        flash(u'Peer not reachable ;-(', 'danger')
+    store.set('lock_audio_stream', 'true')
+    store.set('audio_stream_host', peer.host)
+    tasks.rtp_tx.delay(peer.host)
+    tasks.rtp_rx.delay(peer.host)
+    flash(u'RingRingRing ;-)', 'success')
+    return redirect(url_for('peers.index'))
 
 @mod.route('/cancel_call/')
 def cancel_call():

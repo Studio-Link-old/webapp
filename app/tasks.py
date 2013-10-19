@@ -39,8 +39,23 @@ def device_init():
 @celery.task
 def rtp_tx(host):
     device = device_init()
-    transmitter = RTPtransmitter(audio_device=device, ipv6=True,
-                                 receiver_address=host)
+    settings = Settings.query.get(1)
+    audio = True
+    if settings.audio == 'voice':
+        audio = False
+    opus_options = {'audio': audio,
+                    'bandwidth': -1000,
+                    'frame-size': int(settings.framesize),
+                    'complexity': int(settings.complexity),
+                    'constrained-vbr': True,
+                    'inband-fec': True,
+                    'packet-loss-percentage': 1,
+                    'dtx': False}
+    transmitter = RTPtransmitter(audio_device=device,
+                                 ipv6=True,
+                                 receiver_address=host,
+                                 bitrate=settings.bitrate,
+                                 opus_options=opus_options)
     transmitter.run()
     store.set('audio_caps', transmitter.caps)
     while store.get('lock_audio_stream') == 'true':
@@ -54,12 +69,14 @@ def rtp_tx(host):
 @celery.task
 def rtp_rx(host):
     device = device_init()
-    subprocess.call("sudo ip6tables -A INPUT -p udp --source '" + host + "' -j ACCEPT", shell=True)
+    subprocess.call("sudo ip6tables -A INPUT -p udp --source '" +
+                    host + "' -j ACCEPT", shell=True)
     get_caps = True
     while get_caps:
         time.sleep(2)
         try:
-            audio_caps_json = json.loads(http.request('GET', 'http://['+host+']/api1/audio_caps/').data)
+            request = http.request('GET', 'http://['+host+']/api1/audio_caps/')
+            audio_caps_json = json.loads(request.data)
         except:
             pass
         else:
@@ -73,7 +90,8 @@ def rtp_rx(host):
         Gst.Bus.poll(receiver.pipeline.get_bus(), 0, 1)
         time.sleep(2)
     receiver.pipeline.set_state(Gst.State.NULL)
-    subprocess.call("sudo ip6tables -D INPUT -p udp --source '" + host + "' -j ACCEPT", shell=True)
+    subprocess.call("sudo ip6tables -D INPUT -p udp --source '" +
+                    host + "' -j ACCEPT", shell=True)
     return True
 
 
@@ -112,6 +130,7 @@ def api_peer_status(host):
 def api_peer_invite(host):
     r = http.request('GET', 'http://['+host+']/api1/peers/')
     return True
+
 
 @celery.task
 def periodic_status_update():

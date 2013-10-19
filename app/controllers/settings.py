@@ -34,8 +34,7 @@ def settings():
 
     if form.validate_on_submit():
         if settings:
-            settings.device = form.device.data
-            #db.session.merge(provider)
+            form.populate_obj(settings)
             db.session.commit()
             flash("Settings changed", "success")
         else:

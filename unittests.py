@@ -148,14 +148,6 @@ class AppTestCase(unittest.TestCase):
     def test_peers_call(self):
         self.add_peer()
         rv = self.client.get('/peers/call/1')
-        assert b'Codec' in rv.data
-        rv = self.client.post('/peers/call/1', data=dict(
-                codec='opus',
-                audio='voice',
-                bitrate='24',
-                jitter='250',
-                framesize='20'
-                ))
         assert b'Redirecting' in rv.data
         rv = self.client.get('/peers/cancel_call/')
 
