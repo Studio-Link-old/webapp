@@ -31,7 +31,7 @@ class SettingsForm(Form):
         ('8', '8'),
         ('9', '9'),
         ('10', '10'),
-        ], default='10')
+        ], default='6')
     bitrate = SelectField('Bitrate (kbit/s)', choices=[
         ('192', '192'),
         ('128', '128'),

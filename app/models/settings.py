@@ -26,7 +26,7 @@ class Settings(db.Model):
         self.device = device
         self.codec = "opus"
         self.audio = "voice"
-        self.complexity = "10"
+        self.complexity = "6"
         self.bitrate = "64"
         self.jitter = "150"
         self.framesize = "20"
