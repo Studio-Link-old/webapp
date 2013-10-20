@@ -12,6 +12,45 @@
         <a class="btn btn-danger reboot-button" href="{{ url_for('system.reboot') }}"><span class="glyphicon glyphicon-refresh"></span> reboot</a>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="title">Latency</div>
+        <div class="value" id="latency"></div>
+        <div class="graph">
+            <canvas id="c_latency" width="250" height="80"></canvas>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="title">CPU</div>
+        <div class="value" id="cpuusage"></div>
+        <div class="graph">
+            <canvas id="c_cpuusage" width="250" height="80"></canvas>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="title">Network TX</div>
+        <div class="value" id="nett"></div>
+        <div class="value" id="netts"></div>
+        <div class="graph">
+            <canvas id="c_netts" width="250" height="80">
+            </canvas>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="title">Network RX</div>
+        <div class="value" id="netr"></div>
+        <div class="value" id="netrs"></div>
+        <div class="graph">
+            <canvas id="c_netrs" width="250" height="80">
+            </canvas>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function() {
         $('.reboot-button').click(function() {
@@ -24,6 +63,9 @@
         });
     });
 </script>
+
+<script src="/static/js/smoothie.js"></script>
+<script src="/static/js/script.js"></script>
 
 
 {% endblock %}

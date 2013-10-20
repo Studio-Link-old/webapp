@@ -9,8 +9,9 @@
 # |License: BSD-2-Clause (see LICENSE File)                                  |
 # +--------------------------------------------------------------------------+
 
-from flask import Blueprint, request, flash, url_for, redirect
+from flask import Blueprint, request, flash, url_for, redirect, Response
 from app import tasks
+import psutil, json, time, socket
 
 mod = Blueprint('system', __name__, url_prefix='/system')
 
@@ -28,3 +29,20 @@ def reboot():  # pragma: no cover
     flash("Rebooting... please wait. This will take approx. one minute.", "danger")
     tasks.system_reboot.delay()
     return redirect(url_for('index'))
+
+@mod.route('/raw')
+def raw():
+    diskused = 0
+    disktotal = 0
+    for i in psutil.disk_partitions():
+        try:
+            x = psutil.disk_usage(i.mountpoint)
+            diskused += x.used
+            disktotal += x.total
+        except OSError:
+            pass
+    o = json.dumps({
+        'cpuusage': psutil.cpu_percent(0),
+        'netio':    psutil.network_io_counters(),
+    })
+    return Response(o, mimetype='application/json')
