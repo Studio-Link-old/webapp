@@ -20,7 +20,7 @@ class SettingsForm(Form):
     device = SelectField('Audio device', choices=DEFAULT_CHOICES)
     codec = SelectField('Codec', choices=[('opus', 'Opus'), ('pcm', 'PCM')], default='opus')
     audio = SelectField('Audio',
-                        choices=[('voice', 'Voice'), ('music', 'Music')])
+                        choices=[('voice', 'Voice'), ('music', 'Music')], default='music')
     complexity = SelectField('Complexity', choices=[
         ('1', '1'),
         ('2', '2'),

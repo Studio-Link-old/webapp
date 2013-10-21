@@ -25,7 +25,7 @@ class Settings(db.Model):
     def __init__(self, device):
         self.device = device
         self.codec = "opus"
-        self.audio = "voice"
+        self.audio = "music"
         self.complexity = "6"
         self.bitrate = "64"
         self.jitter = "150"
