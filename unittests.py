@@ -155,7 +155,7 @@ class AppTestCase(unittest.TestCase):
         self.test_api_peer_invite()
         self.client.get('/peers/accept/1')
         rv = self.client.get('/peers/')
-        assert b'Pending' in rv.data
+        assert b'Offline' in rv.data
 
 ##############################################################
 # app.controllers.settings Tests

@@ -105,7 +105,7 @@ def cancel_call():
 @mod.route('/accept/<id>')
 def accept(id):
     peer = Peer.query.get(id)
-    peer.status = STATUS['PENDING']
+    peer.status = STATUS['OFFLINE']
     db.session.add(peer)
     db.session.commit()
     tasks.api_peer_status.delay(peer.host)
