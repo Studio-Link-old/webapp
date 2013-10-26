@@ -17,7 +17,7 @@ Gst.init(None)
 
 class RTPreceiver:
     def __init__(self, caps='', audio_device='hw:0', base_port=3000,
-                 ipv6=True,  bitrate=64, jitter_buffer=100):
+                 ipv6=True,  bitrate=64, jitter_buffer=150):
         """Sets up a new RTP receiver"""
 
         self.pipeline = Gst.Pipeline()
