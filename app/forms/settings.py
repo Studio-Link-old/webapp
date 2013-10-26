@@ -10,7 +10,7 @@
 # +--------------------------------------------------------------------------+
 
 from flask.ext.wtf import Form
-from wtforms import TextField, SelectField, SubmitField
+from wtforms import TextField, SelectField, SubmitField, PasswordField
 from wtforms.validators import Required, ValidationError
 
 DEFAULT_CHOICES = []
@@ -61,3 +61,7 @@ class SettingsForm(Form):
         ('2', '2ms'),
         ], default='20')
     submit_button = SubmitField('Save')
+
+class PasswordForm(Form):
+    password = PasswordField('Password', [Required()])
+    submit_button = SubmitField('Change password')

@@ -13,10 +13,11 @@ from flask import Blueprint, render_template, redirect, request, url_for, flash
 
 from app import db
 from app.models.settings import Settings
-from app.forms.settings import SettingsForm
+from app.forms.settings import SettingsForm, PasswordForm
 from sqlalchemy.exc import IntegrityError
 import alsaaudio
-import subprocess
+from subprocess import call, Popen, PIPE
+
 
 mod = Blueprint('settings', __name__, url_prefix='/settings')
 
@@ -32,15 +33,25 @@ def settings():
         devices.append((raw_device, raw_device))
     form.device.choices = devices
 
+    form_password = PasswordForm(request.form)
+
     if form.validate_on_submit():
-        if settings:
-            form.populate_obj(settings)
-            db.session.commit()
-            flash("Settings changed", "success")
+        new_password = str(form_password.password.data)
+        if new_password:
+            call("echo 'studio:" + new_password + "' | chpasswd", shell=True)
+            flash("Password changed", "success")
         else:
-            settings = Settings(form.device.data)
-            db.session.add(settings)
-            db.session.commit()
-            flash("Settings added", "success")
-    platform = subprocess.call(["uname", "-m"])
-    return render_template("settings.html", form=form, platform=platform)
+            if settings:
+                form.populate_obj(settings)
+                db.session.commit()
+                flash("Settings changed", "success")
+            else:
+                settings = Settings(form.device.data)
+                db.session.add(settings)
+                db.session.commit()
+                flash("Settings added", "success")
+
+    p = Popen(["uname", "-m"], stdout=PIPE, stderr=PIPE)
+    platform, errors = p.communicate()
+
+    return render_template("settings.html", form=form, platform=platform, form_password=form_password)
