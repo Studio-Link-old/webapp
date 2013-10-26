@@ -17,7 +17,7 @@ Gst.init(None)
 
 class RTPreceiver:
     def __init__(self, caps='', audio_device='hw:0', base_port=3000,
-                 ipv6=True,  bitrate=64, jitter_buffer=150):
+                 ipv6=True,  bitrate=64, jitter_buffer=100):
         """Sets up a new RTP receiver"""
 
         self.pipeline = Gst.Pipeline()
@@ -25,6 +25,8 @@ class RTPreceiver:
 
         self.sink = Gst.ElementFactory.make("alsasink", None)
         self.sink.set_property('device', audio_device)
+        self.source.set_property('buffer-time', 25000)
+        self.source.set_property('latency-time', 5000)
 
         self.audioconvert = Gst.ElementFactory.make("audioconvert", None)
         self.audioresample = Gst.ElementFactory.make("audioresample", None)
