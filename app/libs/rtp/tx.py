@@ -25,8 +25,8 @@ class RTPtransmitter:
 
         self.source = Gst.ElementFactory.make('alsasrc', None)
         self.source.set_property('device', audio_device)
-        self.source.set_property('buffer-time', 30000)
-        self.source.set_property('latency-time', 5000)
+        self.source.set_property('buffer-time', 50000)
+        self.source.set_property('latency-time', 10000)
 
         self.caps = 'None'
 
