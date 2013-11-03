@@ -2,7 +2,7 @@ language: python
 python:
   - "2.7"
 before_install:
-  - sudo apt-get install libasound2-dev
+  - sudo apt-get install libasound2-dev python-gobject python-gobject-2
 # command to install dependencies
 install: "pip install -r requirements.txt"
 # command to run tests
