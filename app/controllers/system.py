@@ -19,7 +19,7 @@ mod = Blueprint('system', __name__, url_prefix='/system')
 @mod.route('/shutdown')
 def shutdown():  # pragma: no cover
     flash("Shutting down. When the LEDs on the board stop flashing, \
-    it should be safe to unplug your Raspberry Pi.", "danger")
+    it should be safe to unplug.", "danger")
     tasks.system_shutdown.delay()
     return redirect(url_for('index'))
 
