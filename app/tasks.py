@@ -136,5 +136,8 @@ def api_peer_invite(host):
 def periodic_status_update():
     peers = Peer.query.all()
     for peer in peers:
-        http.request('GET', 'http://['+peer.host+']/api1/peer_status/')
+        try:
+            http.request('GET', 'http://['+peer.host+']/api1/peer_status/')
+        except:
+            pass
     return True

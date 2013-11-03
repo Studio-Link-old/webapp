@@ -23,7 +23,8 @@ def index(card=""):
     settings = Settings.query.get(1)
     if settings:
         card = settings.device
-    volumes = {}
+    playbacks = {}
+    captures = {}
     devices = alsaaudio.cards()
     try:
         idx = devices.index(card)
@@ -39,17 +40,23 @@ def index(card=""):
         mixer = alsaaudio.Mixer(mixers[i], cardindex=idx)
         try:
             mutes = mixer.getmute()
+            getrecs = mixer.getrec()
         except alsaaudio.ALSAAudioError:
             pass
-        volumes[mixers[i]] = {'mixer': i,
-                              'levels': mixer.getvolume(),
+        playbacks[mixers[i]] = {'mixer': i,
+                              'levels': mixer.getvolume('playback'),
                               'mutes': mutes}
+        if mixer.getvolume('capture'):
+            captures[mixers[i]] = {'mixer': i,
+                                  'levels': mixer.getvolume('capture'),
+                                  'mutes': getrecs}
+
     return render_template('mixers/index.html',
-                           devices=devices, volumes=volumes, card=card)
+                           devices=devices, playbacks=playbacks, captures=captures, card=card)
 
 
-@mod.route('/volume/<card>/<mixeridx>/<channel>/<value>')
-def set_volume(card="", mixeridx=0, channel=0, value=50):
+@mod.route('/volume/<card>/<mixeridx>/<channel>/<value>/<direction>')
+def set_volume(card="", mixeridx=0, channel=0, value=50, direction='playback'):
     #channel = alsaaudio.MIXER_CHANNEL_ALL
     devices = alsaaudio.cards()
     try:
@@ -58,12 +65,12 @@ def set_volume(card="", mixeridx=0, channel=0, value=50):
         idx = 0
     mixers = alsaaudio.mixers(idx)
     mixer = alsaaudio.Mixer(mixers[int(mixeridx)], cardindex=idx)
-    mixer.setvolume(int(value), int(channel))
+    mixer.setvolume(int(value), int(channel), direction)
     return ""
 
 
-@mod.route('/muteplay/<card>/<mixeridx>/<channel>/<value>')
-def mute_playback(card="", mixeridx=0, channel=0, value=0):
+@mod.route('/mute/<direction>/<card>/<mixeridx>/<channel>/<value>')
+def mute(direction="playback", card="", mixeridx=0, channel=0, value=0):
     devices = alsaaudio.cards()
     try:
         idx = devices.index(card)
@@ -71,7 +78,10 @@ def mute_playback(card="", mixeridx=0, channel=0, value=0):
         idx = 0
     mixers = alsaaudio.mixers(idx)
     mixer = alsaaudio.Mixer(mixers[int(mixeridx)], cardindex=idx)
-    mixer.setmute(int(value), int(channel))
+    if direction == "playback":
+        mixer.setmute(int(value), int(channel))
+    else:
+        mixer.setrec(int(value), int(channel))
     return ""
 
 

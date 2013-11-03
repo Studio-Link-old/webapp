@@ -37,7 +37,7 @@
                 {%- for endpoint, caption in [
                 ('index', 'Home'),
                 ('peers.index', 'Peers'),
-                ('mixers.index', 'Mixer'),
+                ('mixers.index', 'Mixers'),
                 ('settings.settings', 'Settings'),
                 ] %}
                 <li{% if endpoint == request.endpoint %} class=active{% endif
@@ -56,7 +56,7 @@
     {% endfor %}
     {% block body_container %}{% endblock %}
     <hr />
-    <footer>© 2013 <a href="http://studio-connect.de">Studio Connect</a> Version: 13.10.0-alpha</footer>
+    <footer>© 2013 <a href="http://studio-connect.de">Studio Connect</a> Version: 13.11.0-alpha</footer>
 </div>
 {% endblock %}
 
