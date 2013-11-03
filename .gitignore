@@ -2,3 +2,4 @@
 app.db
 .coverage
 celerybeat-schedule
+htpasswd
