@@ -1,6 +1,6 @@
 # Changelog
 
-## v13.10.0-alpha (xx.xx.2013)
+## v13.11.0-alpha (xx.xx.2013)
 Bootstrap3, security and bugfix release
 
 - Update template to Bootstrap 3
@@ -8,6 +8,7 @@ Bootstrap3, security and bugfix release
 - add ip6tables ruleset
 - Optimize shutdown/reboot handling
 - HTTP basic access authentication
+- Capture Mixer
 
 ## v0.2.0-dev (04.10.2013)
 Full integrated Gstreamer Opus Webinterface with IPv6 peering.

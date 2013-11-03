@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% block body_container %}
 
-<h1>Alsa</h1>
+<h1>Mixers</h1>
 
 <p><a href="/mixers/play/" class="btn btn-success"><i class="icon-play icon-white"></i> Playback Test</a></p>
 
 <h2>{{ _('Playback') }}</h2>
 <div class="row">
-{% for volume, value in volumes.items() recursive %}
+{% for volume, value in playbacks.items() recursive %}
 <div class="col-md-2">
       <div style="clear:both;"></div>
       <h3>{{ volume }}</h3>
@@ -28,7 +28,7 @@
                             animate: true,
                             orientation: "vertical",
                             change: function( event, ui ) {
-                                $.get("/mixers/volume/{{ card }}/{{ value['mixer'] }}/{{ loop.index0 }}/"+ui.value);
+                                $.get("/mixers/volume/{{ card }}/{{ value['mixer'] }}/{{ loop.index0 }}/"+ui.value+"/playback");
                             }
                         });
                 });
@@ -38,15 +38,15 @@
       <div style="clear:both;"></div>
         {% if (lkey == "mutes") %}
             {% for mute in lvalue %}
-            <p style="float:left; margin-left:15px;margin-right:15px"><input id="muteplay{{ value['mixer'] }}{{ loop.index0 }}" type="checkbox" {% if mute %}checked{% endif %}></p>
+            <p style="float:left; margin-left:15px;margin-right:15px"><input id="muteplay{{ value['mixer'] }}{{ loop.index0 }}" type="checkbox" {% if mute %}checked{% endif %}>M</p>
             <script>
                 $(function() {
                     $( "#muteplay{{ value['mixer'] }}{{ loop.index0 }}" ).change(
                         function(e){
                             if ($(this).is(':checked')) {
-                                $.get("/mixers/muteplay/{{ card }}/{{ value['mixer'] }}/{{ loop.index0 }}/1");
+                                $.get("/mixers/mute/playback/{{ card }}/{{ value['mixer'] }}/{{ loop.index0 }}/1");
                             } else {
-                                $.get("/mixers/muteplay/{{ card }}/{{ value['mixer'] }}/{{ loop.index0 }}/0");
+                                $.get("/mixers/mute/playback/{{ card }}/{{ value['mixer'] }}/{{ loop.index0 }}/0");
                             }
                     });
                 });
@@ -60,4 +60,56 @@
 </div>
 
 <h2>Capture</h2>
+<div class="row">
+{% for volume, value in captures.items() recursive %}
+<div class="col-md-2">
+      <div style="clear:both;"></div>
+      <h3>{{ volume }}</h3>
+    <div id="eq">
+        {% for lkey, lvalue  in value.items() recursive %}
+        {% if (lkey == "levels") %}
+            {% for pegel in lvalue %}
+            <div style="float:left; margin:15px">
+                <span id="levelcap{{ value['mixer'] }}{{ loop.index0 }}" style="height: 200px; float:left;"></span>
+            </div>
+            <script>
+                $(function() {
+                    // setup graphic EQ
+                    $( "#levelcap{{ value['mixer'] }}{{ loop.index0 }}" ).slider({
+                            value: "{{ pegel }}",
+                            range: "min",
+            			    step: 5,
+                            animate: true,
+                            orientation: "vertical",
+                            change: function( event, ui ) {
+                                $.get("/mixers/volume/{{ card }}/{{ value['mixer'] }}/{{ loop.index0 }}/"+ui.value+"/capture");
+                            }
+                        });
+                });
+            </script>
+            {% endfor %}
+            {% endif %}
+      <div style="clear:both;"></div>
+        {% if (lkey == "mutes") %}
+            {% for mute in lvalue %}
+            <p style="float:left; margin-left:15px;margin-right:15px"><input id="mutecap{{ value['mixer'] }}{{ loop.index0 }}" type="checkbox" {% if mute %}checked{% endif %}>R</p>
+            <script>
+                $(function() {
+                    $( "#mutecap{{ value['mixer'] }}{{ loop.index0 }}" ).change(
+                        function(e){
+                            if ($(this).is(':checked')) {
+                                $.get("/mixers/mute/capture/{{ card }}/{{ value['mixer'] }}/{{ loop.index0 }}/1");
+                            } else {
+                                $.get("/mixers/mute/capture/{{ card }}/{{ value['mixer'] }}/{{ loop.index0 }}/0");
+                            }
+                    });
+                });
+            </script>
+            {% endfor %}
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endfor %}
+</div>
 {% endblock %}
