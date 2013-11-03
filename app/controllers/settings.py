@@ -16,6 +16,7 @@ from app.models.settings import Settings
 from app.forms.settings import SettingsForm, PasswordForm
 from sqlalchemy.exc import IntegrityError
 import alsaaudio
+import htpasswd
 from subprocess import call, Popen, PIPE
 
 
@@ -39,6 +40,11 @@ def settings():
         new_password = str(form_password.password.data)
         if new_password:
             call("echo 'studio:" + new_password + "' | chpasswd", shell=True)
+            with htpasswd.Basic("/opt/studio/webapp/htpasswd") as userdb:
+                try:
+                    userdb.change_password("studio", new_password)
+                except htpasswd.basic.UserNotExists, e:
+                    print e
             flash("Password changed", "success")
         else:
             if settings:

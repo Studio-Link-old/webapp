@@ -9,6 +9,7 @@ Bootstrap3, security and bugfix release
 - Optimize shutdown/reboot handling
 - HTTP basic access authentication
 - Capture Mixer
+- User Password Change
 
 ## v0.2.0-dev (04.10.2013)
 Full integrated Gstreamer Opus Webinterface with IPv6 peering.
