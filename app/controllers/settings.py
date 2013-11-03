@@ -39,7 +39,7 @@ def settings():
     if form.validate_on_submit():
         new_password = str(form_password.password.data)
         if new_password:
-            call("echo 'studio:" + new_password + "' | chpasswd", shell=True)
+            call("echo 'studio:" + new_password + "' | sudo chpasswd", shell=True)
             with htpasswd.Basic("/opt/studio/webapp/htpasswd") as userdb:
                 try:
                     userdb.change_password("studio", new_password)
