@@ -18,6 +18,7 @@ from app import tasks
 from sqlalchemy.exc import IntegrityError
 import socket
 import redis
+from subprocess import call
 
 mod = Blueprint('api', __name__, url_prefix='/api1')
 store = redis.Redis('127.0.0.1')
@@ -75,6 +76,8 @@ def cancel_call():
     if not peer or peer.status == STATUS['INVITE']:
         return jsonify({'result': 'denied'})
     store.set('lock_audio_stream', 'false')
+    call("sudo systemctl restart studio-celery", shell=True)
+    call("sudo systemctl restart studio-celery2", shell=True)
     return jsonify({'result': request.remote_addr})
 
 
