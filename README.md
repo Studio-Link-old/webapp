@@ -1,5 +1,7 @@
 # Studio Connect
 
+[![Build Status](https://travis-ci.org/studio-connect/webapp.png)](https://travis-ci.org/studio-connect/webapp)
+
 ## About
 
 Optimized to use ARM hardware (e.g. BeagleBone Black) for professional studio connections (podcasting and broadcasting) 
