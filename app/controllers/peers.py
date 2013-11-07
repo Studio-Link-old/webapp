@@ -19,7 +19,7 @@ from app import tasks
 from sqlalchemy.exc import IntegrityError
 import redis
 import urllib3
-from subprocess import call
+import subprocess
 
 http = urllib3.PoolManager(timeout=5)
 store = redis.Redis('127.0.0.1')
@@ -100,8 +100,8 @@ def cancel_call():
         http.request('GET', 'http://['+host+']/api1/cancel_call/')
     except:
         pass
-    call("sudo systemctl restart studio-celery", shell=True)
-    call("sudo systemctl restart studio-celery2", shell=True)
+    subprocess.call("sudo systemctl restart studio-celery", shell=True)
+    subprocess.call("sudo systemctl restart studio-celery2", shell=True)
 
     flash(u'Call canceld', 'warning')
     return redirect(url_for('peers.index'))

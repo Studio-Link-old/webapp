@@ -16,7 +16,7 @@ from app import db
 import unittest
 import tempfile
 import redis
-from mock import Mock
+from mock import Mock, patch
 
 
 class AppTestCase(unittest.TestCase):
@@ -145,11 +145,15 @@ class AppTestCase(unittest.TestCase):
         rv = self.client.get('/peers/')
         assert b'Test1' not in rv.data
 
-    def test_peers_call(self):
+    @patch('app.controllers.peers.subprocess')
+    def test_peers_call(self, subprocess):
+        subprocess = Mock
         self.add_peer()
         rv = self.client.get('/peers/call/1')
         assert b'Redirecting' in rv.data
+        # @TODO mock subprocess!
         rv = self.client.get('/peers/cancel_call/')
+        
 
     def test_peers_accept(self):
         self.test_api_peer_invite()
