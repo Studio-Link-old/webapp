@@ -76,8 +76,8 @@ def cancel_call():
     if not peer or peer.status == STATUS['INVITE']:
         return jsonify({'result': 'denied'})
     store.set('lock_audio_stream', 'false')
-    call("sudo systemctl restart studio-celery", shell=True)
-    call("sudo systemctl restart studio-celery2", shell=True)
+    call("sudo systemctl restart studio-celery &", shell=True)
+    call("sudo systemctl restart studio-celery2 &", shell=True)
     return jsonify({'result': request.remote_addr})
 
 

@@ -100,8 +100,8 @@ def cancel_call():
         http.request('GET', 'http://['+host+']/api1/cancel_call/')
     except:
         pass
-    subprocess.call("sudo systemctl restart studio-celery", shell=True)
-    subprocess.call("sudo systemctl restart studio-celery2", shell=True)
+    subprocess.call("sudo systemctl restart studio-celery &", shell=True)
+    subprocess.call("sudo systemctl restart studio-celery2 &", shell=True)
 
     flash(u'Call canceld', 'warning')
     return redirect(url_for('peers.index'))
