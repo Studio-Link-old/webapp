@@ -69,6 +69,7 @@ def rtp_tx(host):
 @celery.task
 def rtp_rx(host):
     device = device_init()
+    settings = Settings.query.get(1)
     subprocess.call("sudo ip6tables -A INPUT -p udp --source '" +
                     host + "' -j ACCEPT", shell=True)
     get_caps = True
@@ -83,8 +84,7 @@ def rtp_rx(host):
             if audio_caps_json['result']:
                 get_caps = False
     caps = audio_caps_json['result']
-    print caps
-    receiver = RTPreceiver(caps=caps, audio_device=device, ipv6=True)
+    receiver = RTPreceiver(caps=caps, audio_device=device, ipv6=True, bitrate=int(settings.bitrate), jitter_buffer=int(settings.jitter))
     receiver.run()
     while store.get('lock_audio_stream') == 'true':
         Gst.Bus.poll(receiver.pipeline.get_bus(), 0, 1)
