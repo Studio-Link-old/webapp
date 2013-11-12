@@ -25,8 +25,9 @@ class RTPreceiver:
 
         self.sink = Gst.ElementFactory.make("alsasink", None)
         self.sink.set_property('device', audio_device)
-        self.sink.set_property('buffer-time', 150000)
-        self.sink.set_property('latency-time', 10000)
+#        self.sink.set_property('buffer-time', 150000)
+#        self.sink.set_property('latency-time', 10000)
+        self.sink.set_property('sync', False)
 
         self.audioconvert = Gst.ElementFactory.make("audioconvert", None)
         self.audioresample = Gst.ElementFactory.make("audioresample", None)
