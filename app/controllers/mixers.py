@@ -46,15 +46,18 @@ def index(card=""):
             getrecs = {}
         if mixer.getvolume('playback'):
             playbacks[mixers[i]] = {'mixer': i,
-                              'levels': mixer.getvolume('playback'),
-                              'mutes': mutes}
+                                    'levels': mixer.getvolume('playback'),
+                                    'mutes': mutes}
         if mixer.getvolume('capture'):
             captures[mixers[i]] = {'mixer': i,
-                                  'levels': mixer.getvolume('capture'),
-                                  'mutes': getrecs}
+                                   'levels': mixer.getvolume('capture'),
+                                   'mutes': getrecs}
 
     return render_template('mixers/index.html',
-                           devices=devices, playbacks=playbacks, captures=captures, card=card)
+                           devices=devices,
+                           playbacks=playbacks,
+                           captures=captures,
+                           card=card)
 
 
 @mod.route('/volume/<card>/<mixeridx>/<channel>/<value>/<direction>')

@@ -11,7 +11,10 @@
 
 from flask import Blueprint, request, flash, url_for, redirect, Response
 from app import tasks
-import psutil, json, time, socket
+import psutil
+import json
+import time
+import socket
 
 mod = Blueprint('system', __name__, url_prefix='/system')
 
@@ -26,9 +29,11 @@ def shutdown():  # pragma: no cover
 
 @mod.route('/reboot')
 def reboot():  # pragma: no cover
-    flash("Rebooting... please wait. This will take approx. one minute.", "danger")
+    flash("Rebooting... please wait. This will take approx. one minute.",
+          "danger")
     tasks.system_reboot.delay()
     return redirect(url_for('index'))
+
 
 @mod.route('/raw')
 def raw():

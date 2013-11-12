@@ -92,6 +92,7 @@ def call(id):
     flash(u'RingRingRing ;-)', 'success')
     return redirect(url_for('peers.index'))
 
+
 @mod.route('/cancel_call/')
 def cancel_call():
     store.set('lock_audio_stream', 'false')
@@ -105,6 +106,7 @@ def cancel_call():
 
     flash(u'Call canceld', 'warning')
     return redirect(url_for('peers.index'))
+
 
 @mod.route('/accept/<id>')
 def accept(id):

@@ -90,4 +90,4 @@ def audio_caps():
     peer = Peer.query.filter_by(host=request.remote_addr).first()
     if not peer or peer.status == STATUS['INVITE']:
         return jsonify({'result': 'denied'})
-    return jsonify({'result': store.get('audio_caps')}) 
+    return jsonify({'result': store.get('audio_caps')})

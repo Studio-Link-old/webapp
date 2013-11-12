@@ -32,4 +32,3 @@ class AddForm(Form):
 class EditForm(Form):
     name = TextField('Name', [Required()])
     submit_button = SubmitField('Save')
-

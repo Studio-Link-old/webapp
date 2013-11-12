@@ -18,9 +18,10 @@ DEFAULT_CHOICES = []
 
 class SettingsForm(Form):
     device = SelectField('Audio device', choices=DEFAULT_CHOICES)
-    codec = SelectField('Codec', choices=[('opus', 'Opus'), ('pcm', 'PCM')], default='opus')
-    audio = SelectField('Audio',
-                        choices=[('voice', 'Voice'), ('music', 'Music')], default='music')
+    codec = SelectField('Codec', choices=[('opus', 'Opus'), ('pcm', 'PCM')],
+                        default='opus')
+    audio = SelectField('Audio', choices=[('voice', 'Voice'),
+                        ('music', 'Music')], default='music')
     complexity = SelectField('Complexity', choices=[
         ('1', '1'),
         ('2', '2'),
@@ -61,6 +62,7 @@ class SettingsForm(Form):
         ('2', '2ms'),
         ], default='20')
     submit_button = SubmitField('Save')
+
 
 class PasswordForm(Form):
     password = PasswordField('Password', [Required()])
