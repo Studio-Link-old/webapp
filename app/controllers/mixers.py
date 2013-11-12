@@ -38,12 +38,17 @@ def index(card=""):
 
     for i in range(len(mixers)):
         mixer = alsaaudio.Mixer(mixers[i], cardindex=idx)
+
         try:
             mutes = mixer.getmute()
-            getrecs = mixer.getrec()
         except alsaaudio.ALSAAudioError:
             mutes = {}
+
+        try:
+            getrecs = mixer.getrec()
+        except alsaaudio.ALSAAudioError:
             getrecs = {}
+
         if mixer.getvolume('playback'):
             playbacks[mixers[i]] = {'mixer': i,
                                     'levels': mixer.getvolume('playback'),
