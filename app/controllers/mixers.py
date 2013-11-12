@@ -42,8 +42,10 @@ def index(card=""):
             mutes = mixer.getmute()
             getrecs = mixer.getrec()
         except alsaaudio.ALSAAudioError:
-            pass
-        playbacks[mixers[i]] = {'mixer': i,
+            mutes = {}
+            getrecs = {}
+        if mixer.getvolume('playback'):
+            playbacks[mixers[i]] = {'mixer': i,
                               'levels': mixer.getvolume('playback'),
                               'mutes': mutes}
         if mixer.getvolume('capture'):
