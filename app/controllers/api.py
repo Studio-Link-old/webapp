@@ -78,6 +78,7 @@ def cancel_call():
     store.set('lock_audio_stream', 'false')
     call("sudo systemctl restart studio-celery &", shell=True)
     call("sudo systemctl restart studio-celery2 &", shell=True)
+    call("sudo systemctl start studio-beat &", shell=True)
     return jsonify({'result': request.remote_addr})
 
 

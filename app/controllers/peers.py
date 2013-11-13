@@ -21,7 +21,8 @@ import redis
 import urllib3
 import subprocess
 
-http = urllib3.PoolManager(timeout=5)
+http_small = urllib3.PoolManager(timeout=5)
+http_long = urllib3.PoolManager(timeout=10)
 store = redis.Redis('127.0.0.1')
 mod = Blueprint('peers', __name__, url_prefix='/peers')
 
@@ -40,8 +41,8 @@ def add():
     ipv4 = "Empty"
     ipv6 = "Empty"
     try:
-        ipv4 = http.request('GET', 'http://ipv4.studio-connect.de/').data
-        ipv6 = http.request('GET', 'http://ipv6.studio-connect.de/').data
+        ipv4 = http_small.request('GET', 'http://ipv4.studio-connect.de/').data
+        ipv6 = http_small.request('GET', 'http://ipv6.studio-connect.de/').data
     except:
         pass
 
@@ -98,11 +99,12 @@ def cancel_call():
     store.set('lock_audio_stream', 'false')
     host = store.get('audio_stream_host')
     try:
-        http.request('GET', 'http://['+host+']/api1/cancel_call/')
+        http_long.request('GET', 'http://['+host+']/api1/cancel_call/')
     except:
         pass
     subprocess.call("sudo systemctl restart studio-celery &", shell=True)
     subprocess.call("sudo systemctl restart studio-celery2 &", shell=True)
+    subprocess.call("sudo systemctl start studio-beat &", shell=True)
 
     flash(u'Call canceld', 'warning')
     return redirect(url_for('peers.index'))

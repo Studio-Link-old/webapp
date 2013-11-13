@@ -38,6 +38,7 @@ def device_init():
 
 @celery.task
 def rtp_tx(host):
+    subprocess.call("sudo systemctl stop studio-beat &", shell=True)
     device = device_init()
     settings = Settings.query.get(1)
     audio = True
