@@ -83,7 +83,7 @@ def delete(id):
 def call(id):
     peer = Peer.query.get(id)
     try:
-        http.request('GET', 'http://['+peer.host+']/api1/incoming_call/')
+        http_long.request('GET', 'http://['+peer.host+']/api1/incoming_call/')
     except:
         flash(u'Peer not reachable ;-(', 'danger')
     store.set('lock_audio_stream', 'true')
