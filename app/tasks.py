@@ -84,7 +84,12 @@ def rtp_rx(host):
             if audio_caps_json['result']:
                 get_caps = False
     caps = audio_caps_json['result']
-    receiver = RTPreceiver(caps=caps, audio_device=device, ipv6=True, bitrate=int(settings.bitrate), jitter_buffer=int(settings.jitter))
+    receiver = RTPreceiver(caps=caps,
+                           audio_device=device,
+                           transmitter_address=host,
+                           ipv6=True,
+                           bitrate=int(settings.bitrate),
+                           jitter_buffer=int(settings.jitter))
     receiver.run()
     while store.get('lock_audio_stream') == 'true':
         Gst.Bus.poll(receiver.pipeline.get_bus(), 0, 1)

@@ -16,7 +16,7 @@ Gst.init(None)
 
 
 class RTPreceiver:
-    def __init__(self, caps='', audio_device='hw:0', base_port=3000,
+    def __init__(self, caps='', audio_device='hw:0', base_port=3000, transmitter_address='::',
                  ipv6=True,  bitrate=64, jitter_buffer=150):
         """Sets up a new RTP receiver"""
 
@@ -54,20 +54,19 @@ class RTPreceiver:
         # Where our RTCP control messages come in
         self.udpsrc_rtcpin = Gst.ElementFactory.make('udpsrc', None)
         self.udpsrc_rtcpin.set_property('port', base_port+1)
+
         # And where we'll send RTCP Sender Reports
-        # (a black hole - we assume we can't contact the sender,
-        # and this is optional)
         self.udpsink_rtcpout = Gst.ElementFactory.make('udpsink', None)
         self.udpsink_rtcpout.set_property('sync', False)
         self.udpsink_rtcpout.set_property('async', False)
-
         self.udpsink_rtcpout.set_property('port', base_port+2)
+
         if (ipv6):
             self.udpsrc_rtpin.set_property('multicast-group', "::")
             self.udpsrc_rtcpin.set_property('multicast-group', "::")
-            self.udpsink_rtcpout.set_property('host', "::")
+            self.udpsink_rtcpout.set_property('host', transmitter_address)
         else:
-            self.udpsink_rtcpout.set_property('host', "0.0.0.0")
+            self.udpsink_rtcpout.set_property('host', transmitter_address)
 
         # And now we've got it all set up we need to add the elements
         self.pipeline.add(self.audioresample)
