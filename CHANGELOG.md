@@ -24,6 +24,7 @@ Bootstrap3, security and bugfix release
 ### Image
 
 - Mainline Linux Kernel 3.12
+- GStreamer 1.2.1
 - Enable IPv4 autoconfiguration (RFC 3927)
 - Unique hostname (based on mac hash)
 - Update function (SSH only at the moment)
