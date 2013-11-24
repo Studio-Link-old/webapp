@@ -106,7 +106,7 @@ def cancel_call():
     subprocess.call("sudo systemctl restart studio-celery2 &", shell=True)
     subprocess.call("sudo systemctl start studio-beat &", shell=True)
 
-    flash(u'Call canceld', 'warning')
+    flash(u'Call cancelled', 'warning')
     return redirect(url_for('peers.index'))
 
 
