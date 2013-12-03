@@ -1,5 +1,6 @@
 language: python
-services: redis
+services:
+  - redis-server
 python:
   - "2.7"
 virtualenv:
