@@ -5,7 +5,7 @@
 # |  \__ \/ __/ / / / __  / / __ \   / /   / __ \/ __ \/ __ \/ _ \/ ___/ __/ |
 # | ___/ / /_/ /_/ / /_/ / / /_/ /  / /___/ /_/ / / / / / / /  __/ /__/ /_   |
 # |/____/\__/\__,_/\__,_/_/\____/   \____/\____/_/ /_/_/ /_/\___/\___/\__/   |
-# |Copyright Sebastian Reimers 2013 studio-connect.de                        |
+# |Copyright Sebastian Reimers 2013 - 2014 studio-connect.de                 |
 # |License: BSD-2-Clause (see LICENSE File)                                  |
 # +--------------------------------------------------------------------------+
 
@@ -88,8 +88,8 @@ def call(id):
         flash(u'Peer not reachable ;-(', 'danger')
     store.set('lock_audio_stream', 'true')
     store.set('audio_stream_host', peer.host)
-    tasks.rtp_tx.delay(peer.host)
-    tasks.rtp_rx.delay(peer.host)
+    #tasks.rtp_tx.delay(peer.host)
+    #tasks.rtp_rx.delay(peer.host)
     flash(u'RingRingRing ;-)', 'success')
     return redirect(url_for('peers.index'))
 
