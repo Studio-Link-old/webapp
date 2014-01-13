@@ -13,7 +13,6 @@ from __future__ import absolute_import
 from app.celery import celery
 from app.models.settings import Settings
 from app.models.peers import Peer
-from gi.repository import Gst
 import redis
 import urllib3
 import alsaaudio
