@@ -1,7 +1,6 @@
 # Changelog
 
-## v13.11-alpha (xx.11.2013)
-Bootstrap3, security and bugfix release
+## v14.01-alpha (xx.01.2014)
 
 ### Webapp
 
@@ -13,6 +12,8 @@ Bootstrap3, security and bugfix release
 - HTTP basic access authentication
 - Capture Mixer
 - User Password Change
+- Baresip (replace gstreamer/openob)
+- New Peer concept (based on SIP User Agents)
 
 #### Bugfixes
 
@@ -24,9 +25,9 @@ Bootstrap3, security and bugfix release
 ### Image
 
 - Mainline Linux Kernel 3.12
-- GStreamer 1.2.1
+- Opus 1.1
 - Enable IPv4 autoconfiguration (RFC 3927)
-- Unique hostname (based on mac hash)
+- Unique hostname (based on mac)
 - Update function (SSH only at the moment)
 
 
