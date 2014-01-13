@@ -11,7 +11,6 @@
 
 from __future__ import absolute_import
 from app.celery import celery
-from app.libs.audio.play import Play
 from app.models.settings import Settings
 from app.models.peers import Peer
 from gi.repository import Gst
@@ -36,12 +35,6 @@ def device_init():
 
 @celery.task
 def play_audio():
-    device = device_init()
-    store.setex('lock_play_audio', 'true', '30')
-    player = Play(audio_device=device)
-    player.run()
-    player.loop()
-    store.setex('lock_play_audio', 'false', '30')
     return True
 
 
