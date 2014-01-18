@@ -34,3 +34,13 @@ Afterwards some strings might be marked as fuzzy (where it tried to figure out i
 `$ pip install coverage`
 
 `$ ../bin/nosetests --with-coverage --cover-html --cover-html-dir=../coverage --cover-package=app unittests.py`
+
+## SQLAlchemy Migrations with Alembic
+
+http://mattupstate.com/python/databases/2012/11/15/database-migrations-with-alembic-sqlalchemy-and-flask.html
+
+
+```
+$ alembic init alembic
+$ alembic revision --autogenerate -m "Added some table"
+```
