@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block body_container %}
+
+<h1>Accounts</h1>
+
+<p><a href="{{ url_for('accounts.add') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> New Account</a></p>
+
+{% if accounts %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Server</th>
+      <th>Profile</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for account in accounts %}
+    <tr>
+        <td>{{ account.name }}</td>
+        <td>{{ account.username }}@{{ account.server }}</td>
+        <td>Default</td>
+        <td>
+            <p>
+            <a href="/accounts/edit/{{ account.id }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+            <a href="/accounts/delete/{{ account.id }}" class="btn btn-danger btn-sm delete-button"><span class="glyphicon glyphicon-remove-circle"></span> Delete</a>
+            </p>
+        </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+No entries here so far...
+{% endif %}
+
+
+<script>
+ $(document).ready(function() {
+     $('.delete-button').click(function() {
+         var answer = confirm("Are you sure you want delete this item?");
+         if (answer) {
+             return true;
+         } else {
+             return false;
+         }
+     });
+ });
+</script>
+{% endblock %}

@@ -34,7 +34,7 @@ def index(card=""):
         mixers = alsaaudio.mixers(idx)
     except:
         devices = {"No ALSA Device detected"}
-        return render_template('mixer.html', devices=devices, volumes=volumes)
+        return render_template('mixers/index.html', devices=devices, playbacks=playbacks, captures=captures)
 
     for i in range(len(mixers)):
         mixer = alsaaudio.Mixer(mixers[i], cardindex=idx)

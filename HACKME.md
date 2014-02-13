@@ -43,4 +43,5 @@ http://mattupstate.com/python/databases/2012/11/15/database-migrations-with-alem
 ```
 $ alembic init alembic
 $ alembic revision --autogenerate -m "Added some table"
+$ alembic upgrade head
 ```
