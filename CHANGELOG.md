@@ -6,7 +6,7 @@
 
 #### Features
 
-- Update template to Bootstrap 3
+- Update template to Bootstrap 3.1
 - add ip6tables ruleset
 - Optimize shutdown/reboot handling
 - HTTP basic access authentication

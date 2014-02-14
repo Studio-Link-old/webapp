@@ -78,10 +78,10 @@
 	var count = 0, errors = 0;
 	var latency = 0;
 	var wait = 3000;
-	var margin = 250;
+	var margin = 500;
 	function ping() {
 		var time = +new Date;
-		heartbeaton();
+		//heartbeaton();
 		$.get('/system/raw', function(data) {
 			document.title = data.fqdn;
 			for (var i in data)
@@ -95,10 +95,10 @@
 				setTimeout(heartbeatoff, margin - t);
 				setTimeout(ping, wait - t);
 			} else if (t <= wait - margin) {
-				heartbeatoff();
+				//heartbeatoff();
 				setTimeout(ping, wait - t);
 			} else {
-				heartbeatoff();
+				//heartbeatoff();
 				setTimeout(ping, margin);
 			}
 		});
