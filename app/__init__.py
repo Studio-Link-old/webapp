@@ -35,11 +35,11 @@ app.register_blueprint(systemModule)
 from app.controllers.mixers import mod as mixersModule
 app.register_blueprint(mixersModule)
 
-from app.controllers.peers import mod as peersModule
-app.register_blueprint(peersModule)
-
 from app.controllers.accounts import mod as accountsModule
 app.register_blueprint(accountsModule)
+
+from app.controllers.calls import mod as callsModule
+app.register_blueprint(callsModule)
 
 from app.controllers.settings import mod as settingsModule
 app.register_blueprint(settingsModule)

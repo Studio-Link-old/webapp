@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block body_container %}
+
+<h2>Direct Call</h2>
+
+<form class="form-inline" role="form">
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Enter number or SIP address" size="25" />
+    </div>
+    <div class="form-group">
+        <select class="form-control">
+            <option>Local</option>
+            <option>My SIP Account 1</option>
+            <option>My SIP Account 2</option>
+            <option>My SIP Account 3</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-earphone"></span> Dial</button>
+</form>
+
+<hr />
+<h2>Call History</h2>
+
+{% endblock %}
