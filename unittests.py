@@ -44,7 +44,7 @@ class AppTestCase(unittest.TestCase):
 ##############################################################
     def test_app_empty_db(self):
         """Start with a blank database."""
-        rv = self.client.get('/peers/')
+        rv = self.client.get('/accounts/')
         assert b'No entries here so far' in rv.data
 
     def test_app_index(self):
@@ -55,6 +55,10 @@ class AppTestCase(unittest.TestCase):
         rv = self.client.get('/bigbangtheory')
         assert b'Ups, site not found!' in rv.data
 
+##############################################################
+# app.controllers.accounts Tests
+##############################################################
+    
 
 ##############################################################
 # app.controllers.mixers Tests
