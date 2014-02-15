@@ -11,13 +11,20 @@
 
 from flask.ext.wtf import Form
 from wtforms import TextField, SubmitField, PasswordField
-from wtforms.validators import Required
+from wtforms.validators import InputRequired
 import socket
 
 
-class AccountForm(Form):
-    name = TextField('Name', [Required()])
-    server = TextField('Server', [Required()])
-    username = TextField('Username', [Required()])
-    password = PasswordField('Password', [Required()])
+class AddForm(Form):
+    name = TextField('Name', [InputRequired()])
+    server = TextField('Server', [InputRequired()])
+    username = TextField('Username', [InputRequired()])
+    password = PasswordField('Password', [InputRequired()])
+    submit_button = SubmitField('Save')
+
+class EditForm(Form):
+    name = TextField('Name', [InputRequired()])
+    server = TextField('Server', [InputRequired()])
+    username = TextField('Username', [InputRequired()])
+    password = PasswordField('Password')
     submit_button = SubmitField('Save')

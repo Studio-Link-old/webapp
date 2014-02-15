@@ -13,7 +13,7 @@ from flask import Blueprint, render_template, redirect, request, url_for, flash
 
 from app import db
 from app.models.accounts import Accounts
-from app.forms.accounts import AccountForm
+from app.forms.accounts import AddForm, EditForm
 from app import tasks
 from sqlalchemy.exc import IntegrityError
 
@@ -27,7 +27,7 @@ def index():
 
 @mod.route('/add/', methods=('GET', 'POST'))
 def add():
-    form = AccountForm(request.form)
+    form = AddForm(request.form)
     if form.validate_on_submit():
         account = Accounts(form.data)
         db.session.add(account)
@@ -41,11 +41,20 @@ def add():
 @mod.route('/edit/<id>', methods=('GET', 'POST'))
 def edit(id):
     account = Accounts.query.get(id)
-    form = AccountForm(obj=account)
+    password = account.password
+    form = EditForm(obj=account)
     if form.validate_on_submit():
         form.populate_obj(account)
+        if not request.form['password']:
+            account.password = password
         db.session.add(account)
         db.session.commit()
         return redirect(url_for('accounts.index'))
     return render_template("accounts/form.html",
                            form=form, action='/accounts/edit/'+id)
+
+@mod.route('/delete/<id>')
+def delete(id):
+    db.session.delete(Accounts.query.get(id))
+    db.session.commit()
+    return redirect(url_for('accounts.index'))
