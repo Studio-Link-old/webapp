@@ -83,7 +83,6 @@
 		var time = +new Date;
 		//heartbeaton();
 		$.get('/system/raw', function(data) {
-			document.title = data.fqdn;
 			for (var i in data)
 				h[i] && h[i](data[i]);
 			// compensate for request time while allowing time for
