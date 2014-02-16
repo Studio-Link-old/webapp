@@ -5,7 +5,6 @@
 
 <p><a href="{{ url_for('accounts.add') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> New Account</a></p>
 
-{% if accounts %}
 <table class="table table-striped">
   <thead>
     <tr>
@@ -16,6 +15,14 @@
     </tr>
   </thead>
   <tbody>
+    {% if ipv6 %}
+    <tr>
+      <td>Local IPv6 SIP Account</td>
+      <td>studio@{{ ipv6 }}</td>
+      <td>Default</td>
+      <td>-</td>
+    </tr>
+    {% endif %}
     {% for account in accounts %}
     <tr>
         <td>{{ account.name }}</td>
@@ -31,10 +38,6 @@
     {% endfor %}
   </tbody>
 </table>
-{% else %}
-No entries here so far...
-{% endif %}
-
 
 <script>
  $(document).ready(function() {

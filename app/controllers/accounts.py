@@ -16,14 +16,25 @@ from app.models.accounts import Accounts
 from app.forms.accounts import AddForm, EditForm
 from app import tasks
 from sqlalchemy.exc import IntegrityError
+import urllib3
 
+http_small = urllib3.PoolManager(timeout=5)
 mod = Blueprint('accounts', __name__, url_prefix='/accounts')
 
 
 @mod.route('/')
 def index():
+    ipv4 = ""
+    ipv6 = ""
+    try:
+        #ipv4= http_small.request('GET', 'http://ipv4.studio-connect.de/').data
+        ipv6 = http_small.request('GET', 'http://ipv6.studio-connect.de/').data
+    except:
+        pass
     accounts = Accounts.query.all()
-    return render_template("accounts/index.html", accounts=accounts)
+    return render_template("accounts/index.html", accounts=accounts, ipv4=ipv4,
+                           ipv6=ipv6)
+
 
 @mod.route('/add/', methods=('GET', 'POST'))
 def add():
@@ -37,6 +48,7 @@ def add():
         except IntegrityError:
             flash(u'IntegrityError', 'danger')
     return render_template("accounts/form.html", form=form)
+
 
 @mod.route('/edit/<id>', methods=('GET', 'POST'))
 def edit(id):
@@ -52,6 +64,7 @@ def edit(id):
         return redirect(url_for('accounts.index'))
     return render_template("accounts/form.html",
                            form=form, action='/accounts/edit/'+id)
+
 
 @mod.route('/delete/<id>')
 def delete(id):

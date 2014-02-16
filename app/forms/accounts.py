@@ -22,6 +22,7 @@ class AddForm(Form):
     password = PasswordField('Password', [InputRequired()])
     submit_button = SubmitField('Save')
 
+
 class EditForm(Form):
     name = TextField('Name', [InputRequired()])
     server = TextField('Server', [InputRequired()])
