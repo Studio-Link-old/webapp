@@ -38,7 +38,6 @@ class AppTestCase(unittest.TestCase):
         os.close(self.db_fd)
         os.unlink(self.db_filename)
 
-
 ##############################################################
 # app Tests
 ##############################################################
@@ -58,7 +57,7 @@ class AppTestCase(unittest.TestCase):
 ##############################################################
 # app.controllers.accounts Tests
 ##############################################################
-    
+
 
 ##############################################################
 # app.controllers.mixers Tests

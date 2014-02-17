@@ -24,14 +24,6 @@ http = urllib3.PoolManager(timeout=3)
 store = redis.Redis('127.0.0.1')
 
 
-def device_init():
-    settings = Settings.query.get(1)
-    devices = alsaaudio.cards()
-    idx = devices.index(settings.device)
-    device = 'hw:' + str(idx)
-    return device
-
-
 @celery.task
 def play_audio():
     return True
@@ -48,27 +40,4 @@ def system_shutdown():
 def system_reboot():
     time.sleep(3)
     subprocess.call(["sudo", "reboot"])
-    return True
-
-
-@celery.task
-def api_peer_status(host):
-    r = http.request('GET', 'http://['+host+']/api1/peer_status/')
-    return True
-
-
-@celery.task
-def api_peer_invite(host):
-    r = http.request('GET', 'http://['+host+']/api1/peers/')
-    return True
-
-
-@celery.task
-def periodic_status_update():
-    peers = Peer.query.all()
-    for peer in peers:
-        try:
-            http.request('GET', 'http://['+peer.host+']/api1/peer_status/')
-        except:
-            pass
     return True
