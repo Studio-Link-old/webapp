@@ -12,7 +12,6 @@
 from __future__ import absolute_import
 from app.celery import celery
 from app.models.settings import Settings
-from app.models.peers import Peer
 import redis
 import urllib3
 import alsaaudio
