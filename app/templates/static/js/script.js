@@ -1,27 +1,33 @@
 (function() {
-	var g = {}; // graphs
-	var u = {}; // utility functions
-	u.padt = function(s) {
-		return ('00' + s).slice(-2);
-	};
-	u.seconds = function(n) {
-		var d = Math.floor(n / 86400);
-		var h = Math.floor(n / 3600) % 24;
-		var m = Math.floor(n / 60) % 60;
-		var s = Math.floor(n) % 60;
-		return [d, u.padt(h), u.padt(m), u.padt(s)].join(':');
-	};
-	u.bytes = function(n, decimal) {
-		var base = decimal ? 10 : 2;
-		var exp = decimal ? 3 : 10;
-		var units = decimal ? ['B', 'KB', 'MB', 'GB', 'TB', 'PB'] :
-		                      ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'];
-		for (i = 5; i >= 0; i--)
-			if (n >= Math.pow(base, i * exp) - 1)
-				return (n / Math.pow(base, i * exp)).
-					toFixed(2) + ' ' + units[i];
-	};
-	u.percent = function(n) {
+    var g = {}; // graphs
+    var u = {}; // utility functions
+    u.padt = function(s) {
+        return ('00' + s).slice(-2);
+    };
+    u.seconds = function(n) {
+        var d = Math.floor(n / 86400);
+        var h = Math.floor(n / 3600) % 24;
+        var m = Math.floor(n / 60) % 60;
+        var s = Math.floor(n) % 60;
+        return [d, u.padt(h), u.padt(m), u.padt(s)].join(':');
+    };
+    u.bytes = function(n, decimal) {
+        var base = decimal ? 10 : 2;
+        var exp = decimal ? 3 : 10;
+        var units = decimal ? ['B', 'KB', 'MB', 'GB', 'TB', 'PB'] :
+                              ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'];
+        if (n < 0) {
+            n = -n;
+            s = '-';
+        } else {
+            s = '';
+        }
+        for (i = 5; i >= 0; i--)
+            if (n >= Math.pow(base, i * exp) - 1)
+                return s + (n / Math.pow(base, i * exp)).
+                    toFixed(2) + ' ' + units[i];
+    };
+    u.percent = function(n) {
 		return n.toFixed(1) + '%';
 	};
 	var h = {}; // data handlers
