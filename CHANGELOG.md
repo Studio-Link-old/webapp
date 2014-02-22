@@ -6,7 +6,7 @@
 
 #### Features
 
-- Update template to Bootstrap 3.1
+- Update template to Bootstrap 3.1.1
 - add ip6tables ruleset
 - Optimize shutdown/reboot handling
 - HTTP basic access authentication
@@ -17,10 +17,8 @@
 
 #### Bugfixes
 
-- Call Unhandled Exception (#5)
 - Firefox glyphicons bug (#1)
-- Exchange audio caps between peers (#2)
-- Receiver settings not implemented (jitter, bitrate) (#11)
+- Dashboard javascript title overwrite
 
 ### Image
 
@@ -29,6 +27,7 @@
 - Enable IPv4 autoconfiguration (RFC 3927)
 - Unique hostname (based on mac)
 - Update function (SSH only at the moment)
+- Cleanup old systemd scripts
 
 
 ## v0.2.0-dev (04.10.2013)
