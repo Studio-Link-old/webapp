@@ -13,20 +13,29 @@ from __future__ import absolute_import
 from app.celery import celery
 from app.models.settings import Settings
 import redis
-import urllib3
 import alsaaudio
 import subprocess
 import time
 import json
+import os
+from jinja2 import Environment, FileSystemLoader
 
-http = urllib3.PoolManager(timeout=3)
 store = redis.Redis('127.0.0.1')
+env = Environment(loader=FileSystemLoader('app/templates'))
 
 
 @celery.task
 def play_audio():
     return True
 
+@celery.task
+def account_config(accounts):
+    template = env.get_template('config/baresip_accounts.cfg')
+    output_from_parsed_template = template.render(accounts = accounts)
+
+    # to save the results
+    with open(os.getenv('HOME') + "/.baresip/accounts", "wb") as fh:
+        fh.write(output_from_parsed_template)
 
 @celery.task
 def system_shutdown():

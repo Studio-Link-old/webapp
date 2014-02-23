@@ -32,6 +32,7 @@ def index():
     except:
         pass
     accounts = Accounts.query.all()
+    tasks.account_config.delay(accounts)
     return render_template("accounts/index.html", accounts=accounts, ipv4=ipv4,
                            ipv6=ipv6)
 
