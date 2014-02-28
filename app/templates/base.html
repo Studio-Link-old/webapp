@@ -19,6 +19,8 @@
 {% block scripts %}
 <script src="{{bootstrap_find_resource('js/bootstrap.js', cdn='bootstrap')}}"></script>
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script src="/static/js/bootbox.min.js"></script>
+<script src="/static/js/events.js"></script>
 {% endblock %}
 
 {% block navbar %}
@@ -50,34 +52,13 @@
 </div>
 {% endblock %}
 
-
-
 {% block content %}
 <div class="container">
-    <div class="modal fade" id="callModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Incoming CALL</h4>
-                </div>
-                <div class="modal-body">
-                    <p>From: studio@example.net</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Reject</button>
-                    <button type="button" class="btn btn-primary">Accept</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
     {% for category, msg in get_flashed_messages(with_categories=true) %}
     <div class="alert alert-{{ category }}">{{ msg }}</div>
     {% endfor %}
     {% block body_container %}{% endblock %}
     <hr />
-    <footer>© 2014 <a href="http://studio-connect.de">Studio Connect</a> Version: 14.2.0-dev</footer>
+    <footer>© 2013-2014 <a href="http://studio-connect.de">Studio Connect</a> Version: 14.3.0-dev</footer>
 </div>
 {% endblock %}
-

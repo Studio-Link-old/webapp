@@ -14,7 +14,7 @@ from app import db
 
 class Accounts(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50))
+    name = db.Column(db.String(50), unique=True)
     server = db.Column(db.String(100))
     username = db.Column(db.String(100))
     password = db.Column(db.String(50))

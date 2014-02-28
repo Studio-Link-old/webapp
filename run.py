@@ -1,3 +1,3 @@
 #!/usr/bin/env python
 from app import app
-app.run(host='::')
+app.run(host='::', threaded=True)

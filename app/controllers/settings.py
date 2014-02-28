@@ -23,7 +23,7 @@ from subprocess import call, Popen, PIPE
 mod = Blueprint('settings', __name__, url_prefix='/settings')
 
 
-@mod.route('/', methods=["GET", "POST"])
+@mod.route('/', methods=['GET', 'POST'])
 def settings():
     """ show settings """
     settings = Settings.query.get(1)
@@ -41,25 +41,25 @@ def settings():
         if new_password:
             call("echo 'studio:" + new_password + "' | sudo chpasswd",
                  shell=True)
-            with htpasswd.Basic("/opt/studio/webapp/htpasswd") as userdb:
+            with htpasswd.Basic('/opt/studio/webapp/htpasswd') as userdb:
                 try:
-                    userdb.change_password("studio", new_password)
+                    userdb.change_password('studio', new_password)
                 except htpasswd.basic.UserNotExists, e:
                     print e
-            flash("Password changed", "success")
+            flash('Password changed', 'success')
         else:
             if settings:
                 form.populate_obj(settings)
                 db.session.commit()
-                flash("Settings changed", "success")
+                flash('Settings changed', 'success')
             else:
                 settings = Settings(form.device.data)
                 db.session.add(settings)
                 db.session.commit()
-                flash("Settings added", "success")
+                flash('Settings added', 'success')
 
-    p = Popen(["uname", "-m"], stdout=PIPE, stderr=PIPE)
+    p = Popen(['uname', '-m'], stdout=PIPE, stderr=PIPE)
     platform, errors = p.communicate()
 
-    return render_template("settings.html", form=form, platform=platform,
+    return render_template('settings.html', form=form, platform=platform,
                            form_password=form_password)

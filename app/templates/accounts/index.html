@@ -10,6 +10,7 @@
     <tr>
       <th>Name</th>
       <th>Server</th>
+      <th>Status</th>
       <th>Profile</th>
       <th>Actions</th>
     </tr>
@@ -19,6 +20,7 @@
     <tr>
       <td>Local IPv6 SIP Account</td>
       <td>studio@{{ ipv6 }}</td>
+      <td><span class="label label-success">Online</span></td>
       <td>Default</td>
       <td>-</td>
     </tr>
@@ -27,6 +29,7 @@
     <tr>
         <td>{{ account.name }}</td>
         <td>{{ account.username }}@{{ account.server }}</td>
+        <td><span class="label label-success">Online</span></td>
         <td>Default</td>
         <td>
             <p>

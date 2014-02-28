@@ -18,7 +18,6 @@ import tempfile
 import redis
 from mock import Mock, patch
 
-
 class AppTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(self):
@@ -30,6 +29,7 @@ class AppTestCase(unittest.TestCase):
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////' + \
                                                 self.db_filename
         app.config['TESTING'] = True
+        app.testing = True
         app.config['WTF_CSRF_ENABLED'] = False
         self.client = app.test_client()
         db.create_all()
@@ -53,6 +53,25 @@ class AppTestCase(unittest.TestCase):
     def test_app_404_not_found(self):
         rv = self.client.get('/bigbangtheory')
         assert b'Ups, site not found!' in rv.data
+
+##############################################################
+# app.controllers.calls Tests
+##############################################################
+
+    @patch('app.controllers.calls.time')
+    @patch('app.controllers.calls.requests')
+    def test_app_calls_events_incoming(self, requests, time):
+        requests.get.return_value = Mock(content = '0:00:00  INCOMING  sip:studio@lan')
+        rv = self.client.get('/calls/events')
+        assert b'{"INCOMING": true}' in rv.data
+
+    @patch('app.controllers.calls.time')
+    @patch('app.controllers.calls.requests')
+    def test_app_calls_events_established(self, requests, time):
+        requests.get.return_value = Mock(content = '0:00:06  ESTABLISHED  sip:studio@lan')
+        rv = self.client.get('/calls/events')
+        assert b'{"ESTABLISHED": true}' in rv.data
+
 
 ##############################################################
 # app.controllers.accounts Tests

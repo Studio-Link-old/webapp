@@ -28,14 +28,16 @@ env = Environment(loader=FileSystemLoader('app/templates'))
 def play_audio():
     return True
 
+
 @celery.task
 def account_config(accounts):
     template = env.get_template('config/baresip_accounts.cfg')
-    output_from_parsed_template = template.render(accounts = accounts)
+    output_from_parsed_template = template.render(accounts=accounts)
 
     # to save the results
     with open(os.getenv('HOME') + "/.baresip/accounts", "wb") as fh:
         fh.write(output_from_parsed_template)
+
 
 @celery.task
 def system_shutdown():
