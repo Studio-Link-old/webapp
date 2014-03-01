@@ -1,6 +1,7 @@
 //Long Polling Call Events
 function checkCallEvents()
 {
+
     $.ajax({
         type: "GET",
     url: "/calls/events",
@@ -18,4 +19,6 @@ function checkCallEvents()
     });
 };
 
-$(checkCallEvents());
+jQuery(document).ready(function () {
+    setTimeout("checkCallEvents()", 2000);
+});
