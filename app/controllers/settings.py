@@ -17,8 +17,6 @@ from app.forms.settings import SettingsForm, PasswordForm
 from sqlalchemy.exc import IntegrityError
 import alsaaudio
 import htpasswd
-from subprocess import call, Popen, PIPE
-
 
 mod = Blueprint('settings', __name__, url_prefix='/settings')
 
@@ -58,8 +56,6 @@ def settings():
                 db.session.commit()
                 flash('Settings added', 'success')
 
-    p = Popen(['uname', '-m'], stdout=PIPE, stderr=PIPE)
-    platform, errors = p.communicate()
 
-    return render_template('settings.html', form=form, platform=platform,
+    return render_template('settings.html', form=form,
                            form_password=form_password)

@@ -11,5 +11,5 @@ redis==2.9.1
 htpasswd==2.0
 urllib3==1.7.1
 requests==2.2.1
-flup==1.0.3.dev-20110405
 psutil==1.2.1
+gevent==1.0
