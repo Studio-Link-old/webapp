@@ -57,6 +57,5 @@ def settings():
                 db.session.commit()
                 flash('Settings added', 'success')
 
-
     return render_template('settings.html', form=form,
                            form_password=form_password)

@@ -13,7 +13,7 @@ from flask import Blueprint, render_template, url_for, redirect, flash
 import alsaaudio
 from app import tasks
 from app.models.settings import Settings
-import redis
+import requests
 
 mod = Blueprint('mixers', __name__, url_prefix='/mixers')
 
@@ -96,10 +96,12 @@ def mute(direction="playback", card="", mixeridx=0, channel=0, value=0):
     return ""
 
 
-@mod.route('/play/')
-def play():
-    flash("You should hear something...")
-    store = redis.Redis('127.0.0.1')
-    if store.get('lock_play_audio') != 'true':
-        tasks.play_audio.delay()
+@mod.route('/play/<status>')
+def play(status=False):
+    if status:
+        r = requests.get('http://127.0.0.1:8000/?a')  # Start Audio Loop
+        flash("You should hear something...")
+    else:
+        r = requests.get('http://127.0.0.1:8000/?A')  # Stop Audio Loop
+        flash("The audio loop stops...")
     return redirect(url_for('mixers.index'))
