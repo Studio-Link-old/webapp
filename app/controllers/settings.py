@@ -17,6 +17,7 @@ from app.forms.settings import SettingsForm, PasswordForm
 from sqlalchemy.exc import IntegrityError
 import alsaaudio
 import htpasswd
+from subprocess import call
 
 mod = Blueprint('settings', __name__, url_prefix='/settings')
 
