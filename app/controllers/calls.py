@@ -23,6 +23,11 @@ def index():
     return render_template('calls/index.html')
 
 
+@mod.route('/dial')
+def dial():
+    return render_template('calls/index.html')
+
+
 @mod.route('/events')
 def events():
     count = 0
