@@ -11,6 +11,7 @@
 
 from flask import Blueprint, render_template, redirect, request, url_for, flash
 from app import db
+from app.models.accounts import Accounts
 import time
 import json
 import requests
@@ -20,7 +21,8 @@ mod = Blueprint('calls', __name__, url_prefix='/calls')
 
 @mod.route('/')
 def index():
-    return render_template('calls/index.html')
+    accounts = Accounts.query.all()
+    return render_template('calls/index.html', accounts=accounts)
 
 
 @mod.route('/dial')
