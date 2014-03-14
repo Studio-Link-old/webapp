@@ -15,14 +15,21 @@ from app.models.accounts import Accounts
 import time
 import json
 import requests
+import urllib3
 
+http_small = urllib3.PoolManager(timeout=1)
 mod = Blueprint('calls', __name__, url_prefix='/calls')
 
 
 @mod.route('/')
 def index():
     accounts = Accounts.query.all()
-    return render_template('calls/index.html', accounts=accounts)
+    ipv6 = ""
+    try:
+        ipv6 = http_small.request('GET', 'http://ipv6.studio-connect.de/').data
+    except:
+        pass
+    return render_template('calls/index.html', accounts=accounts,ipv6=ipv6)
 
 
 @mod.route('/dial')

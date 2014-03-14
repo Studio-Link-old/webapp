@@ -18,7 +18,7 @@ from app import tasks
 from sqlalchemy.exc import IntegrityError
 import urllib3
 
-http_small = urllib3.PoolManager(timeout=5)
+http_small = urllib3.PoolManager(timeout=1)
 mod = Blueprint('accounts', __name__, url_prefix='/accounts')
 
 
