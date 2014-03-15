@@ -102,6 +102,6 @@ def play(status=False):
         r = requests.get('http://127.0.0.1:8000/?a')  # Start Audio Loop
         flash("You should hear something...")
     else:
-        r = requests.get('http://127.0.0.1:8000/?A')  # Stop Audio Loop
+        r = requests.get('http://127.0.0.1:8000/?e')  # Stop Audio Loop
         flash("The audio loop stops...")
     return redirect(url_for('mixers.index'))
