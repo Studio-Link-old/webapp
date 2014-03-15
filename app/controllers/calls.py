@@ -44,7 +44,7 @@ def index():
 
     if form.validate_on_submit():
         try:
-            r = requests.get('http://127.0.0.1:8000/?d')  # List active calls
+            r = requests.get('http://127.0.0.1:8000/?d'+form.number.data)
         except:
             pass
         store.set('call_number', form.number.data)
@@ -61,7 +61,7 @@ def index():
 
 @mod.route('/dial')
 def dial():
-    r = ""
+    r = "Could not connect to baresip."
     try:
         r = requests.get('http://127.0.0.1:8000/?l')  # List active calls
     except:
@@ -75,11 +75,27 @@ def dial():
 
 @mod.route('/events')
 def events():
+    key_timeout = '1800'
+    event_procs = store.get('event_procs')
+    if not event_procs:
+        event_procs = 1
+    else:
+        event_procs = int(event_procs) + 1
+    store.setex('event_procs', event_procs, key_timeout)
+
+    # Long polling (timeout 20 seconds)
     count = 0
-    # Long polling
-    # @TODO: limit concurrent processes (max. 8), if reached quit the oldest
-    while count < 20:
-        time.sleep(1)
+    while count < 10:
+        time.sleep(2)
+
+        # Limit processes
+        event_procs = int(store.get('event_procs'))
+        if event_procs >= 4:
+            event_procs = event_procs - 1
+            store.setex('event_procs', event_procs, key_timeout)
+            return json.dumps({})
+
+        # Get baresip status
         try:
             r = requests.get('http://127.0.0.1:8000/?l')  # List active calls
         except:
@@ -90,4 +106,9 @@ def events():
             elif 'ESTABLISHED' in r.content:
                 return json.dumps({'ESTABLISHED': True})
         count = count + 1
+
+    # Cleanup
+    event_procs = int(store.get('event_procs'))
+    event_procs = event_procs - 1
+    store.setex('event_procs', event_procs, key_timeout)
     return json.dumps({})
