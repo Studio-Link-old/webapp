@@ -1,6 +1,6 @@
 Flask==0.10.1
 Flask-Babel==0.9
-Flask-Bootstrap==3.1.1.1
+Flask-Bootstrap==3.1.1.2
 Flask-SQLAlchemy==1.0
 Flask-WTF==0.9.4
 alembic==0.6.3
@@ -9,7 +9,7 @@ celery==3.1.9
 pyalsaaudio==0.7
 redis==2.9.1
 htpasswd==2.0
-urllib3==1.7.1
+urllib3==1.8
 requests==2.2.1
-psutil==1.2.1
+psutil==2.0.0
 gevent==1.0
