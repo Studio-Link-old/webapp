@@ -63,7 +63,7 @@ def index():
 def dial():
     r = "Could not connect to baresip."
     try:
-        r = requests.get('http://127.0.0.1:8000/?l')  # List active calls
+        r = requests.get('http://127.0.0.1:8000/?l').content  # List active calls
     except:
         pass
     return render_template('calls/dial.html',
