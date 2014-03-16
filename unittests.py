@@ -66,6 +66,9 @@ class AppTestCase(unittest.TestCase):
 ##############################################################
 # app.controllers.calls Tests
 ##############################################################
+    def test_calls(self):
+        rv = self.client.get('/calls/')
+        assert b'Dial' in rv.data
 
     @patch('app.controllers.calls.time')
     @patch('app.controllers.calls.requests')
@@ -81,7 +84,17 @@ class AppTestCase(unittest.TestCase):
         rv = self.client.get('/calls/events')
         assert b'{"ESTABLISHED": true}' in rv.data
 
-    #@TODO:   "0:00:00  OUTGOING  sip:test@test.de"
+    @patch('app.controllers.calls.time')
+    @patch('app.controllers.calls.requests')
+    def test_app_calls_events_process_limit(self, requests, time):
+        requests.get.return_value = Mock(content = '0:00:06  ESTABLISHED  sip:studio@lan')
+        self.store.setex('event_procs', '4', 1800)
+        rv = self.client.get('/calls/events')
+        assert b'{}' in rv.data
+        requests.get.return_value = Mock(content = '')
+        self.store.setex('event_procs', '2', 1800)
+        rv = self.client.get('/calls/events')
+        assert b'{}' in rv.data
 
 ##############################################################
 # app.controllers.accounts Tests
