@@ -1,6 +1,7 @@
 # Studio Connect
 
 [![Build Status](https://travis-ci.org/studio-connect/webapp.png)](https://travis-ci.org/studio-connect/webapp)
+[![Coverage Status](https://coveralls.io/repos/studio-connect/webapp/badge.png)](https://coveralls.io/r/studio-connect/webapp)
 
 ## About
 
