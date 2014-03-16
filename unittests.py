@@ -38,6 +38,15 @@ class AppTestCase(unittest.TestCase):
         os.close(self.db_fd)
         os.unlink(self.db_filename)
 
+    def add_account(self):
+        rv = self.client.post('/accounts/add/', data=dict(
+            name='Test1',
+            server='127.0.0.1',
+            username='test',
+            password='secret'
+            ))
+        return rv
+
 ##############################################################
 # app Tests
 ##############################################################
@@ -77,7 +86,32 @@ class AppTestCase(unittest.TestCase):
 ##############################################################
 # app.controllers.accounts Tests
 ##############################################################
+    def test_accounts_add(self):
+        self.add_account()
+        rv = self.client.get('/accounts/')
+        assert b'Test1' in rv.data
 
+    def test_accounts_edit(self):
+        self.add_account()
+        rv = self.client.get('/accounts/edit/1')
+        assert b'Add SIP Account' in rv.data
+
+        self.client.post('/accounts/edit/1', data=dict(
+            name='Test2',
+            server='127.0.0.1',
+            username='test',
+            password=''
+            ))
+
+        rv = self.client.get('/accounts/')
+        assert b'Test1' not in rv.data
+        assert b'Test2' in rv.data
+
+    def test_accounts_delete(self):
+        self.add_account()
+        self.client.get('/accounts/delete/1')
+        rv = self.client.get('/accounts/')
+        assert b'Test1' not in rv.data
 
 ##############################################################
 # app.controllers.mixers Tests
