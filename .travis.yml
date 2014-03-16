@@ -7,6 +7,11 @@ virtualenv:
   system_site_packages: true
 before_install:
   - sudo apt-get install libasound2-dev
+
+after_success:
+  - pip install coveralls
+  - coverage run --source=app unittests.py
+  - coveralls
 # command to install dependencies
 install: "pip install -r requirements.txt"
 # command to run tests
