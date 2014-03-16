@@ -136,14 +136,17 @@ class AppTestCase(unittest.TestCase):
 # app.controllers.settings Tests
 ##############################################################
 
-# @TODO
+    def test_settings(self):
+        rv = self.client.get('/settings/')
+        assert b'Device' in rv.data
 
 ##############################################################
 # app.controllers.system Tests
 ##############################################################
 
-# @TODO
-
+    def test_system_raw(self):
+        rv = self.client.get('/system/raw')
+        assert b'cpuusage' in rv.data
 
 if __name__ == '__main__':
     unittest.main()
