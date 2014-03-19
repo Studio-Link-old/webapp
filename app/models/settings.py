@@ -13,6 +13,7 @@ from app import db
 
 
 class Settings(db.Model):
+
     id = db.Column(db.Integer, primary_key=True)
     device = db.Column(db.String(120), unique=True)
     codec = db.Column(db.String(120), unique=True)

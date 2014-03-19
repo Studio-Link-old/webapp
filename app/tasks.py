@@ -11,12 +11,9 @@
 
 from __future__ import absolute_import
 from app.celery import celery
-from app.models.settings import Settings
 import redis
-import alsaaudio
 import subprocess
 import time
-import json
 import os
 from jinja2 import Environment, FileSystemLoader
 

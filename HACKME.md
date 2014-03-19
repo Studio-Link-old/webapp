@@ -26,6 +26,14 @@ Afterwards some strings might be marked as fuzzy (where it tried to figure out i
 
 `$ pep8 --first app`
 
+
+## Pylint
+
+`$ pylint -E app`
+
+`$ pylint -d all -e unused-import -r no app`
+
+
 ## Check coverage
 
 `$ pip install nose`
@@ -33,6 +41,7 @@ Afterwards some strings might be marked as fuzzy (where it tried to figure out i
 `$ pip install coverage`
 
 `$ nosetests --with-coverage --cover-html --cover-html-dir=../coverage --cover-package=app unittests.py`
+
 
 ## SQLAlchemy Migrations with Alembic
 

@@ -9,7 +9,7 @@
 # |License: BSD-2-Clause (see LICENSE File)                                  |
 # +--------------------------------------------------------------------------+
 
-from flask.ext.wtf import Form
+from flask_wtf import Form
 from wtforms import TextField, SelectField, SubmitField, PasswordField
 from wtforms.validators import Required, ValidationError
 

@@ -10,7 +10,6 @@
 # +--------------------------------------------------------------------------+
 
 from flask import Blueprint, render_template, redirect, request, url_for, flash
-from app import db
 from app.models.accounts import Accounts
 from app.forms.dial import DialForm
 import time
@@ -63,7 +62,7 @@ def index():
 def dial():
     r = "Could not connect to baresip."
     try:
-        r = requests.get('http://127.0.0.1:8000/?l').content  # List active calls
+        r = requests.get('http://127.0.0.1:8000/?l').content  # Active calls
     except:
         pass
     return render_template('calls/dial.html',
@@ -97,7 +96,7 @@ def events():
 
         # Get baresip status
         try:
-            r = requests.get('http://127.0.0.1:8000/?l')  # List active calls
+            r = requests.get('http://127.0.0.1:8000/?l')  # Active calls
         except:
             pass
         else:

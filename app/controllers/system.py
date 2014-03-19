@@ -13,8 +13,6 @@ from flask import Blueprint, request, flash, url_for, redirect, Response
 from app import tasks
 import psutil
 import json
-import time
-import socket
 
 mod = Blueprint('system', __name__, url_prefix='/system')
 

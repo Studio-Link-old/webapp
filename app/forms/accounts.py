@@ -9,10 +9,9 @@
 # |License: BSD-2-Clause (see LICENSE File)                                  |
 # +--------------------------------------------------------------------------+
 
-from flask.ext.wtf import Form
+from flask_wtf import Form
 from wtforms import TextField, SubmitField, PasswordField
 from wtforms.validators import InputRequired
-import socket
 
 
 class AddForm(Form):

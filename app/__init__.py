@@ -10,9 +10,9 @@
 # +--------------------------------------------------------------------------+
 
 from flask import Flask, render_template
-from flask.ext.bootstrap import Bootstrap
-from flask.ext.babel import Babel
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_bootstrap import Bootstrap
+from flask_babel import Babel
+from flask_sqlalchemy import SQLAlchemy
 from subprocess import Popen, PIPE, STDOUT
 
 app = Flask(__name__, static_folder='templates/static')

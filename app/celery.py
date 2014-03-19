@@ -12,7 +12,6 @@
 from __future__ import absolute_import
 
 from celery import Celery
-from datetime import timedelta
 
 celery = Celery('app.celery',
                 broker='redis://localhost:6379/0',
