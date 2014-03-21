@@ -56,7 +56,6 @@ def settings():
                 db.session.add(settings)
                 db.session.commit()
                 flash('Settings added', 'success')
-            www
             # Generate config
             tasks.baresip_config.delay(settings)
 
