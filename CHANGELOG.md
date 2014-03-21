@@ -12,7 +12,7 @@
 - HTTP basic access authentication
 - Capture Mixer
 - User Password Change
-- Baresip (replace gstreamer/openob)
+- Baresip 0.4.10 (replace gstreamer/openob)
 - New Peer concept (based on SIP User Agents)
 
 #### Bugfixes
@@ -22,7 +22,7 @@
 
 ### Image
 
-- Mainline Linux Kernel 3.12
+- Mainline Linux Kernel 3.13
 - Opus 1.1
 - Enable IPv4 autoconfiguration (RFC 3927)
 - Unique hostname (based on mac)
