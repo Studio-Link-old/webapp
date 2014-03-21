@@ -35,7 +35,7 @@ def account_config(accounts):
 
 @celery.task
 def baresip_config(settings):
-    template = env.get_template('config/baresip_config.cfg')
+    template = env.get_template('config/baresip.cfg')
     output_from_parsed_template = template.render(settings=settings)
 
     # to save the results
