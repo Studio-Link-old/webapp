@@ -2,13 +2,13 @@
 {% block body_container %}
 
 <ul class="nav nav-tabs">
-    <li class="active"><a href="#home" data-toggle="tab">Device</a></li>
+    <li class="active"><a href="#device" data-toggle="tab">Device</a></li>
     <li><a href="#update" data-toggle="tab">Update</a></li>
     <li><a href="#password" data-toggle="tab">Password</a></li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane active" id="home"><br />{{ wtf.quick_form(form, action) }}</div>
+    <div class="tab-pane active" id="device"><br />{{ wtf.quick_form(form, action) }}</div>
     <div class="tab-pane" id="update">
         {% if (platform == "armv7l") %}
         Make updates

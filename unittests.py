@@ -130,7 +130,9 @@ class AppTestCase(unittest.TestCase):
 # app.controllers.mixers Tests
 ##############################################################
 
-# @TODO
+    def test_mixers(self):
+        rv = self.client.get('/mixers/')
+        assert b'Mixer' in rv.data
 
 ##############################################################
 # app.controllers.settings Tests

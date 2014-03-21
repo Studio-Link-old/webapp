@@ -11,11 +11,11 @@
 
 from __future__ import absolute_import
 from app.celery import celery
+from jinja2 import Environment, FileSystemLoader
 import redis
 import subprocess
 import time
 import os
-from jinja2 import Environment, FileSystemLoader
 
 store = redis.Redis('127.0.0.1')
 env = Environment(loader=FileSystemLoader('app/templates'))
@@ -28,6 +28,18 @@ def account_config(accounts):
 
     # to save the results
     with open(os.getenv('HOME') + "/.baresip/accounts", "wb") as fh:
+        fh.write(output_from_parsed_template)
+
+    subprocess.call(["sudo", "systemctl", "restart", "baresip"])
+
+
+@celery.task
+def baresip_config(settings):
+    template = env.get_template('config/baresip_config.cfg')
+    output_from_parsed_template = template.render(settings=settings)
+
+    # to save the results
+    with open(os.getenv('HOME') + "/.baresip/config", "wb") as fh:
         fh.write(output_from_parsed_template)
 
     subprocess.call(["sudo", "systemctl", "restart", "baresip"])
