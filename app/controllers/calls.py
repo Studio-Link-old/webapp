@@ -102,7 +102,7 @@ def events():
 
     # Long polling (timeout 20 seconds)
     count = 0
-    while count < 10:
+    while count < 20:
         time.sleep(1)
 
         # Limit processes
