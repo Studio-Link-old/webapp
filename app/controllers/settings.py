@@ -15,9 +15,10 @@ from app import db
 from app.models.settings import Settings
 from app.forms.settings import SettingsForm, PasswordForm
 from sqlalchemy.exc import IntegrityError
+from subprocess import call
+from app import tasks
 import alsaaudio
 import htpasswd
-from subprocess import call
 
 mod = Blueprint('settings', __name__, url_prefix='/settings')
 
@@ -56,7 +57,8 @@ def settings():
                 db.session.add(settings)
                 db.session.commit()
                 flash('Settings added', 'success')
-            # Generate config
+            # Generate baresip config
+            settings = Settings.query.get(1)
             tasks.baresip_config.delay(settings)
 
     return render_template('settings.html', form=form,

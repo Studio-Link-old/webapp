@@ -9,13 +9,19 @@ function checkCallEvents()
     dataType: "json"
     }).done(function(result) {
 
-        if(result.INCOMING) {
-            bootbox.confirm("Are you sure?", function(result) {
-                Console.log(result);
-            }); 
+        if (result.INCOMING) {
+            bootbox.confirm("Incoming call from '" + result.INCOMING  + "', accept?", 
+                function(result) {
+                    if (result) {
+                        $.ajax({url: "/calls/accept"});
+                    } else {
+                        $.ajax({url: "/calls/dismiss"});
+                    }
+                    setTimeout("checkCallEvents()", 5000);
+                }); 
+        } else {
+            checkCallEvents();
         }
-
-        checkCallEvents();
     });
 };
 

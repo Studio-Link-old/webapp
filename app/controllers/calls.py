@@ -17,6 +17,7 @@ import json
 import requests
 import urllib3
 import redis
+import re
 
 mod = Blueprint('calls', __name__, url_prefix='/calls')
 http_small = urllib3.PoolManager(timeout=1)
@@ -85,14 +86,13 @@ def events():
     # Long polling (timeout 20 seconds)
     count = 0
     while count < 10:
-        time.sleep(2)
+        time.sleep(1)
 
         # Limit processes
         event_procs = int(store.get('event_procs'))
         if event_procs >= 4:
-            event_procs = event_procs - 1
-            store.setex('event_procs', event_procs, key_timeout)
-            return json.dumps({})
+            cleanup_events(key_timeout)
+            return json.dumps({'LIMITED': True})
 
         # Get baresip status
         try:
@@ -100,14 +100,18 @@ def events():
         except:
             pass
         else:
+            cleanup_events(key_timeout)
             if 'INCOMING' in r.content:
-                return json.dumps({'INCOMING': True})
+                m = re.search('sip:.*@*.', r.content)
+                return json.dumps({'INCOMING': m.group(0)})
             elif 'ESTABLISHED' in r.content:
                 return json.dumps({'ESTABLISHED': True})
         count = count + 1
+    cleanup_events(key_timeout)
+    return json.dumps({})
 
-    # Cleanup
+
+def cleanup_events(key_timeout):
     event_procs = int(store.get('event_procs'))
     event_procs = event_procs - 1
     store.setex('event_procs', event_procs, key_timeout)
-    return json.dumps({})

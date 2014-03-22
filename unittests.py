@@ -75,7 +75,7 @@ class AppTestCase(unittest.TestCase):
     def test_app_calls_events_incoming(self, requests, time):
         requests.get.return_value = Mock(content = '0:00:00  INCOMING  sip:studio@lan')
         rv = self.client.get('/calls/events')
-        assert b'{"INCOMING": true}' in rv.data
+        assert b'{"INCOMING": "sip:studio@lan"}' in rv.data
 
     @patch('app.controllers.calls.time')
     @patch('app.controllers.calls.requests')
@@ -90,7 +90,7 @@ class AppTestCase(unittest.TestCase):
         requests.get.return_value = Mock(content = '0:00:06  ESTABLISHED  sip:studio@lan')
         self.store.setex('event_procs', '4', 1800)
         rv = self.client.get('/calls/events')
-        assert b'{}' in rv.data
+        assert b'{"LIMITED": true}' in rv.data
         requests.get.return_value = Mock(content = '')
         self.store.setex('event_procs', '2', 1800)
         rv = self.client.get('/calls/events')
