@@ -72,6 +72,23 @@ def dial():
                            baresip=r
                            )
 
+@mod.route('/accept')
+def accept():
+    try:
+        r = requests.get('http://127.0.0.1:8000/?f').content
+    except:
+        return json.dumps({'return': False})
+    return json.dumps({'return': True})
+
+
+@mod.route('/dismiss')
+def dismiss():
+    try:
+        r = requests.get('http://127.0.0.1:8000/?b').content
+    except:
+        return json.dumps({'return': False})
+    return json.dumps({'return': True})
+
 
 @mod.route('/events')
 def events():

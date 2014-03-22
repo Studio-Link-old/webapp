@@ -36,17 +36,27 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                {%- for endpoint, caption in [
-                ('index', 'Home'),
-                ('calls.index', 'Call'),
-                ('accounts.index', 'Accounts'),
-                ('mixers.index', 'Mixers'),
-                ('settings.settings', 'Settings'),
+                {%- for endpoint, caption, logo in [
+                ('index', 'Home', 'glyphicon-home'),
+                ('calls.index', 'Call', 'glyphicon-earphone'),
+                ('accounts.index', 'Accounts', 'glyphicon-transfer'),
+                ('mixers.index', 'Mixers', 'glyphicon-volume-up'),
+                ('settings.settings', 'Settings', 'glyphicon-cog'),
                 ] %}
-                <li{% if endpoint == request.endpoint %} class=active{% endif
-                %}><a href={{ url_for(endpoint) }}>{{ caption }}</a></li>
+                <li{% if endpoint == request.endpoint %} class=active{% endif %}>
+                <a href={{ url_for(endpoint) }}>
+                    <span class="glyphicon {{ logo }}"></span> {{ caption }}
+                </a>
+                </li>
                 {%- endfor %}
             </ul>
+            <div class="navbar-header navbar-right">
+                <p class="navbar-text">
+                <a href="#"><span class="glyphicon glyphicon-phone-alt"></span> 
+                    00:00 sip@studio
+                </a>
+                </p>  
+            </div>
         </div><!--/.nav-collapse -->
     </div>
 </div>
