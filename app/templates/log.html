@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block body_container %}
+
+<div id='loading' style="display:none;", class="pull-right">
+    <img src='/static/img/load.gif' />
+</div> 
+<h1>Log</h1>
+<pre>{{ log }}</pre>
+
+<script>
+function updateLog() {
+    $("#loading").show();
+    setTimeout('$("#content").load("/system/log #content")', 1000);
+    setTimeout("updateLog()", 10000);
+}
+jQuery(document).ready(function () {
+        setTimeout("updateLog()", 10000);
+        });
+</script>
+
+{% endblock %}

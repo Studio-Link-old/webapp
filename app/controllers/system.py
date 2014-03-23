@@ -10,25 +10,27 @@
 # +--------------------------------------------------------------------------+
 
 from flask import Blueprint, request, flash, url_for, redirect, Response
+from flask import render_template
 from app import tasks
 import psutil
 import json
+import subprocess
 
 mod = Blueprint('system', __name__, url_prefix='/system')
 
 
 @mod.route('/shutdown')
 def shutdown():  # pragma: no cover
-    flash("Shutting down. When the LEDs on the board stop flashing, \
-    it should be safe to unplug.", "danger")
+    flash('Shutting down. When the LEDs on the board stop flashing, \
+    it should be safe to unplug.', 'danger')
     tasks.system_shutdown.delay()
     return redirect(url_for('index'))
 
 
 @mod.route('/reboot')
 def reboot():  # pragma: no cover
-    flash("Rebooting... please wait. This will take approx. one minute.",
-          "danger")
+    flash('Rebooting... please wait. This will take approx. one minute.',
+          'danger')
     tasks.system_reboot.delay()
     return redirect(url_for('index'))
 
@@ -49,3 +51,8 @@ def raw():
         'netio':    psutil.network_io_counters(),
     })
     return Response(o, mimetype='application/json')
+
+@mod.route('/log')
+def log():
+    log = subprocess.check_output(['sudo', 'journalctl', '-n', '100', '-r'])
+    return render_template('log.html', log=log.decode('utf-8'))

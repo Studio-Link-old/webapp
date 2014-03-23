@@ -97,11 +97,11 @@ def mute(direction="playback", card="", mixeridx=0, channel=0, value=0):
 
 
 @mod.route('/play/<status>')
-def play(status=False):
-    if status:
+def play(status="false"):
+    if status == 'true':
         r = requests.get('http://127.0.0.1:8000/?a')  # Start Audio Loop
-        flash("You should hear something...")
+        flash('You should hear something...', 'info')
     else:
         r = requests.get('http://127.0.0.1:8000/?e')  # Stop Audio Loop
-        flash("The audio loop stops...")
+        flash('The audio loop stops...', 'info')
     return redirect(url_for('mixers.index'))

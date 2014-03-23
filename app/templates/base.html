@@ -41,7 +41,6 @@
                 ('calls.index', 'Call', 'glyphicon-earphone'),
                 ('accounts.index', 'Accounts', 'glyphicon-transfer'),
                 ('mixers.index', 'Mixers', 'glyphicon-volume-up'),
-                ('settings.settings', 'Settings', 'glyphicon-cog'),
                 ] %}
                 <li{% if endpoint == request.endpoint %} class=active{% endif %}>
                 <a href={{ url_for(endpoint) }}>
@@ -49,9 +48,18 @@
                 </a>
                 </li>
                 {%- endfor %}
+                <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-tasks"></span> System <b class="caret">
+                </b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/settings"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+                    <li><a href="/system/log"><span class="glyphicon glyphicon-time"></span> Log</a></a></li>
+                </ul>
+                </li>
             </ul>
             <div class="navbar-header navbar-right">
-                <p class="navbar-text">
+                <p class="navbar-text" id="oncall" style="display:none;">
                 <a href="#"><span class="glyphicon glyphicon-phone-alt"></span> 
                     00:00 sip@studio
                 </a>
@@ -67,7 +75,9 @@
     {% for category, msg in get_flashed_messages(with_categories=true) %}
     <div class="alert alert-{{ category }}">{{ msg }}</div>
     {% endfor %}
+    <div id="content">
     {% block body_container %}{% endblock %}
+    </div>
     <hr />
     <footer>© 2013-2014 <a href="http://studio-connect.de">Studio Connect</a> Version: 14.3.0-dev</footer>
 </div>
