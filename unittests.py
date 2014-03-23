@@ -142,6 +142,12 @@ class AppTestCase(unittest.TestCase):
         rv = self.client.get('/settings/')
         assert b'Device' in rv.data
 
+    def test_settings_save(self):
+        rv = self.client.post('/settings/', data=dict(password="studio"))
+        assert b'Settings' in rv.data
+        rv = self.client.post('/settings/', data=dict(password=""))
+        assert b'Settings' in rv.data
+
 ##############################################################
 # app.controllers.system Tests
 ##############################################################
