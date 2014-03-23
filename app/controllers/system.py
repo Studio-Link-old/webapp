@@ -37,15 +37,6 @@ def reboot():  # pragma: no cover
 
 @mod.route('/raw')
 def raw():
-    diskused = 0
-    disktotal = 0
-    for i in psutil.disk_partitions():
-        try:
-            x = psutil.disk_usage(i.mountpoint)
-            diskused += x.used
-            disktotal += x.total
-        except OSError:
-            pass
     o = json.dumps({
         'cpuusage': psutil.cpu_percent(0),
         'netio':    psutil.network_io_counters(),
