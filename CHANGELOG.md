@@ -14,6 +14,7 @@
 - User Password Change
 - Baresip 0.4.10 (replace gstreamer/openob)
 - New Peer concept (based on SIP User Agents)
+- Logging (with basic match filter)
 
 #### Bugfixes
 
