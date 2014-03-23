@@ -150,5 +150,15 @@ class AppTestCase(unittest.TestCase):
         rv = self.client.get('/system/raw')
         assert b'cpuusage' in rv.data
 
+    @patch('app.controllers.system.subprocess')
+    def test_system_log(self, subprocess):
+        rv = self.client.get('/system/log')
+        assert b'Log' in rv.data
+    
+    @patch('app.controllers.system.subprocess')
+    def test_system_log_match(self, subprocess):
+        rv = self.client.get('/system/log/baresip')
+        assert b'Log' in rv.data
+
 if __name__ == '__main__':
     unittest.main()
