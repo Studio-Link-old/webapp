@@ -52,7 +52,13 @@ def raw():
     })
     return Response(o, mimetype='application/json')
 
+@mod.route('/log/<match>')
 @mod.route('/log')
-def log():
-    log = subprocess.check_output(['sudo', 'journalctl', '-n', '100', '-r'])
+def log(match=False):
+    if match == 'baresip':
+        log = subprocess.check_output(['sudo', 'journalctl', '-n', '100',
+                                      '-r', '/usr/bin/baresip'])
+    else:
+        log = subprocess.check_output(['sudo', 'journalctl', '-n', '100',
+                                      '-r'])
     return render_template('log.html', log=log.decode('utf-8'))

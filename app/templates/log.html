@@ -10,7 +10,7 @@
 <script>
 function updateLog() {
     $("#loading").show();
-    setTimeout('$("#content").load("/system/log #content")', 1000);
+    setTimeout('$("#content").load(document.URL+" #content")', 1000);
     setTimeout("updateLog()", 10000);
 }
 jQuery(document).ready(function () {
