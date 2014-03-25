@@ -54,10 +54,11 @@
                 </b></a>
                 <ul class="dropdown-menu">
                     <li><a href="/settings"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
-                    <li><a href="/system/log"><span class="glyphicon glyphicon-time"></span> 
-                        System Log</a></a></li>
-                    <li><a href="/system/log/baresip"><span class="glyphicon glyphicon-time"></span> 
-                        Baresip Log</a></a></li>
+                    <li class="divider"></li>
+                    <li class="dropdown-header"><span class="glyphicon
+                        glyphicon-time"></span> Logging</li>
+                    <li><a href="/system/log">System</a></li>
+                    <li><a href="/system/log/baresip">Baresip</a></li>
                 </ul>
                 </li>
             </ul>
@@ -76,7 +77,10 @@
 {% block content %}
 <div class="container">
     {% for category, msg in get_flashed_messages(with_categories=true) %}
-    <div class="alert alert-{{ category }}">{{ msg }}</div>
+    <div class="alert alert-{{ category }}">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        {{ msg }}
+    </div>
     {% endfor %}
     <div id="content">
     {% block body_container %}{% endblock %}
