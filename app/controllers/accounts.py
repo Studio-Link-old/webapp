@@ -31,6 +31,7 @@ def index():
         ipv6 = http_small.request('GET', 'http://ipv6.studio-connect.de/').data
     except:
         pass
+    accounts = Accounts.query.all()
     return render_template("accounts/index.html", accounts=accounts, ipv4=ipv4,
                            ipv6=ipv6)
 
