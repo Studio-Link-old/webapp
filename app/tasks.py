@@ -35,8 +35,11 @@ def account_config(accounts):
 
 @celery.task
 def baresip_config(settings):
+    codecs = ['opus', 'g722', 'g726', 'g711', 'gsm', 'l16']
+    codecs.remove(settings.codec)
     template = env.get_template('config/baresip.cfg')
-    output_from_parsed_template = template.render(settings=settings)
+    output_from_parsed_template = template.render(settings=settings,
+                                                  codecs=codecs)
 
     # to save the results
     with open(os.getenv('HOME') + "/.baresip/config", "wb") as fh:

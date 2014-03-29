@@ -18,8 +18,14 @@ DEFAULT_CHOICES = []
 
 class SettingsForm(Form):
     device = SelectField('Audio device', choices=DEFAULT_CHOICES)
-    codec = SelectField('Codec', choices=[('opus', 'Opus'), ('pcm', 'PCM')],
-                        default='opus')
+    codec = SelectField('Preferred codec',
+            choices=[('opus', 'Opus 48kHz'),
+                     ('g722', 'G.722 16kHz'),
+                     ('g726', 'G.726 8kHz'),
+                     ('g711', 'G.711 8kHz'),
+                     ('gsm', 'GSM 8kHz'),
+                     ('l16', 'PCM 48kHz')],
+            default='opus')
     submit_button = SubmitField('Save')
 
 
