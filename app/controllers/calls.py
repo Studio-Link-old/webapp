@@ -18,6 +18,7 @@ import requests
 import urllib3
 import redis
 import re
+import socket
 
 mod = Blueprint('calls', __name__, url_prefix='/calls')
 http_small = urllib3.PoolManager(timeout=1)
@@ -43,11 +44,23 @@ def index():
     form.accounts.choices = accounts
 
     if form.validate_on_submit():
+        sip = form.number.data
+        sip_user = sip.split('@')[0]
+        sip_host = sip.split('@')[1]
+
+        # testing ipv6 address
         try:
-            r = requests.get('http://127.0.0.1:8000/?d'+form.number.data)
+            socket.inet_pton(socket.AF_INET6, sip_host)
+            sip = sip_user+'@['+sip_host+']'
+        except socket.error:
+            pass
+
+        try:
+            r = requests.get('http://127.0.0.1:8000/?d'+sip)
         except:
             pass
-        store.set('call_number', form.number.data)
+
+        store.set('call_number', sip)
         store.set('call_account', form.accounts.data)
         return redirect('/calls/dial')
     if form.errors:
