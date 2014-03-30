@@ -27,10 +27,10 @@ def account_config(accounts):
     output_from_parsed_template = template.render(accounts=accounts)
 
     # to save the results
-    with open(os.getenv('HOME') + "/.baresip/accounts", "wb") as fh:
+    with open(os.getenv('HOME') + '/.baresip/accounts', 'wb') as fh:
         fh.write(output_from_parsed_template)
 
-    subprocess.call(["sudo", "systemctl", "restart", "baresip"])
+    subprocess.call(['sudo', 'systemctl', 'restart', 'baresip'])
 
 
 @celery.task
@@ -42,21 +42,21 @@ def baresip_config(settings):
                                                   codecs=codecs)
 
     # to save the results
-    with open(os.getenv('HOME') + "/.baresip/config", "wb") as fh:
+    with open(os.getenv('HOME') + '/.baresip/config', 'wb') as fh:
         fh.write(output_from_parsed_template)
 
-    subprocess.call(["sudo", "systemctl", "restart", "baresip"])
+    subprocess.call(['sudo', 'systemctl', 'restart', 'baresip'])
 
 
 @celery.task
 def system_shutdown():
     time.sleep(3)
-    subprocess.call(["sudo", "halt"])
+    subprocess.call(['sudo', 'systemctl', 'poweroff'])
     return True
 
 
 @celery.task
 def system_reboot():
     time.sleep(3)
-    subprocess.call(["sudo", "reboot"])
+    subprocess.call(['sudo', 'systemctl', 'reboot'])
     return True
