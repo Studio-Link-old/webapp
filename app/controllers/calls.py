@@ -120,7 +120,7 @@ def events():
 
         # Limit processes
         event_procs = int(store.get('event_procs'))
-        if event_procs >= 4:
+        if event_procs >= 3:
             cleanup_events(key_timeout)
             return json.dumps({'LIMITED': True})
 
