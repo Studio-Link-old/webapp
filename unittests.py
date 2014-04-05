@@ -88,11 +88,11 @@ class AppTestCase(unittest.TestCase):
     @patch('app.controllers.calls.requests')
     def test_app_calls_events_process_limit(self, requests, time):
         requests.get.return_value = Mock(content = '0:00:06  ESTABLISHED  sip:studio@lan')
-        self.store.setex('event_procs', '4', 1800)
+        self.store.setex('event_procs', '2', 1800)
         rv = self.client.get('/calls/events')
         assert b'{"LIMITED": true}' in rv.data
         requests.get.return_value = Mock(content = '')
-        self.store.setex('event_procs', '2', 1800)
+        self.store.setex('event_procs', '1', 1800)
         rv = self.client.get('/calls/events')
         assert b'{}' in rv.data
 

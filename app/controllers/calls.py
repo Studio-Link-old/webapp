@@ -130,11 +130,12 @@ def events():
         except:
             pass
         else:
-            cleanup_events(key_timeout)
             if 'INCOMING' in r.content:
                 m = re.search('sip:.*@*.', r.content)
+                cleanup_events(key_timeout)
                 return json.dumps({'INCOMING': m.group(0)})
             elif 'ESTABLISHED' in r.content:
+                cleanup_events(key_timeout)
                 return json.dumps({'ESTABLISHED': True})
         count = count + 1
     cleanup_events(key_timeout)
