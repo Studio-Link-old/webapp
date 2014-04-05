@@ -47,9 +47,9 @@ def raw():
 @mod.route('/log')
 def log(match=False):
     if match == 'baresip':
-        log = subprocess.check_output(['sudo', 'journalctl', '-n', '100',
-                                      '-r', '/usr/bin/baresip'])
+        command = 'sudo journalctl -r /usr/bin/baresip | head -100'
+        log = subprocess.check_output(command, shell=True)
     else:
-        log = subprocess.check_output(['sudo', 'journalctl', '-n', '100',
-                                      '-r'])
+        log = subprocess.check_output('sudo journalctl -r | head -100', 
+                                      shell=True)
     return render_template('log.html', log=log.decode('utf-8'))
