@@ -20,7 +20,7 @@ app.config.from_object('config')
 
 # Bootstrap init
 Bootstrap(app)
-app.config['BOOTSTRAP_USE_CDN'] = True
+app.config['BOOTSTRAP_SERVE_LOCAL'] = True
 
 # Babel init
 Babel(app)
