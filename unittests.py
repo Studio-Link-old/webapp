@@ -71,21 +71,21 @@ class AppTestCase(unittest.TestCase):
         assert b'Dial' in rv.data
 
     @patch('app.controllers.calls.time')
-    @patch('app.controllers.calls.requests')
+    @patch('app.libs.baresip.requests')
     def test_app_calls_events_incoming(self, requests, time):
         requests.get.return_value = Mock(content = '0:00:00  INCOMING  sip:studio@lan')
         rv = self.client.get('/calls/events')
         assert b'{"INCOMING": "sip:studio@lan"}' in rv.data
 
     @patch('app.controllers.calls.time')
-    @patch('app.controllers.calls.requests')
+    @patch('app.libs.baresip.requests')
     def test_app_calls_events_established(self, requests, time):
         requests.get.return_value = Mock(content = '0:00:06  ESTABLISHED  sip:studio@lan')
         rv = self.client.get('/calls/events')
         assert b'{"ESTABLISHED": true}' in rv.data
 
     @patch('app.controllers.calls.time')
-    @patch('app.controllers.calls.requests')
+    @patch('app.libs.baresip.requests')
     def test_app_calls_events_process_limit(self, requests, time):
         requests.get.return_value = Mock(content = '0:00:06  ESTABLISHED  sip:studio@lan')
         self.store.setex('event_procs', '2', 1800)

@@ -12,13 +12,12 @@
 from flask import Blueprint, render_template, redirect, request, url_for, flash
 from app.models.accounts import Accounts
 from app.forms.dial import DialForm
+from app.libs import baresip
 import time
 import json
-import requests
 import urllib3
 import redis
 import re
-import socket
 
 mod = Blueprint('calls', __name__, url_prefix='/calls')
 http_small = urllib3.PoolManager(timeout=1)
@@ -44,22 +43,7 @@ def index():
     form.accounts.choices = accounts
 
     if form.validate_on_submit():
-        sip = form.number.data
-        sip_user = sip.split('@')[0]
-        sip_host = sip.split('@')[1]
-
-        # testing ipv6 address
-        try:
-            socket.inet_pton(socket.AF_INET6, sip_host)
-            sip = sip_user+'@['+sip_host+']'
-        except socket.error:
-            pass
-
-        try:
-            r = requests.get('http://127.0.0.1:8000/?d'+sip)
-        except:
-            pass
-
+        baresip.set('dial', form.number.data)
         store.set('call_number', sip)
         store.set('call_account', form.accounts.data)
         return redirect('/calls/dial')
@@ -74,33 +58,22 @@ def index():
 
 @mod.route('/dial')
 def dial():
-    r = "Could not connect to baresip."
-    try:
-        r = requests.get('http://127.0.0.1:8000/?l').content  # Active calls
-    except:
-        pass
     return render_template('calls/dial.html',
                            call_number=store.get('call_number'),
                            call_account=store.get('call_account'),
-                           baresip=r
+                           baresip=baresip.get('list')
                            )
 
 
-@mod.route('/accept')
-def accept():
-    try:
-        r = requests.get('http://127.0.0.1:8000/?f').content
-    except:
-        return json.dumps({'return': False})
+@mod.route('/answer')
+def answer():
+    baresip.set('answer')
     return json.dumps({'return': True})
 
 
-@mod.route('/dismiss')
-def dismiss():
-    try:
-        r = requests.get('http://127.0.0.1:8000/?b').content
-    except:
-        return json.dumps({'return': False})
+@mod.route('/hangup')
+def hangup():
+    baresip.set('hangup')
     return json.dumps({'return': True})
 
 
@@ -128,16 +101,16 @@ def events():
         # Get baresip status
         for account in range(0, accounts):
             try:
-                requests.get('http://127.0.0.1:8000/?j')
-                r = requests.get('http://127.0.0.1:8000/?l')  # Active calls
+                call_list = baresip.get('list')
+                baresip.set('ua_next')
             except:
                 pass
             else:
-                if 'INCOMING' in r.content:
-                    m = re.search('sip:.*@*.', r.content)
+                if 'INCOMING' in call_list:
+                    m = re.search('sip:.*@*.', call_list)
                     cleanup_events()
                     return json.dumps({'INCOMING': m.group(0)})
-                elif 'ESTABLISHED' in r.content:
+                elif 'ESTABLISHED' in call_list:
                     cleanup_events()
                     return json.dumps({'ESTABLISHED': True})
             count = count + 1
