@@ -27,7 +27,7 @@ store = redis.Redis('127.0.0.1')
 @mod.route('/', methods=('GET', 'POST'))
 def index():
     form = DialForm(request.form)
-    ipv6 = ""
+    ipv6 = ''
     try:
         ipv6 = http_small.request('GET', 'http://ipv6.studio-connect.de/').data
     except:
@@ -72,13 +72,15 @@ def dial():
 @mod.route('/answer')
 def answer():
     baresip.set('answer')
+    store.set('oncall', 'true')
     return json.dumps({'return': True})
 
 
 @mod.route('/hangup')
 def hangup():
     baresip.set('hangup')
-    return json.dumps({'return': True})
+    store.set('oncall', 'false')
+    return redirect('/calls/dial')
 
 
 @mod.route('/events')
@@ -104,24 +106,29 @@ def events():
 
         # Get baresip call status (multi accounts)
         for account in range(0, accounts):
-            try:
-                call_list = baresip.get('list')
+            call_list = baresip.get('list')
 
-                # @TODO: periodically switching user agent, is only a hack!!!
-                # this is really bad if something (a call) needs to select
-                # a fix UA.
-                baresip.set('ua_next')
-            except:
-                pass
-            else:
-                if 'INCOMING' in call_list:
-                    m = re.search('sip:.*@*.', call_list)
-                    cleanup_events()
-                    return json.dumps({'INCOMING': m.group(0)})
-                elif 'ESTABLISHED' in call_list:
-                    cleanup_events()
-                    return json.dumps({'ESTABLISHED': True})
-            count = count + 1
+            if 'INCOMING' in call_list:
+                m = re.search('sip:.*@*.', call_list)
+                cleanup_events()
+                return json.dumps({'INCOMING': m.group(0)})
+            elif 'ESTABLISHED' in call_list:
+                # Call is active we can sleep a little bit more
+                time.sleep(5)
+                cleanup_events()
+                return json.dumps({'ESTABLISHED': True})
+
+            # HINT: periodically switching user agent, is only a hack!!!
+            # this is really bad if something else needs to select
+            # a fix UA. At the moment its enough to switch at the and
+            # of the loop. But multi call handling is not possible! The
+            # first UA matched wins!
+            baresip.set('ua_next')
+        count = count + 1
+
+        # If no UA matched a call, there is no call ;-)
+        # This helps to detect a canceld call from peer
+        store.set('oncall', 'false')
     cleanup_events()
     return json.dumps({})
 

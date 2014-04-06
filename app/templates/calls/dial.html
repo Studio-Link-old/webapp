@@ -2,9 +2,14 @@
 {% block body_container %}
 
 <h2>Active Call</h2>
+<p>
+<a href="/calls/hangup" class="btn btn-success"><i class="icon-play icon-white"></i> Cancel call</a>
+</p>
 
-{{call_account}}<br />
-{{call_number}}<br />
-{{baresip}}<br />
+<pre>
+{{call_account}}
+{{call_number}}
+{{baresip}}
+</pre>
 
 {% endblock %}

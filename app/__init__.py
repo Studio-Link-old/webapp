@@ -9,12 +9,14 @@
 # |License: BSD-2-Clause (see LICENSE File)                                  |
 # +--------------------------------------------------------------------------+
 
-from flask import Flask, render_template
+from flask import Flask, render_template, g
 from flask_bootstrap import Bootstrap
 from flask_babel import Babel
 from flask_sqlalchemy import SQLAlchemy
 from subprocess import Popen, PIPE, STDOUT
+import redis
 
+store = redis.Redis('127.0.0.1')
 app = Flask(__name__, static_folder='templates/static')
 app.config.from_object('config')
 
@@ -44,6 +46,12 @@ app.register_blueprint(callsModule)
 from app.controllers.settings import mod as settingsModule
 app.register_blueprint(settingsModule)
 
+@app.before_request
+def before_request():
+    if store.get('oncall') == 'true':
+        g.oncall = True
+    else:
+        g.oncall = False
 
 @app.route('/')
 def index():

@@ -63,8 +63,8 @@
                 </li>
             </ul>
             <div class="navbar-header navbar-right">
-                <p class="navbar-text" id="oncall" style="display:none;">
-                <a href="#"><span class="glyphicon glyphicon-phone-alt"></span> 
+                <p class="navbar-text" id="oncall" {%- if not g.oncall -%}style="display: none"{%- endif -%}>
+                <a href="/calls/dial"><span class="glyphicon glyphicon-phone-alt"></span> 
                     00:00 sip@studio
                 </a>
                 </p>  

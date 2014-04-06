@@ -48,7 +48,7 @@ def raw():
 @mod.route('/log')
 def log(match=False):
     if match == 'baresip':
-        command = 'sudo journalctl -r /usr/bin/baresip | head -100'
+        command = 'sudo journalctl -r /usr/bin/baresip | grep -v "ua: sip:" | head -100'
         log = subprocess.check_output(command, shell=True)
     else:
         log = subprocess.check_output('sudo journalctl -r | head -100',
