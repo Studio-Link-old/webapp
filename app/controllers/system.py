@@ -43,6 +43,7 @@ def raw():
     })
     return Response(o, mimetype='application/json')
 
+
 @mod.route('/log/<match>')
 @mod.route('/log')
 def log(match=False):
@@ -50,6 +51,6 @@ def log(match=False):
         command = 'sudo journalctl -r /usr/bin/baresip | head -100'
         log = subprocess.check_output(command, shell=True)
     else:
-        log = subprocess.check_output('sudo journalctl -r | head -100', 
+        log = subprocess.check_output('sudo journalctl -r | head -100',
                                       shell=True)
     return render_template('log.html', log=log.decode('utf-8'))

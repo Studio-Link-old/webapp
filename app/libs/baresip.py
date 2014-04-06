@@ -36,8 +36,11 @@ def set(cmd='ua_next', data=''):
         return requests.get(url+'b').content
     elif cmd == 'dial':
         sip = data
-        sip_user = sip.split('@')[0]
-        sip_host = sip.split('@')[1]
+        try:
+            sip_user = sip.split('@')[0]
+            sip_host = sip.split('@')[1]
+        except IndexError:
+            raise NameError('Not a valid SIP address')
 
         # testing ipv6 address
         try:
@@ -47,5 +50,9 @@ def set(cmd='ua_next', data=''):
             pass
 
         return requests.get(url+'d'+sip).content
+    elif cmd == 'start_audio_loop':
+        return requests.get(url+'a').content
+    elif cmd == 'stop_audio_loop':
+        return requests.get(url+'e').content
 
     raise NameError('Baresip command not found')

@@ -43,8 +43,12 @@ def index():
     form.accounts.choices = accounts
 
     if form.validate_on_submit():
-        baresip.set('dial', form.number.data)
-        store.set('call_number', sip)
+        try:
+            baresip.set('dial', form.number.data)
+        except NameError:
+            flash('Invalid SIP address', 'danger')
+            return render_template('calls/index.html', form=form, ipv6=ipv6)
+
         store.set('call_account', form.accounts.data)
         return redirect('/calls/dial')
     if form.errors:
@@ -98,10 +102,14 @@ def events():
             cleanup_events()
             return json.dumps({'LIMITED': True})
 
-        # Get baresip status
+        # Get baresip call status (multi accounts)
         for account in range(0, accounts):
             try:
                 call_list = baresip.get('list')
+
+                # @TODO: periodically switching user agent, is only a hack!!!
+                # this is really bad if something (a call) needs to select
+                # a fix UA.
                 baresip.set('ua_next')
             except:
                 pass

@@ -13,7 +13,7 @@ from flask import Blueprint, render_template, url_for, redirect, flash
 import alsaaudio
 from app import tasks
 from app.models.settings import Settings
-import requests
+from app.libs import baresip
 
 mod = Blueprint('mixers', __name__, url_prefix='/mixers')
 
@@ -99,9 +99,9 @@ def mute(direction="playback", card="", mixeridx=0, channel=0, value=0):
 @mod.route('/play/<status>')
 def play(status="false"):
     if status == 'true':
-        r = requests.get('http://127.0.0.1:8000/?a').content  # Start Audio Loop
+        r = baresip.set('start_audio_loop')
         flash('You should hear something... '+r, 'info')
     else:
-        r = requests.get('http://127.0.0.1:8000/?e').content  # Stop Audio Loop
+        r = baresip.set('stop_audio_loop')
         flash('The audio loop stops... '+r, 'info')
     return redirect(url_for('mixers.index'))
