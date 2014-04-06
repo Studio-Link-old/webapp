@@ -26,7 +26,6 @@ def account_config(accounts):
     template = env.get_template('config/baresip_accounts.cfg')
     output_from_parsed_template = template.render(accounts=accounts)
 
-    # to save the results
     with open(os.getenv('HOME') + '/.baresip/accounts', 'wb') as fh:
         fh.write(output_from_parsed_template)
 
@@ -41,7 +40,6 @@ def baresip_config(settings):
     output_from_parsed_template = template.render(settings=settings,
                                                   codecs=codecs)
 
-    # to save the results
     with open(os.getenv('HOME') + '/.baresip/config', 'wb') as fh:
         fh.write(output_from_parsed_template)
 

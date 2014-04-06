@@ -85,6 +85,7 @@ def dial():
                            baresip=r
                            )
 
+
 @mod.route('/accept')
 def accept():
     try:
@@ -105,13 +106,13 @@ def dismiss():
 
 @mod.route('/events')
 def events():
-    key_timeout = '1800'
+    accounts = int(Accounts.query.count()) + 1
     event_procs = store.get('event_procs')
     if not event_procs:
         event_procs = 1
     else:
         event_procs = int(event_procs) + 1
-    store.setex('event_procs', event_procs, key_timeout)
+    store.setex('event_procs', event_procs, 60)
 
     # Long polling (timeout 20 seconds)
     count = 0
@@ -121,28 +122,29 @@ def events():
         # Limit processes
         event_procs = int(store.get('event_procs'))
         if event_procs >= 3:
-            cleanup_events(key_timeout)
+            cleanup_events()
             return json.dumps({'LIMITED': True})
 
         # Get baresip status
-        try:
-            r = requests.get('http://127.0.0.1:8000/?l')  # Active calls
-        except:
-            pass
-        else:
-            if 'INCOMING' in r.content:
-                m = re.search('sip:.*@*.', r.content)
-                cleanup_events(key_timeout)
-                return json.dumps({'INCOMING': m.group(0)})
-            elif 'ESTABLISHED' in r.content:
-                cleanup_events(key_timeout)
-                return json.dumps({'ESTABLISHED': True})
-        count = count + 1
-    cleanup_events(key_timeout)
+        for account in range(0, accounts):
+            try:
+                requests.get('http://127.0.0.1:8000/?j')
+                r = requests.get('http://127.0.0.1:8000/?l')  # Active calls
+            except:
+                pass
+            else:
+                if 'INCOMING' in r.content:
+                    m = re.search('sip:.*@*.', r.content)
+                    cleanup_events()
+                    return json.dumps({'INCOMING': m.group(0)})
+                elif 'ESTABLISHED' in r.content:
+                    cleanup_events()
+                    return json.dumps({'ESTABLISHED': True})
+            count = count + 1
+    cleanup_events()
     return json.dumps({})
 
 
-def cleanup_events(key_timeout):
-    event_procs = int(store.get('event_procs'))
-    event_procs = event_procs - 1
+def cleanup_events(key_timeout=60):
+    event_procs = int(store.get('event_procs')) - 1
     store.setex('event_procs', event_procs, key_timeout)

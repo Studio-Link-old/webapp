@@ -27,7 +27,6 @@ def index():
     ipv4 = ""
     ipv6 = ""
     try:
-        #ipv4= http_small.request('GET', 'http://ipv4.studio-connect.de/').data
         ipv6 = http_small.request('GET', 'http://ipv6.studio-connect.de/').data
     except:
         pass
@@ -44,8 +43,7 @@ def add():
         db.session.add(account)
         try:
             db.session.commit()
-            accounts = Accounts.query.all()
-            tasks.account_config.delay(accounts)
+            account_config()
             return redirect(url_for('accounts.index'))
         except IntegrityError:
             flash(u'IntegrityError', 'danger')
@@ -63,8 +61,7 @@ def edit(id):
             account.password = password
         db.session.add(account)
         db.session.commit()
-        accounts = Accounts.query.all()
-        tasks.account_config.delay(accounts)
+        account_config()
         return redirect(url_for('accounts.index'))
     return render_template("accounts/form.html",
                            form=form, action='/accounts/edit/'+id)
@@ -74,4 +71,10 @@ def edit(id):
 def delete(id):
     db.session.delete(Accounts.query.get(id))
     db.session.commit()
+    account_config()
     return redirect(url_for('accounts.index'))
+
+
+def account_config():
+    accounts = Accounts.query.all()
+    tasks.account_config.delay(accounts)
