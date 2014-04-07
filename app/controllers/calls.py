@@ -43,12 +43,7 @@ def index():
     form.accounts.choices = accounts
 
     if form.validate_on_submit():
-        try:
-            baresip.set('dial', form.number.data)
-        except NameError:
-            flash('Invalid SIP address', 'danger')
-            return render_template('calls/index.html', form=form, ipv6=ipv6)
-
+        baresip.set('dial', form.number.data)
         store.set('call_account', form.accounts.data)
         return redirect('/calls/dial')
     if form.errors:

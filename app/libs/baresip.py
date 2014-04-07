@@ -36,18 +36,16 @@ def set(cmd='ua_next', data=''):
         return requests.get(url+'b').content
     elif cmd == 'dial':
         sip = data
-        try:
+        if sip.find('@'):
             sip_user = sip.split('@')[0]
             sip_host = sip.split('@')[1]
-        except IndexError:
-            raise NameError('Not a valid SIP address')
 
-        # testing ipv6 address
-        try:
-            socket.inet_pton(socket.AF_INET6, sip_host)
-            sip = sip_user+'@['+sip_host+']'
-        except socket.error:
-            pass
+            # testing ipv6 address
+            try:
+                socket.inet_pton(socket.AF_INET6, sip_host)
+                sip = sip_user+'@['+sip_host+']'
+            except socket.error:
+                pass
 
         return requests.get(url+'d'+sip).content
     elif cmd == 'start_audio_loop':
