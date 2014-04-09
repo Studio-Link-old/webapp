@@ -9,19 +9,39 @@
 # |License: BSD-2-Clause (see LICENSE File)                                  |
 # +--------------------------------------------------------------------------+
 
+from flask import flash
 import requests
-import redis
 import socket
+import re
 
-url = 'http://127.0.0.1:8000/?'
+
+def curl(param):
+    url = 'http://127.0.0.1:8000/?'
+    try:
+        content = requests.get(url+param).content
+    except:
+        flash('baresip connection problem', 'danger')
+        content = ''
+    return content
 
 
 def get(cmd='list'):
 
     if cmd == 'list':
-        return requests.get(url+'l').content
+        return curl('l')
     elif cmd == 'reg_status':
-        return requests.get(url+'r').content
+        return curl('r')
+    elif cmd == 'ipv6':
+        network_debug = curl('n')
+        try:
+            match = re.search('Local IPv6:.*enp4s11\ -\ (.*)', network_debug)
+            if not match:
+                return None
+            else:
+                ipv6 = match.group(1)
+        except IndexError:
+            return None
+        return ipv6
 
     raise NameError('Baresip command not found')
 
@@ -29,14 +49,14 @@ def get(cmd='list'):
 def set(cmd='ua_next', data=''):
 
     if cmd == 'ua_next':
-        return requests.get(url+'j').content
+        return curl('j')
     elif cmd == 'answer':
-        return requests.get(url+'f').content
+        return curl('f')
     elif cmd == 'hangup':
-        return requests.get(url+'b').content
+        return curl('b')
     elif cmd == 'dial':
         sip = data
-        if sip.find('@'):
+        if '@' in sip:
             sip_user = sip.split('@')[0]
             sip_host = sip.split('@')[1]
 
@@ -47,10 +67,10 @@ def set(cmd='ua_next', data=''):
             except socket.error:
                 pass
 
-        return requests.get(url+'d'+sip).content
+        return curl('d'+sip)
     elif cmd == 'start_audio_loop':
-        return requests.get(url+'a').content
+        return curl('a')
     elif cmd == 'stop_audio_loop':
-        return requests.get(url+'e').content
+        return curl('e')
 
     raise NameError('Baresip command not found')

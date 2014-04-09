@@ -66,7 +66,9 @@ class AppTestCase(unittest.TestCase):
 ##############################################################
 # app.controllers.calls Tests
 ##############################################################
-    def test_calls(self):
+    @patch('app.libs.baresip.requests')
+    def test_calls(self,requests):
+        requests.get.return_value = Mock(content = 'Local IPv6:   enp4s11 - fe80::21e:68ff:fed5:9d85')
         rv = self.client.get('/calls/')
         assert b'Dial' in rv.data
 

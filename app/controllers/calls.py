@@ -15,26 +15,19 @@ from app.forms.dial import DialForm
 from app.libs import baresip
 import time
 import json
-import urllib3
 import redis
 import re
 
 mod = Blueprint('calls', __name__, url_prefix='/calls')
-http_small = urllib3.PoolManager(timeout=1)
 store = redis.Redis('127.0.0.1')
 
 
 @mod.route('/', methods=('GET', 'POST'))
 def index():
     form = DialForm(request.form)
-    ipv6 = ''
-    try:
-        ipv6 = http_small.request('GET', 'http://ipv6.studio-connect.de/').data
-    except:
-        pass
-
     db_accounts = Accounts.query.all()
     accounts = []
+    ipv6 = baresip.get('ipv6') 
     if ipv6:
         accounts.append(('Local IPv6', 'Local IPv6'))
 
@@ -75,7 +68,7 @@ def answer():
 def hangup():
     baresip.set('hangup')
     store.set('oncall', 'false')
-    return redirect('/calls/dial')
+    return redirect('/calls/')
 
 
 @mod.route('/events')
@@ -108,6 +101,7 @@ def events():
                 cleanup_events()
                 return json.dumps({'INCOMING': m.group(0)})
             elif 'ESTABLISHED' in call_list:
+                store.set('oncall', 'true')
                 # Call is active we can sleep a little bit more
                 time.sleep(5)
                 cleanup_events()
