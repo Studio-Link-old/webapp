@@ -27,7 +27,7 @@ def index():
     form = DialForm(request.form)
     db_accounts = Accounts.query.all()
     accounts = []
-    ipv6 = baresip.get('ipv6') 
+    ipv6 = baresip.get('ipv6')
     if ipv6:
         accounts.append(('Local IPv6', 'Local IPv6'))
 

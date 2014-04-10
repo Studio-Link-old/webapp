@@ -46,12 +46,14 @@ app.register_blueprint(callsModule)
 from app.controllers.settings import mod as settingsModule
 app.register_blueprint(settingsModule)
 
+
 @app.before_request
 def before_request():
     if store.get('oncall') == 'true':
         g.oncall = True
     else:
         g.oncall = False
+
 
 @app.route('/')
 def index():

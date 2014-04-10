@@ -11,7 +11,9 @@
 
 from __future__ import absolute_import
 from app.celery import celery
+from app.models.settings import Settings
 from jinja2 import Environment, FileSystemLoader
+import alsaaudio
 import redis
 import subprocess
 import time
@@ -19,6 +21,14 @@ import os
 
 store = redis.Redis('127.0.0.1')
 env = Environment(loader=FileSystemLoader('app/templates'))
+
+
+def get_device():
+    settings = Settings.query.get(1)
+    devices = alsaaudio.cards()
+    idx = devices.index(settings.device)
+    device = 'plughw:' + str(idx) + ',0'
+    return device
 
 
 @celery.task
@@ -38,7 +48,8 @@ def baresip_config(settings):
     codecs.remove(settings.codec)
     template = env.get_template('config/baresip.cfg')
     output_from_parsed_template = template.render(settings=settings,
-                                                  codecs=codecs)
+                                                  codecs=codecs,
+                                                  device=get_device())
 
     with open(os.getenv('HOME') + '/.baresip/config', 'wb') as fh:
         fh.write(output_from_parsed_template)
