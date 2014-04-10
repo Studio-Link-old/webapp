@@ -34,7 +34,7 @@ def get(cmd='list'):
     elif cmd == 'ipv6':
         network_debug = curl('n')
         try:
-            match = re.search('Local IPv6:.*enp4s11\ -\ (.*)', network_debug)
+            match = re.search('Local IPv6:.*-\ (.*)', network_debug)
             if not match:
                 return None
             else:
