@@ -1,5 +1,25 @@
 # Changelog
 
+## v14.4.1-alpha (xx.04.2014)
+
+### Webapp
+
+#### Features
+
+- Baresip audio device selection #23
+- Replace v4/v6 network detection with baresip #20
+
+#### Bugfixes
+
+- SIP dial should accept normal numbers #19
+
+### Image
+
+- Mainline Linux Kernel 3.14
+- Libre 0.4.8
+- Fix OpenSSL Heartbleed vulnerability
+
+
 ## v14.4.0-alpha (6.04.2014)
 
 ### Webapp
