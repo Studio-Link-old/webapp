@@ -26,6 +26,10 @@ class SettingsForm(Form):
                                  ('gsm', 'GSM 8kHz'),
                                  ('l16', 'PCM 48kHz')],
                         default='opus')
+    jitter = SelectField('Jitterbuffer',
+                        choices=[('1-5', 'Small (1-5 frames)'),
+                                 ('5-10', 'Big (5-10 frames)')],
+                        default='1-5')
     submit_button = SubmitField('Save')
 
 

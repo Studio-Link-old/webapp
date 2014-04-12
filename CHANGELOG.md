@@ -8,6 +8,7 @@
 
 - Baresip audio device selection #23
 - Replace v4/v6 network detection with baresip #20
+- Adjustable jitterbuffer size #24
 
 #### Bugfixes
 

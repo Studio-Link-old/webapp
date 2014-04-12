@@ -29,5 +29,5 @@ class Settings(db.Model):
         self.audio = "music"
         self.complexity = "6"
         self.bitrate = "64"
-        self.jitter = "150"
+        self.jitter = "1-5"
         self.framesize = "20"
