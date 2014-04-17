@@ -17,7 +17,6 @@
 ### Image
 
 - Mainline Linux Kernel 3.14
-- Baresip prerelease with Libre 0.4.8
 - Fix OpenSSL Heartbleed vulnerability
 
 

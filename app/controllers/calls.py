@@ -29,7 +29,7 @@ def index():
     accounts = []
     ipv6 = baresip.get('ipv6')
     if ipv6:
-        accounts.append(('Local IPv6', 'Local IPv6'))
+        accounts.append(('local', 'Local'))
 
     for account in db_accounts:
         accounts.append((account.name, account.name))
