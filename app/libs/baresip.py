@@ -10,6 +10,7 @@
 # +--------------------------------------------------------------------------+
 
 from flask import flash
+from app.models.accounts import Accounts
 import requests
 import socket
 import re
@@ -53,6 +54,9 @@ def get(cmd='list', query=''):
             return None
         return ipv6
 
+    elif cmd == 'ua_agent':
+        return curl('u')
+
     raise NameError('Baresip command not found')
 
 
@@ -60,6 +64,15 @@ def set(cmd='ua_next', data=''):
 
     if cmd == 'ua_next':
         return curl('j')
+
+    if cmd == 'user_agent':
+        accounts = int(Accounts.query.count()) + 1
+        for account in range(0, accounts):
+            match = re.search(data, get('ua_agent'))
+            if match:
+                return True
+            set('ua_next')
+        return False
 
     elif cmd == 'answer':
         return curl('f')

@@ -27,15 +27,15 @@ def index():
     form = DialForm(request.form)
     db_accounts = Accounts.query.all()
     accounts = []
-    ipv6 = baresip.get('network', 'IPv6')
-    if ipv6:
-        accounts.append(('local', 'Local'))
+    accounts.append(('studio@lan', 'Local'))
 
     for account in db_accounts:
-        accounts.append((account.name, account.name))
+        sip = account.username + '@' + account.server
+        accounts.append((sip, account.name))
     form.accounts.choices = accounts
 
     if form.validate_on_submit():
+        baresip.set('user_agent', form.accounts.data)
         baresip.set('dial', form.number.data)
         store.set('call_account', form.accounts.data)
         return redirect('/calls/dial')
@@ -45,7 +45,7 @@ def index():
 
     if not accounts and not ipv6:
         return render_template('calls/no_accounts.html')
-    return render_template('calls/index.html', form=form, ipv6=ipv6)
+    return render_template('calls/index.html', form=form)
 
 
 @mod.route('/dial')

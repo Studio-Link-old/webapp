@@ -13,6 +13,8 @@
 #### Bugfixes
 
 - SIP dial should accept normal numbers #19
+- Status update sip accounts #17
+- Call account selection #22
 
 ### Image
 
