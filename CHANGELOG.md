@@ -20,6 +20,7 @@
 
 - Mainline Linux Kernel 3.14
 - Fix OpenSSL Heartbleed vulnerability
+- USB Audio Gadget
 
 
 ## v14.4.0-alpha (6.04.2014)
