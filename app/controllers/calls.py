@@ -97,6 +97,7 @@ def events():
             call_list = baresip.get('list')
 
             if 'INCOMING' in call_list:
+                store.set('oncall', 'true')
                 m = re.search('sip:.*@*.', call_list)
                 cleanup_events()
                 return json.dumps({'INCOMING': m.group(0)})
@@ -106,6 +107,16 @@ def events():
                 time.sleep(5)
                 cleanup_events()
                 return json.dumps({'ESTABLISHED': True})
+            elif 'OUTGOING' in call_list:
+                store.set('oncall', 'true')
+                time.sleep(2)
+                cleanup_events()
+                return json.dumps({'OUTGOING': True})
+            elif 'RINGING' in call_list:
+                store.set('oncall', 'true')
+                time.sleep(2)
+                cleanup_events()
+                return json.dumps({'RINGING': True})
 
             # HINT: periodically switching user agent, is only a hack!!!
             # this is really bad if something else needs to select
@@ -118,6 +129,8 @@ def events():
         # If no UA matched a call, there is no call ;-)
         # This helps to detect a canceld call from peer
         store.set('oncall', 'false')
+        baresip.set('hangup')
+
     cleanup_events()
     return json.dumps({})
 
