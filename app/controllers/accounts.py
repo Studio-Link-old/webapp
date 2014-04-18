@@ -23,10 +23,17 @@ mod = Blueprint('accounts', __name__, url_prefix='/accounts')
 
 @mod.route('/')
 def index():
-    ipv4 = ""
     accounts = Accounts.query.all()
-    return render_template("accounts/index.html", accounts=accounts, ipv4=ipv4,
-                           ipv6=baresip.get('ipv6'))
+    status = {}
+    for account in accounts:
+        sip = account.username + '@' + account.server
+        status[account.id] = baresip.get('reg_status', sip)
+
+    return render_template("accounts/index.html",
+                           accounts=accounts,
+                           status=status,
+                           ipv4=baresip.get('network', 'IPv4'),
+                           ipv6=baresip.get('network', 'IPv6'))
 
 
 @mod.route('/add/', methods=('GET', 'POST'))

@@ -16,6 +16,15 @@
     </tr>
   </thead>
   <tbody>
+    {% if ipv4 %}
+    <tr>
+      <td>Local IPv4 SIP Account</td>
+      <td>studio@{{ ipv4 }}</td>
+      <td><span class="label label-success">Online</span></td>
+      <td>Default</td>
+      <td>-</td>
+    </tr>
+    {% endif %}
     {% if ipv6 %}
     <tr>
       <td>Local IPv6 SIP Account</td>
@@ -29,7 +38,11 @@
     <tr>
         <td>{{ account.name }}</td>
         <td>{{ account.username }}@{{ account.server }}</td>
+        {% if status[account.id] %}
         <td><span class="label label-success">Online</span></td>
+        {% else %}
+        <td><span class="label label-danger">Offline</span></td>
+        {% endif %}
         <td>Default</td>
         <td>
             <p>

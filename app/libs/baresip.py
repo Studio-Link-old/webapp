@@ -25,16 +25,26 @@ def curl(param):
     return content
 
 
-def get(cmd='list'):
+def get(cmd='list', query=''):
 
     if cmd == 'list':
         return curl('l')
+
     elif cmd == 'reg_status':
-        return curl('r')
-    elif cmd == 'ipv6':
+        reg_status = curl('r')
+        match = re.search(query + '.*(OK|ERR)', reg_status)
+        if not match:
+            return False
+        else:
+            if 'OK' in match.group(1):
+                return True
+            else:
+                return False
+
+    elif cmd == 'network':
         network_debug = curl('n')
         try:
-            match = re.search('Local IPv6:.*-\ (.*)', network_debug)
+            match = re.search(query + '.*-\ (.*)', network_debug)
             if not match:
                 return None
             else:
@@ -50,10 +60,13 @@ def set(cmd='ua_next', data=''):
 
     if cmd == 'ua_next':
         return curl('j')
+
     elif cmd == 'answer':
         return curl('f')
+
     elif cmd == 'hangup':
         return curl('b')
+
     elif cmd == 'dial':
         sip = data
         if '@' in sip:
@@ -68,8 +81,10 @@ def set(cmd='ua_next', data=''):
                 pass
 
         return curl('d'+sip)
+
     elif cmd == 'start_audio_loop':
         return curl('a')
+
     elif cmd == 'stop_audio_loop':
         return curl('e')
 
