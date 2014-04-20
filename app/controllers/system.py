@@ -15,8 +15,11 @@ from app import tasks
 import psutil
 import json
 import subprocess
+import requests
+import redis
 
 mod = Blueprint('system', __name__, url_prefix='/system')
+store = redis.Redis('127.0.0.1')
 
 
 @mod.route('/shutdown')
@@ -54,3 +57,37 @@ def log(match=False):
         log = subprocess.check_output('sudo journalctl -r | head -100',
                                       shell=True)
     return render_template('log.html', log=log.decode('utf-8'))
+
+
+@mod.route('/update')
+def update():
+    url = 'https://api.github.com/repos/studio-connect/images/releases'
+    r = requests.get(url)
+    f = open('/etc/studio-release', 'r')
+    current = f.read().rstrip()
+
+    releases = []
+    for release in r.json():
+        if not release['prerelease']:
+            releases.append(release['tag_name'])
+
+    releases.sort()
+    current_index = releases.index(current)
+
+    if current_index < len(releases)-1:
+        next_release = releases[current_index+1]
+        up2date = False
+        store.set('next_release', next_release)
+    else:
+        next_release = current
+        up2date = True
+
+    return render_template('update.html',
+                           up2date=up2date,
+                           next_release=next_release)
+
+
+@mod.route('/upgrade')
+def upgrade():
+    subprocess.call(['sudo', 'systemctl', 'start', 'studio-update'])
+    return render_template('upgrade.html')

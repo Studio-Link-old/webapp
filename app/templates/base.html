@@ -37,7 +37,7 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 {%- for endpoint, caption, logo in [
-                ('index', 'Home', 'glyphicon-home'),
+                ('index', 'Dashboard', 'glyphicon-dashboard'),
                 ('calls.index', 'Call', 'glyphicon-earphone'),
                 ('accounts.index', 'Accounts', 'glyphicon-transfer'),
                 ('mixers.index', 'Mixers', 'glyphicon-volume-up'),
@@ -54,6 +54,7 @@
                 </b></a>
                 <ul class="dropdown-menu">
                     <li><a href="/settings"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+                    <li><a href="/system/update"><span class="glyphicon glyphicon-refresh"></span> Update</a></li>
                     <li class="divider"></li>
                     <li class="dropdown-header"><span class="glyphicon
                         glyphicon-time"></span> Logging</li>

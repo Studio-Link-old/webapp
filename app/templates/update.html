@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block body_container %}
+
+<h1>Update</h1>
+
+{% if up2date %}
+No update available.
+{% else %}
+<p>Please update to {{next_release}}</p>
+<a href="/system/upgrade" type="submit" class="btn btn-warning">
+    <span class="glyphicon glyphicon-expand"></span> Upgrade
+</a>
+{% endif %}
+
+{% endblock %}
