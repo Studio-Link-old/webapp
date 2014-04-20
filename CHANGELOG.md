@@ -1,6 +1,6 @@
 # Changelog
 
-## v14.4.1-alpha (xx.04.2014)
+## v14.4.1-alpha (20.04.2014)
 
 ### Webapp
 
@@ -20,7 +20,6 @@
 
 - Mainline Linux Kernel 3.14
 - Fix OpenSSL Heartbleed vulnerability
-- USB Audio Gadget
 
 
 ## v14.4.0-alpha (6.04.2014)
