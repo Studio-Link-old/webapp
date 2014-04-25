@@ -9,6 +9,10 @@
 - Updates via Webapp #26
 - Remember last call account selection #25
 
+#### Bugfixes
+
+- Fix alsa src/play rate (8kHz)
+
 
 ## v14.4.1-alpha (20.04.2014)
 
