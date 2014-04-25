@@ -45,6 +45,11 @@ def index():
 
     if not accounts and not ipv6:
         return render_template('calls/no_accounts.html')
+
+    call_account = store.get('call_account')
+    if call_account:
+        form.accounts.data = call_account
+
     return render_template('calls/index.html', form=form)
 
 

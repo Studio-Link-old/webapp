@@ -7,6 +7,7 @@
 #### Features
 
 - Updates via Webapp #26
+- Remember last call account selection #25
 
 
 ## v14.4.1-alpha (20.04.2014)
