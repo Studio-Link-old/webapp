@@ -16,6 +16,7 @@
 ### Image
 
 - Mainline Linux Kernel 3.14.1
+- Add new baresip sounds
 
 
 ## v14.4.1-alpha (20.04.2014)
