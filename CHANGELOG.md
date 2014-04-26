@@ -1,6 +1,6 @@
 # Changelog
 
-## v14.4.2-alpha (xx.04.2014)
+## v14.4.2-alpha (26.04.2014)
 
 ### Webapp
 
@@ -12,6 +12,10 @@
 #### Bugfixes
 
 - Fix alsa src/play rate (8kHz)
+
+### Image
+
+- Mainline Linux Kernel 3.14.1
 
 
 ## v14.4.1-alpha (20.04.2014)
