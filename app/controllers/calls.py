@@ -43,9 +43,6 @@ def index():
         for error in form.errors:
             flash(error+': '+form.errors[error][0], 'danger')
 
-    if not accounts and not ipv6:
-        return render_template('calls/no_accounts.html')
-
     call_account = store.get('call_account')
     if call_account:
         form.accounts.data = call_account
