@@ -1,5 +1,13 @@
 # Changelog
 
+## v14.4.3-alpha (30.04.2014)
+
+### Image
+
+- Mainline Linux Kernel 3.14.2
+- Hotfix audio bug (Device or resource busy)
+
+
 ## v14.4.2-alpha (26.04.2014)
 
 ### Webapp
