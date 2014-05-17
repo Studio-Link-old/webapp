@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block body_container %}
 
-Upgrade is running now!
+Upgrade is running now! Please wait!
+
+<script>
+    jQuery(document).ready(function () {
+        setTimeout('window.location = "/"', 10000);
+    });
+</script>
 
 {% endblock %}

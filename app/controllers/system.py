@@ -89,5 +89,5 @@ def update():
 
 @mod.route('/upgrade')
 def upgrade():
-    subprocess.call(['sudo', 'systemctl', 'start', 'studio-update'])
+    tasks.upgrade.delay()
     return render_template('upgrade.html')

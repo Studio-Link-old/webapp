@@ -69,3 +69,10 @@ def system_reboot():
     time.sleep(3)
     subprocess.call(['sudo', 'systemctl', 'reboot'])
     return True
+
+
+@celery.task
+def upgrade():
+    time.sleep(3)
+    subprocess.call(['sudo', 'systemctl', 'start', 'studio-update'])
+    return True
