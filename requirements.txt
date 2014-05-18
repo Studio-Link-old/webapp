@@ -3,13 +3,13 @@ Flask-Babel==0.9
 Flask-Bootstrap==3.1.1.2
 Flask-SQLAlchemy==1.0
 Flask-WTF==0.9.5
-alembic==0.6.4
+alembic==0.6.5
 SQLAlchemy==0.9.4
 celery==3.1.11
 pyalsaaudio==0.7
 redis==2.9.1
 htpasswd==2.0
 urllib3==1.8.2
-requests==2.2.1
-psutil==2.1.0
+requests==2.3.0
+psutil==2.1.1
 gunicorn==18.0

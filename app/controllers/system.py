@@ -87,7 +87,9 @@ def update():
                            next_release=next_release)
 
 
-@mod.route('/upgrade')
-def upgrade():
+@mod.route('/upgrade/<version>')
+def upgrade(version=False):
+    if version:
+        store.set('next_release', version)
     tasks.upgrade.delay()
     return render_template('upgrade.html')
