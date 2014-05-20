@@ -72,7 +72,11 @@ def update():
             releases.append(release['tag_name'])
 
     releases.sort()
-    current_index = releases.index(current)
+
+    if current in releases:
+        current_index = releases.index(current)
+    else:
+        current_index = len(releases)
 
     if current_index < len(releases)-1:
         next_release = releases[current_index+1]
