@@ -33,8 +33,10 @@ def get_device():
 
 @celery.task
 def account_config(accounts):
+    settings = Settings.query.get(1)
     template = env.get_template('config/baresip_accounts.cfg')
-    output_from_parsed_template = template.render(accounts=accounts)
+    output_from_parsed_template = template.render(accounts=accounts,
+                                                  ptime=settings.framesize)
 
     with open(os.getenv('HOME') + '/.baresip/accounts', 'wb') as fh:
         fh.write(output_from_parsed_template)

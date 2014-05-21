@@ -28,6 +28,6 @@ class Settings(db.Model):
         self.codec = "opus"
         self.audio = "music"
         self.complexity = "6"
-        self.bitrate = "64"
+        self.bitrate = "64000"
         self.jitter = "1-5"
         self.framesize = "20"
