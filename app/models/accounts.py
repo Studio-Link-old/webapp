@@ -28,6 +28,6 @@ class Accounts(db.Model):
         self.transport = 'udp' # possible udp/tcp/tls
         self.ptime = 20
         self.provisioning = False
-        answermode = 'manual' #{manual,early,auto}
+        self.answermode = 'manual' #{manual,early,auto}
         for var in form:
             setattr(self, var, form[var])
