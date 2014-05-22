@@ -6,13 +6,14 @@
 
 #### Features
 
-
-#### Bugfixes
-
+- Provisioning support (studio-connect)
+- Better update/upgrade feeling #28
+- Prepare baresip config for outbound and ICE
 
 ### Image
 
-- Mainline Linux Kernel 3.14.3
+- Mainline Linux Kernel 3.14.4
+- New baresip upstream version (18.05.2014)
 
 
 ## v14.4.3-alpha (30.04.2014)
