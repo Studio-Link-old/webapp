@@ -22,10 +22,12 @@ class Accounts(db.Model):
     ptime = db.Column(db.String(3))
     options = db.Column(db.String(255))
     provisioning = db.Column(db.Boolean)
+    answermode = db.Column(db.String(20))
 
     def __init__(self, form):
-        self.transport = "udp" # possible udp/tcp/tls
+        self.transport = 'udp' # possible udp/tcp/tls
         self.ptime = 20
         self.provisioning = False
+        answermode = 'manual' #{manual,early,auto}
         for var in form:
             setattr(self, var, form[var])

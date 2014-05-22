@@ -9,6 +9,7 @@
 - Provisioning support (studio-connect)
 - Better update/upgrade feeling #28
 - Prepare baresip config for outbound and ICE
+- answermode={manual,early,auto}
 
 ### Image
 
