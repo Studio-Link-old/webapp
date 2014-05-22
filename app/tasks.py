@@ -10,14 +10,17 @@
 # +--------------------------------------------------------------------------+
 
 from __future__ import absolute_import
+from app import db
 from app.celery import celery
 from app.models.settings import Settings
+from app.models.accounts import Accounts
 from jinja2 import Environment, FileSystemLoader
 import alsaaudio
 import redis
 import subprocess
 import time
 import os
+import csv
 
 store = redis.Redis('127.0.0.1')
 env = Environment(loader=FileSystemLoader('app/templates'))
@@ -78,3 +81,26 @@ def upgrade():
     time.sleep(3)
     subprocess.call(['sudo', 'systemctl', 'start', 'studio-update'])
     return True
+
+
+@celery.task
+def provisioning():
+    # Delete old provisioning accounts
+    db.session.query(Accounts).filter(Accounts.provisioning==True).delete()
+    db.session.commit()
+
+    # Add new accounts
+    reader = csv.reader(open('/tmp/provisioning.txt', 'rb'), delimiter=';')
+    for row in reader:
+        account = Accounts({})
+        account.name = row[0]
+        account.username = row[1]
+        account.password = row[2]
+        account.server = row[3]
+        account.options = row[4]
+        account.provisioning = True
+        db.session.add(account)
+        db.session.commit()
+
+    return True
+

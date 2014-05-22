@@ -18,11 +18,14 @@ class Accounts(db.Model):
     server = db.Column(db.String(100))
     username = db.Column(db.String(100))
     password = db.Column(db.String(50))
-    typ = db.Column(db.String(50))
+    transport = db.Column(db.String(5))
     ptime = db.Column(db.String(3))
+    options = db.Column(db.String(255))
+    provisioning = db.Column(db.Boolean)
 
     def __init__(self, form):
+        self.transport = "udp" # possible udp/tcp/tls
+        self.ptime = 20
+        self.provisioning = False
         for var in form:
             setattr(self, var, form[var])
-        self.typ = "sip"
-        self.ptime = 20

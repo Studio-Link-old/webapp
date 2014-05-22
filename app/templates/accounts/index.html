@@ -44,11 +44,13 @@
         <td><span class="label label-danger">Offline</span></td>
         {% endif %}
         <td>Default</td>
-        <td>
+	<td>
+	{% if not account.provisioning %}
             <p>
             <a href="/accounts/edit/{{ account.id }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit"></span> Edit</a>
             <a href="/accounts/delete/{{ account.id }}" class="btn btn-danger btn-sm delete-button"><span class="glyphicon glyphicon-remove-circle"></span> Delete</a>
-            </p>
+	    </p>
+	{% endif %}
         </td>
     </tr>
     {% endfor %}
