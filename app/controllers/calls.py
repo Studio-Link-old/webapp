@@ -63,7 +63,7 @@ def dial():
 def answer():
     baresip.set('answer')
     store.set('oncall', 'true')
-    store.set('oncalltext', 'CALL: RINGING')
+    store.set('oncalltext', 'CALL: ACCEPTED')
     return json.dumps({'return': True})
 
 
@@ -101,6 +101,7 @@ def events():
 
             if 'INCOMING' in call_list:
                 store.set('oncall', 'true')
+                store.set('oncalltext', 'CALL: INCOMING')
                 m = re.search('sip:.*@*.', call_list)
                 cleanup_events()
                 return json.dumps({'INCOMING': m.group(0)})
@@ -114,11 +115,13 @@ def events():
                 return json.dumps({'ESTABLISHED': True})
             elif 'OUTGOING' in call_list:
                 store.set('oncall', 'true')
+                store.set('oncalltext', 'CALL: OUTGOING')
                 time.sleep(2)
                 cleanup_events()
                 return json.dumps({'OUTGOING': True})
             elif 'RINGING' in call_list:
                 store.set('oncall', 'true')
+                store.set('oncalltext', 'CALL: RINGING')
                 time.sleep(2)
                 cleanup_events()
                 return json.dumps({'RINGING': True})
