@@ -103,8 +103,7 @@ def upgrade(version=False):
 
 @mod.route('/info')
 def info():
-    cmd = "ip link show eth0 | grep ether | awk '{ print $2 }' |\
-           md5sum | awk '{ print $1 }'"
+    cmd = "ip link show eth0 | grep ether | awk '{ print $2 }'"
     provisioning = subprocess.check_output(cmd, shell=True)
     info = baresip.get('system_info')
 
