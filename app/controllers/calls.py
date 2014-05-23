@@ -63,6 +63,7 @@ def dial():
 def answer():
     baresip.set('answer')
     store.set('oncall', 'true')
+    store.set('oncalltext', 'CALL: RINGING')
     return json.dumps({'return': True})
 
 
@@ -105,6 +106,8 @@ def events():
                 return json.dumps({'INCOMING': m.group(0)})
             elif 'ESTABLISHED' in call_list:
                 store.set('oncall', 'true')
+                m = re.search('sip:.*@*.', call_list)
+                store.set('oncalltext', m.group(0))
                 # Call is active we can sleep a little bit more
                 time.sleep(5)
                 cleanup_events()

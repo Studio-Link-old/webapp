@@ -66,7 +66,7 @@
             <div class="navbar-header navbar-right">
                 <p class="navbar-text" id="oncall" {%- if not g.oncall -%}style="display: none"{%- endif -%}>
                 <a href="/calls/dial"><span class="glyphicon glyphicon-phone-alt"></span> 
-                    00:00 sip@studio
+			{{ g.oncalltext }}
                 </a>
                 </p>  
             </div>

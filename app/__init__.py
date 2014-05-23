@@ -51,6 +51,7 @@ app.register_blueprint(settingsModule)
 def before_request():
     if store.get('oncall') == 'true':
         g.oncall = True
+        g.oncalltext = store.get('oncalltext')
     else:
         g.oncall = False
 
