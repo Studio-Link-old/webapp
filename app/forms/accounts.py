@@ -10,7 +10,7 @@
 # +--------------------------------------------------------------------------+
 
 from flask_wtf import Form
-from wtforms import TextField, SubmitField, PasswordField
+from wtforms import TextField, SubmitField, PasswordField, SelectField
 from wtforms.validators import InputRequired
 
 
@@ -19,6 +19,11 @@ class AddForm(Form):
     server = TextField('Server', [InputRequired()])
     username = TextField('Username', [InputRequired()])
     password = PasswordField('Password', [InputRequired()])
+    answermode = SelectField('Answermode',
+                             choices=[('manual', 'Manual'),
+                                      ('auto', 'Auto')],
+                             default='manual')
+
     submit_button = SubmitField('Save')
 
 
@@ -27,4 +32,15 @@ class EditForm(Form):
     server = TextField('Server', [InputRequired()])
     username = TextField('Username', [InputRequired()])
     password = PasswordField('Password')
+    answermode = SelectField('Answermode',
+                             choices=[('manual', 'Manual'),
+                                      ('auto', 'Auto')],
+                             default='manual')
+    submit_button = SubmitField('Save')
+
+class EditProvisioningForm(Form):
+    answermode = SelectField('Answermode',
+                             choices=[('manual', 'Manual'),
+                                      ('auto', 'Auto')],
+                             default='manual')
     submit_button = SubmitField('Save')

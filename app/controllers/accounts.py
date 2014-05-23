@@ -13,7 +13,7 @@ from flask import Blueprint, render_template, redirect, request, url_for, flash
 
 from app import db
 from app.models.accounts import Accounts
-from app.forms.accounts import AddForm, EditForm
+from app.forms.accounts import AddForm, EditForm, EditProvisioningForm
 from app import tasks
 from sqlalchemy.exc import IntegrityError
 from app.libs import baresip
@@ -55,7 +55,10 @@ def add():
 def edit(id):
     account = Accounts.query.get(id)
     password = account.password
-    form = EditForm(obj=account)
+    if account.provisioning:
+        form = EditProvisioningForm(obj=account)
+    else:
+        form = EditForm(obj=account)
     if form.validate_on_submit():
         form.populate_obj(account)
         if not request.form['password']:

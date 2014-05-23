@@ -97,7 +97,8 @@ def provisioning():
         account.username = row[1]
         account.password = row[2]
         account.server = row[3]
-        account.options = row[4]
+        account.transport = row[4]
+        account.options = row[5]
         account.provisioning = True
         db.session.add(account)
         db.session.commit()
