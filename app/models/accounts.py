@@ -29,5 +29,6 @@ class Accounts(db.Model):
         self.ptime = 20
         self.provisioning = False
         self.answermode = 'manual' #{manual,early,auto}
+        self.options = ''
         for var in form:
             setattr(self, var, form[var])

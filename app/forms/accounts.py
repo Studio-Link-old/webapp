@@ -38,7 +38,10 @@ class EditForm(Form):
                              default='manual')
     submit_button = SubmitField('Save')
 
+
 class EditProvisioningForm(Form):
+    name = TextField('Name', [InputRequired()])
+    password = PasswordField('Password')
     answermode = SelectField('Answermode',
                              choices=[('manual', 'Manual'),
                                       ('auto', 'Auto')],
