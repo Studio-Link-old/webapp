@@ -57,6 +57,9 @@ def get(cmd='list', query=''):
     elif cmd == 'ua_agent':
         return curl('u')
 
+    elif cmd == 'system_info':
+        return curl('s')
+
     raise NameError('Baresip command not found')
 
 

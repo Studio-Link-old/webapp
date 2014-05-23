@@ -25,10 +25,10 @@ class Accounts(db.Model):
     answermode = db.Column(db.String(20))
 
     def __init__(self, form):
-        self.transport = 'udp' # possible udp/tcp/tls
+        self.transport = 'udp'  # possible udp/tcp/tls
         self.ptime = 20
         self.provisioning = False
-        self.answermode = 'manual' #{manual,early,auto}
+        self.answermode = 'manual'  # {manual,early,auto}
         self.options = ''
         for var in form:
             setattr(self, var, form[var])

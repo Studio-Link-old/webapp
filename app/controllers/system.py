@@ -12,6 +12,7 @@
 from flask import Blueprint, request, flash, url_for, redirect, Response
 from flask import render_template
 from app import tasks
+from app.libs import baresip
 import psutil
 import json
 import subprocess
@@ -51,8 +52,9 @@ def raw():
 @mod.route('/log')
 def log(match=False):
     if match == 'baresip':
-        command = 'sudo journalctl -r /usr/bin/baresip | grep -v "ua: sip:" | head -100'
-        log = subprocess.check_output(command, shell=True)
+        cmd = 'sudo journalctl -r /usr/bin/baresip |\
+               grep -v "ua: sip:" | head -100'
+        log = subprocess.check_output(cmd, shell=True)
     else:
         log = subprocess.check_output('sudo journalctl -r | head -100',
                                       shell=True)
@@ -97,3 +99,13 @@ def upgrade(version=False):
         store.set('next_release', version)
     tasks.upgrade.delay()
     return render_template('upgrade.html')
+
+
+@mod.route('/info')
+def info():
+    cmd = "ip link show eth0 | grep ether | awk '{ print $2 }' |\
+           md5sum | awk '{ print $1 }'"
+    provisioning = subprocess.check_output(cmd, shell=True)
+    info = baresip.get('system_info')
+
+    return render_template('info.html', info=info, provisioning=provisioning)
