@@ -13,7 +13,6 @@ from flask import Blueprint, render_template, redirect, request, url_for, flash
 
 from app import db
 from app.models.settings import Settings
-from app.models.accounts import Accounts
 from app.forms.settings import SettingsForm, PasswordForm
 from sqlalchemy.exc import IntegrityError
 from subprocess import call
@@ -61,8 +60,7 @@ def settings():
             # Generate baresip config
             settings = Settings.query.get(1)
             tasks.baresip_config.delay(settings)
-            accounts = Accounts.query.all()
-            tasks.account_config.delay(accounts)
+            tasks.account_config.delay()
 
     return render_template('settings.html', form=form,
                            form_password=form_password)
