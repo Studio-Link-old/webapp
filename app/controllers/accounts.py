@@ -80,5 +80,4 @@ def delete(id):
 
 
 def account_config():
-    accounts = Accounts.query.all()
-    tasks.account_config.delay(accounts)
+    tasks.account_config.delay()

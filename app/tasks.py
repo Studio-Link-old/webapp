@@ -35,7 +35,8 @@ def get_device():
 
 
 @celery.task
-def account_config(accounts):
+def account_config():
+    accounts = Accounts.query.all()
     settings = Settings.query.get(1)
     template = env.get_template('config/baresip_accounts.cfg')
     output_from_parsed_template = template.render(accounts=accounts,
@@ -90,7 +91,7 @@ def provisioning():
     db.session.commit()
 
     # Add new accounts
-    reader = csv.reader(open('/tmp/provisioning.txt', 'rb'), delimiter=';')
+    reader = csv.reader(open('/tmp/provisioning.txt', 'rb'), delimiter=';', quotechar="'")
     for row in reader:
         account = Accounts({})
         account.name = row[0]
@@ -103,5 +104,6 @@ def provisioning():
         db.session.add(account)
         db.session.commit()
 
+    tasks.account_config.delay()
     return True
 
