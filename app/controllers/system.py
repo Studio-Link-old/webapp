@@ -94,6 +94,7 @@ def update():
 
 
 @mod.route('/upgrade/<version>')
+@mod.route('/upgrade')
 def upgrade(version=False):
     if version:
         store.set('next_release', version)
