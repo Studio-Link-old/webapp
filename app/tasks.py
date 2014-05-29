@@ -87,11 +87,12 @@ def upgrade():
 @celery.task
 def provisioning():
     # Delete old provisioning accounts
-    db.session.query(Accounts).filter(Accounts.provisioning==True).delete()
+    db.session.query(Accounts).filter(Accounts.provisioning == True).delete()
     db.session.commit()
 
     # Add new accounts
-    reader = csv.reader(open('/tmp/provisioning.txt', 'rb'), delimiter=';', quotechar="'")
+    reader = csv.reader(open('/tmp/provisioning.txt', 'rb'), delimiter=';',
+                        quotechar="'")
     for row in reader:
         account = Accounts({})
         account.name = row[0]
@@ -106,4 +107,3 @@ def provisioning():
 
     tasks.account_config.delay()
     return True
-

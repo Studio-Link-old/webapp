@@ -1,5 +1,14 @@
 # Changelog
 
+## v14.6.0-alpha (xx.06.2014)
+
+### Webapp
+
+#### Bugfixes
+
+- Added more unittests and code cleanup
+
+
 ## v14.5.0-alpha (25.05.2014)
 
 ### Webapp

@@ -71,6 +71,16 @@ class AppTestCase(unittest.TestCase):
         requests.get.return_value = Mock(content = 'Local IPv6:   enp4s11 - fe80::21e:68ff:fed5:9d85')
         rv = self.client.get('/calls/')
         assert b'Dial' in rv.data
+    
+    @patch('app.libs.baresip.requests')
+    def test_calls_dial(self,requests):
+        self.add_account()
+        requests.get.return_value = Mock(content = 'studio@lan')
+        rv = self.client.post('/calls/',data=dict(
+            accounts='studio@lan',
+            number='studio@fe80::21e:68ff:fed5:9d85',
+            ))
+        assert b'redirected' in rv.data
 
     @patch('app.controllers.calls.time')
     @patch('app.libs.baresip.requests')

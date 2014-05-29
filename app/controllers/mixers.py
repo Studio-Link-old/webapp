@@ -68,7 +68,7 @@ def index(card=""):
 
 @mod.route('/volume/<card>/<mixeridx>/<channel>/<value>/<direction>')
 def set_volume(card="", mixeridx=0, channel=0, value=50, direction='playback'):
-    #channel = alsaaudio.MIXER_CHANNEL_ALL
+    # channel = alsaaudio.MIXER_CHANNEL_ALL
     devices = alsaaudio.cards()
     try:
         idx = devices.index(card)
