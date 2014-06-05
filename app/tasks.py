@@ -105,5 +105,5 @@ def provisioning():
         db.session.add(account)
         db.session.commit()
 
-    tasks.account_config.delay()
+    account_config.delay()
     return True

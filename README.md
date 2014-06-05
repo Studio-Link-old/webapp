@@ -7,6 +7,10 @@
 
 Optimized to use ARM hardware (e.g. BeagleBone Black) for professional studio connections (podcasting and broadcasting) 
 
+## Website
+
+[www.studio-connect.de](http://studio-connect.de)
+
 ## Info
 
 Contributors: [Sebastian Reimers](https://github.com/sreimers/)

@@ -11,7 +11,6 @@
 
 from flask import Blueprint, render_template, url_for, redirect, flash
 import alsaaudio
-from app import tasks
 from app.models.settings import Settings
 from app.libs import baresip
 
