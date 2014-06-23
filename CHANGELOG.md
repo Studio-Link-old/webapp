@@ -4,6 +4,9 @@
 
 ### Webapp
 
+- Reboot required message #29
+
+
 #### Bugfixes
 
 - Added more unittests and code cleanup

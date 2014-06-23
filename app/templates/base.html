@@ -85,6 +85,13 @@
         {{ msg }}
     </div>
     {% endfor %}
+
+    {% if g.reboot_required %}
+    <div class="alert alert-danger">
+	    Reboot required! <a href="{{ url_for('system.reboot') }}">Reboot now</a>
+    </div>
+    {% endif %}
+
     <div id="content">
     {% block body_container %}{% endblock %}
     </div>

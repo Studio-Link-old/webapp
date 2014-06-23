@@ -178,5 +178,15 @@ class AppTestCase(unittest.TestCase):
         rv = self.client.get('/system/log/baresip')
         assert b'Log' in rv.data
 
+    def test_reboot_required(self):
+        self.store.set('reboot_required', 'true')
+        rv = self.client.get('/')
+        assert b'Reboot required' in rv.data
+    
+    def test_reboot_required_false(self):
+        self.store.set('reboot_required', 'false')
+        rv = self.client.get('/')
+        assert b'Reboot required' not in rv.data
+
 if __name__ == '__main__':
     unittest.main()

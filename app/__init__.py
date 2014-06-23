@@ -55,6 +55,11 @@ def before_request():
     else:
         g.oncall = False
 
+    if store.get('reboot_required') == 'true':
+        g.reboot_required = True
+    else:
+        g.reboot_required = False
+
 
 @app.route('/')
 def index():
