@@ -1,15 +1,23 @@
 # Changelog
 
-## v14.6.0-alpha (xx.06.2014)
+## v14.x.0-alpha (xx.xx.2014)
 
 ### Webapp
 
-- Reboot required message #29
+#### Features
 
+- Reboot required message #29
 
 #### Bugfixes
 
 - Added more unittests and code cleanup
+
+### Image
+
+- Update Baresip 0.4.11
+- Update Libre 0.4.9
+- Update Librem 0.4.6
+- Added Jack2 upstream version (1.9.10pre-7.06.2014)
 
 
 ## v14.5.0-alpha (25.05.2014)

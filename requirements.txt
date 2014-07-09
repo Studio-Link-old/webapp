@@ -4,12 +4,12 @@ Flask-Bootstrap==3.1.1.2
 Flask-SQLAlchemy==1.0
 Flask-WTF==0.9.5
 alembic==0.6.5
-SQLAlchemy==0.9.4
-celery==3.1.11
+SQLAlchemy==0.9.6
+celery==3.1.12
 pyalsaaudio==0.7
 redis==2.10.1
 htpasswd==2.0
-urllib3==1.8.2
+urllib3==1.8.3
 requests==2.3.0
 psutil==2.1.1
-gunicorn==18.0
+gunicorn==19.0
