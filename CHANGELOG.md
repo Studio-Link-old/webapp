@@ -11,6 +11,7 @@
 #### Bugfixes
 
 - Added more unittests and code cleanup
+- Bugfix Early Reply Fritzbox
 
 ### Image
 

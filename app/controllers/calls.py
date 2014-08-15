@@ -113,7 +113,7 @@ def events():
                 time.sleep(5)
                 cleanup_events()
                 return json.dumps({'ESTABLISHED': True})
-            elif 'OUTGOING' in call_list:
+            elif 'OUTGOING' in call_list or 'EARLY' in call_list:
                 store.set('oncall', 'true')
                 store.set('oncalltext', 'CALL: OUTGOING')
                 time.sleep(2)
