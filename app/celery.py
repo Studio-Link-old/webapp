@@ -21,7 +21,8 @@ celery = Celery('app.celery',
 # Optional configuration, see the application user guide.
 celery.conf.update(
     CELERY_TASK_RESULT_EXPIRES=3600,
-    CELERY_TIMEZONE='UTC'
+    CELERY_TIMEZONE='UTC',
+    CELERY_ACCEPT_CONTENT = ['json']
 )
 
 if __name__ == '__main__':
