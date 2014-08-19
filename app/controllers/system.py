@@ -63,7 +63,7 @@ def log(match=False):
 
 @mod.route('/update')
 def update():
-    url = 'https://api.github.com/repos/studio-connect/images/releases'
+    url = 'http://studio-link.de/releases.json'
     r = requests.get(url)
     f = open('/etc/studio-release', 'r')
     current = f.read().rstrip()
