@@ -1,4 +1,4 @@
-# Studio Connect
+# Studio Link
 
 [![Build Status](https://travis-ci.org/studio-connect/webapp.png)](https://travis-ci.org/studio-connect/webapp)
 [![Coverage Status](https://coveralls.io/repos/studio-connect/webapp/badge.png)](https://coveralls.io/r/studio-connect/webapp)
@@ -9,7 +9,7 @@ Optimized to use ARM hardware (e.g. BeagleBone Black) for professional studio co
 
 ## Website
 
-[www.studio-connect.de](http://studio-connect.de)
+[www.studio-link.de](http://studio-link.de)
 
 ## Info
 
