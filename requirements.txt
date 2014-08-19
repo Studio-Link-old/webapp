@@ -13,4 +13,4 @@ urllib3==1.9
 requests==2.3.0
 psutil==2.1.1
 gunicorn==19.1.0
-pyjack==0.6
+pyjack==0.3.2
