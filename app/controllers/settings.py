@@ -58,8 +58,7 @@ def settings():
                 db.session.commit()
                 flash('Settings added', 'success')
             # Generate baresip config
-            settings = Settings.query.get(1)
-            tasks.baresip_config.delay(settings)
+            tasks.baresip_config.delay()
             tasks.account_config.delay()
 
     return render_template('settings.html', form=form,

@@ -49,7 +49,8 @@ def account_config():
 
 
 @celery.task
-def baresip_config(settings):
+def baresip_config():
+    settings = Settings.query.get(1)
     codecs = ['opus', 'g722', 'g726', 'g711', 'gsm', 'l16']
     codecs.remove(settings.codec)
     template = env.get_template('config/baresip.cfg')
