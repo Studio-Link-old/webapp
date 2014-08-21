@@ -61,8 +61,14 @@ def baresip_config():
     with open(os.getenv('HOME') + '/.baresip/config', 'wb') as fh:
         fh.write(output_from_parsed_template)
 
-    subprocess.call(['sudo', 'systemctl', 'restart', 'baresip'])
+    if settings.audio == 'jack':
+        subprocess.call(['sudo', 'systemctl', 'enable', 'jackd'])
+        subprocess.call(['sudo', 'systemctl', 'start', 'jackd'])
+    else:
+        subprocess.call(['sudo', 'systemctl', 'stop', 'jackd'])
+        subprocess.call(['sudo', 'systemctl', 'disable', 'jackd'])
 
+    subprocess.call(['sudo', 'systemctl', 'restart', 'baresip'])
 
 @celery.task
 def system_shutdown():
