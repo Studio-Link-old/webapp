@@ -20,8 +20,8 @@ class SettingsForm(Form):
     device = SelectField('Audio device', choices=DEFAULT_CHOICES)
 
     audio = SelectField('Soundsystem',
-                         choices=[('alsa', 'ALSA'),
-                                  ('jack', 'JACK (beta)')],
+                         choices=[('alsa', 'ALSA')],
+#                                  ('jack', 'JACK (beta)')],
                          default='alsa')
 
     codec = SelectField('Preferred codec',
