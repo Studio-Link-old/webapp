@@ -4,7 +4,7 @@ function checkCallEvents()
 
     $.ajax({
         type: "GET",
-    url: "/calls/events",
+    url: "/events",
     timeout: 30000,
     dataType: "json"
     }).done(function(result) {
@@ -26,5 +26,5 @@ function checkCallEvents()
 };
 
 jQuery(document).ready(function () {
-    setTimeout("checkCallEvents()", 2000);
+    setTimeout("checkCallEvents()", 500);
 });

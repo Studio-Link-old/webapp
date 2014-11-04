@@ -61,88 +61,16 @@ def dial():
 
 @mod.route('/answer')
 def answer():
-    baresip.set('answer')
+    baresip.set('answer', store.get('baresip_ua'))
     store.set('oncall', 'true')
+    store.set('baresip_status', 'ACCEPTED')
     store.set('oncalltext', 'CALL: ACCEPTED')
     return json.dumps({'return': True})
 
 
 @mod.route('/hangup')
 def hangup():
-    baresip.set('hangup')
+    baresip.set('hangup', store.get('baresip_ua'))
     store.set('oncall', 'false')
+    store.set('baresip_status', '')
     return redirect('/calls/')
-
-
-@mod.route('/events')
-def events():
-    accounts = int(Accounts.query.count()) + 1
-    event_procs = store.get('event_procs')
-    if not event_procs:
-        event_procs = 1
-    else:
-        event_procs = int(event_procs) + 1
-    store.setex('event_procs', event_procs, 60)
-
-    # Long polling (timeout 20 seconds)
-    count = 0
-    while count < 20:
-        time.sleep(1)
-
-        # Limit processes
-        event_procs = int(store.get('event_procs'))
-        if event_procs >= 3:
-            cleanup_events()
-            return json.dumps({'LIMITED': True})
-
-        # Get baresip call status (multi accounts)
-        for account in range(0, accounts):
-            call_list = baresip.get('list')
-
-            if 'INCOMING' in call_list:
-                store.set('oncall', 'true')
-                store.set('oncalltext', 'CALL: INCOMING')
-                m = re.search('sip:.*@*.', call_list)
-                cleanup_events()
-                return json.dumps({'INCOMING': m.group(0)})
-            elif 'ESTABLISHED' in call_list:
-                store.set('oncall', 'true')
-                m = re.search('sip:.*@*.', call_list)
-                store.set('oncalltext', m.group(0))
-                # Call is active we can sleep a little bit more
-                time.sleep(5)
-                cleanup_events()
-                return json.dumps({'ESTABLISHED': True})
-            elif 'OUTGOING' in call_list or 'EARLY' in call_list:
-                store.set('oncall', 'true')
-                store.set('oncalltext', 'CALL: OUTGOING')
-                time.sleep(2)
-                cleanup_events()
-                return json.dumps({'OUTGOING': True})
-            elif 'RINGING' in call_list:
-                store.set('oncall', 'true')
-                store.set('oncalltext', 'CALL: RINGING')
-                time.sleep(2)
-                cleanup_events()
-                return json.dumps({'RINGING': True})
-
-            # HINT: periodically switching user agent, is only a hack!!!
-            # this is really bad if something else needs to select
-            # a fix UA. At the moment its enough to switch at the and
-            # of the loop. But multi call handling is not possible! The
-            # first UA matched wins!
-            baresip.set('ua_next')
-        count = count + 1
-
-        # If no UA matched a call, there is no call ;-)
-        # This helps to detect a canceld call from peer
-        store.set('oncall', 'false')
-        baresip.set('hangup')
-
-    cleanup_events()
-    return json.dumps({})
-
-
-def cleanup_events(key_timeout=60):
-    event_procs = int(store.get('event_procs')) - 1
-    store.setex('event_procs', event_procs, key_timeout)

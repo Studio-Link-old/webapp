@@ -78,9 +78,11 @@ def set(cmd='ua_next', data=''):
         return False
 
     elif cmd == 'answer':
+        set('user_agent', data)
         return curl('f')
 
     elif cmd == 'hangup':
+        set('user_agent', data)
         return curl('b')
 
     elif cmd == 'dial':
