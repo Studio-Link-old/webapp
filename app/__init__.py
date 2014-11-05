@@ -46,6 +46,8 @@ app.register_blueprint(callsModule)
 from app.controllers.settings import mod as settingsModule
 app.register_blueprint(settingsModule)
 
+from app.controllers.routing import mod as routingModule
+app.register_blueprint(routingModule)
 
 @app.before_request
 def before_request():
