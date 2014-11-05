@@ -93,7 +93,7 @@ class AppTestCase(unittest.TestCase):
     def test_accounts_edit(self):
         self.add_account()
         rv = self.client.get('/accounts/edit/1')
-        assert b'Add SIP Account' in rv.data
+        assert b'Add/Edit SIP Account' in rv.data
 
         self.client.post('/accounts/edit/1', data=dict(
             name='Test2',
