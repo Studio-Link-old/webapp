@@ -5,6 +5,7 @@
 #include <microhttpd.h>
 #include <stdio.h>
 #include <hiredis/hiredis.h>
+#include <netinet/in.h>
 
 #define PORT 8888
 
@@ -72,9 +73,16 @@ out:
 main ()
 {
 	struct MHD_Daemon *daemon;
+	struct sockaddr_in daemon_ip_addr;
+	memset (&daemon_ip_addr, 0, sizeof (struct sockaddr_in));
+	daemon_ip_addr.sin_family = AF_INET;
+	daemon_ip_addr.sin_port = htons (PORT);
+	daemon_ip_addr.sin_addr.s_addr = htonl (INADDR_LOOPBACK);
+
 
 	daemon = MHD_start_daemon (MHD_USE_THREAD_PER_CONNECTION, PORT, NULL, NULL,
-			&answer_to_connection, NULL, MHD_OPTION_END);
+			&answer_to_connection, NULL, MHD_OPTION_SOCK_ADDR,
+	                &daemon_ip_addr, MHD_OPTION_END);
 	if (NULL == daemon)
 		return 1;
 
