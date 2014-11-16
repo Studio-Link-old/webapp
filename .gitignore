@@ -3,3 +3,4 @@ app.db
 .coverage
 celerybeat-schedule
 htpasswd
+long_polling/server
