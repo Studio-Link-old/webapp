@@ -2,5 +2,49 @@
 {% block body_container %}
 
 <h1>Audio Routing</h1>
+<div class="table-responsive">
+<table class="table">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>system:capture_1</th>
+			<th>system:capture_2</th>
+			<th>system:baresip_out1</th>
+			<th>system:baresip_out2</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>system:playback_1</td>
+			<td><input type="checkbox" /></td>
+			<td><input type="checkbox" /></td>
+			<td><input type="checkbox" /></td>
+			<td><input type="checkbox" /></td>
+		</tr>
+		<tr>
+			<td>system:playback_2</td>
+			<td><input type="checkbox" /></td>
+			<td><input type="checkbox" /></td>
+			<td><input type="checkbox" /></td>
+			<td><input type="checkbox" /></td>
+		</tr>
+		<tr>
+			<td>system:baresip_in1</td>
+			<td><input type="checkbox" /></td>
+			<td><input type="checkbox" /></td>
+			<td><input type="checkbox" /></td>
+			<td><input type="checkbox" /></td>
+		</tr>
+		<tr>
+			<td>system:baresip_in2</td>
+			<td><input type="checkbox" /></td>
+			<td><input type="checkbox" /></td>
+			<td><input type="checkbox" /></td>
+			<td><input type="checkbox" /></td>
+		</tr>
+	</tbody>
+
+</table>
+</div>
 
 {% endblock %}
