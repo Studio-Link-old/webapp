@@ -5,7 +5,16 @@
 
 ## About
 
-Optimized to use ARM hardware (e.g. BeagleBone Black) for professional studio connections (podcasting and broadcasting) 
+Optimized to use ARM hardware (e.g. BeagleBone Black) for professional over IP studio connections (podcasting and broadcasting).
+
+Features:
+
+- JACK (low latency and routing)
+- Baresip (SIP User-Agent)
+- Codecs: Opus, G.722, G.726, G.711, GSM and L16
+- Responsive web interface
+- USB OTG audio gadget support
+- Recording (double-ender/multitrack)
 
 ## Installation
 
