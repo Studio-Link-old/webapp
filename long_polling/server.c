@@ -29,16 +29,17 @@ answer_to_connection (void *cls, struct MHD_Connection *connection,
 	redisSetTimeout(context, timeout);
 
 	reply = redisCommand(context, "GET baresip_status");
-	printf("baresip_status) '%s'\n", reply->str);
-	if (strcmp(reply->str, "INCOMING") == 0) {
-		page = "{\"INCOMING\": \"sip:studio@studio.lan\"}\n";
-		freeReplyObject(reply);
-		goto out;
+	if (reply->type == REDIS_REPLY_STRING) {
+		printf("baresip_status) '%s'\n", reply->str);
+		if (strcmp(reply->str, "INCOMING") == 0) {
+			page = "{\"INCOMING\": \"sip:studio@studio.lan\"}\n";
+			freeReplyObject(reply);
+			goto out;
+		}
 	}
 	freeReplyObject(reply);
 
 	reply = redisCommand(context,"SUBSCRIBE baresip_call_event");
-	printf("subscribe_status) '%s'\n", reply->str);
 	freeReplyObject(reply);
 	while(redisGetReply(context, &reply) == REDIS_OK) {
 		// consume message
