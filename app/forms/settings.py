@@ -20,7 +20,7 @@ class SettingsForm(Form):
     device = SelectField('Audio device', choices=DEFAULT_CHOICES)
 
     audio = SelectField('Soundsystem',
-                         choices=[('alsa', 'ALSA')],
+                         choices=[('alsa', 'ALSA'),
                                   ('jack', 'JACK (beta)')],
                          default='alsa')
 
