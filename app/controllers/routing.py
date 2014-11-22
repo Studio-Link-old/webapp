@@ -37,3 +37,25 @@ def index():
 
 
     return render_template('routing.html', inports=inports, outports=outports, connects=connects)
+
+
+@mod.route('/route/<source>/<destination>')
+def route(source, destination):
+    try:
+        jack.connect(source, destination)
+    except jack.NotConnectedError:
+        jack.attach("studio-webapp")
+        jack.connect(source, destination)
+
+    return ""
+
+
+@mod.route('/unroute/<source>/<destination>')
+def unroute(source, destination):
+    try:
+        jack.disconnect(source, destination)
+    except jack.NotConnectedError:
+        jack.attach("studio-webapp")
+        jack.disconnect(source, destination)
+
+    return ""

@@ -16,16 +16,29 @@
 		{% for port in outports %}
 		<tr>
 			<td>{{ port }}</td>
-			{% for port in inports %}
+			{% for inport in inports %}
 			<td>
 			{% for c_port, c_value in connects.items() %}
 
-				{% if c_port == port %}
-					{% if c_value %}
-					<input type="checkbox" checked />
+				{% if c_port == inport %}
+					{% if port in c_value %}
+					<input type="checkbox" checked id="route{{ port |replace(":", "-")}}{{ c_port |replace(":", "-") }}" />
 					{% else %}
-					<input type="checkbox" />
+					<input type="checkbox" id="route{{ port |replace(":", "-")}}{{ c_port |replace(":", "-") }}" />
 					{% endif %}
+
+<script>
+$(function() {
+	$( "#route{{ port |replace(":", "-")}}{{ c_port |replace(":", "-")}}" ).change(
+	function(e){
+	    if ($(this).is(':checked')) {
+		$.get("/routing/route/{{ port }}/{{ c_port }}");
+	    } else {
+		$.get("/routing/unroute/{{ port }}/{{ c_port }}");
+	    }
+    });
+});
+</script>
 				{% endif %}
 
 			{% endfor %}
