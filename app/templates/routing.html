@@ -7,44 +7,34 @@
 	<thead>
 		<tr>
 			<th>#</th>
-			<th>system:capture_1</th>
-			<th>system:capture_2</th>
-			<th>system:baresip_out1</th>
-			<th>system:baresip_out2</th>
+			{% for port in inports %}
+			<th>{{ port }}</th>
+			{% endfor %}
 		</tr>
 	</thead>
 	<tbody>
+		{% for port in outports %}
 		<tr>
-			<td>system:playback_1</td>
-			<td><input type="checkbox" /></td>
-			<td><input type="checkbox" /></td>
-			<td><input type="checkbox" /></td>
-			<td><input type="checkbox" /></td>
+			<td>{{ port }}</td>
+			{% for port in inports %}
+			<td>
+			{% for c_port, c_value in connects.items() %}
+
+				{% if c_port == port %}
+					{% if c_value %}
+					<input type="checkbox" checked />
+					{% else %}
+					<input type="checkbox" />
+					{% endif %}
+				{% endif %}
+
+			{% endfor %}
+			</td>
+			{% endfor %}
 		</tr>
-		<tr>
-			<td>system:playback_2</td>
-			<td><input type="checkbox" /></td>
-			<td><input type="checkbox" /></td>
-			<td><input type="checkbox" /></td>
-			<td><input type="checkbox" /></td>
-		</tr>
-		<tr>
-			<td>system:baresip_in1</td>
-			<td><input type="checkbox" /></td>
-			<td><input type="checkbox" /></td>
-			<td><input type="checkbox" /></td>
-			<td><input type="checkbox" /></td>
-		</tr>
-		<tr>
-			<td>system:baresip_in2</td>
-			<td><input type="checkbox" /></td>
-			<td><input type="checkbox" /></td>
-			<td><input type="checkbox" /></td>
-			<td><input type="checkbox" /></td>
-		</tr>
+		{% endfor %}
 	</tbody>
 
 </table>
 </div>
-
 {% endblock %}
