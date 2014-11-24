@@ -1,7 +1,7 @@
 # Studio Link
 
-[![Build Status](https://travis-ci.org/studio-connect/webapp.png)](https://travis-ci.org/studio-connect/webapp)
-[![Coverage Status](https://coveralls.io/repos/studio-connect/webapp/badge.png)](https://coveralls.io/r/studio-connect/webapp)
+[![Build Status](https://travis-ci.org/Studio-Link/webapp.png)](https://travis-ci.org/Studio-Link/webapp)
+[![Coverage Status](https://coveralls.io/repos/Studio-Link/webapp/badge.png)](https://coveralls.io/r/Studio-Link/webapp)
 
 ## About
 
@@ -18,7 +18,7 @@ Features:
 
 ## Installation
 
-Follow this [README](https://github.com/studio-connect/images/blob/master/README.md)
+Follow this [README](https://github.com/Studio-Link/images/blob/master/README.md)
 
 ## Website
 
