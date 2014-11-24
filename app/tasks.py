@@ -70,6 +70,7 @@ def baresip_config():
 
     subprocess.call(['sudo', 'systemctl', 'restart', 'baresip'])
 
+
 @celery.task
 def system_shutdown():
     time.sleep(3)

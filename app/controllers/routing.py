@@ -35,8 +35,8 @@ def index():
         if (jack.get_port_flags(port) & jack.IsOutput) > 0:
             outports.append(port)
 
-
-    return render_template('routing.html', inports=inports, outports=outports, connects=connects)
+    return render_template('routing.html', inports=inports, outports=outports,
+                           connects=connects)
 
 
 @mod.route('/route/<source>/<destination>')

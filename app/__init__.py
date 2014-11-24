@@ -52,6 +52,7 @@ app.register_blueprint(routingModule)
 from app.controllers.recording import mod as recordingModule
 app.register_blueprint(recordingModule)
 
+
 @app.before_request
 def before_request():
     if store.get('oncall') == 'true':
