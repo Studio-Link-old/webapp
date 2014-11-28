@@ -2,10 +2,10 @@ Flask==0.10.1
 Flask-Babel==0.9
 Flask-Bootstrap==3.3.0.1
 Flask-SQLAlchemy==2.0
-Flask-WTF==0.10.2
-alembic==0.6.7
+Flask-WTF==0.10.3
+alembic==0.7.0
 SQLAlchemy==0.9.8
-celery==3.1.16
+celery==3.1.17
 pyalsaaudio==0.7
 redis==2.10.3
 htpasswd==2.0
