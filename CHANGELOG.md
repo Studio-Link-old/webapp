@@ -1,12 +1,14 @@
 # Changelog
 
-## v14.8.0-alpha (xx.08.2014)
+## v14.1x.0-beta (xx.xx.2014)
 
 ### Webapp
 
 #### Features
 
 - Reboot required message #29
+- Single account codec selection
+- Jack audio routing
 
 #### Bugfixes
 

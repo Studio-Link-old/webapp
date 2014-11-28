@@ -10,7 +10,7 @@
 # +--------------------------------------------------------------------------+
 
 from flask_wtf import Form
-from wtforms import TextField, SubmitField, PasswordField, SelectField
+from wtforms import TextField, SubmitField, PasswordField, SelectField, SelectMultipleField
 from wtforms.validators import InputRequired
 
 
@@ -23,7 +23,6 @@ class AddForm(Form):
                              choices=[('manual', 'Manual'),
                                       ('auto', 'Auto')],
                              default='manual')
-
     submit_button = SubmitField('Save')
 
 
@@ -36,6 +35,14 @@ class EditForm(Form):
                              choices=[('manual', 'Manual'),
                                       ('auto', 'Auto')],
                              default='manual')
+    codecs = SelectMultipleField('Codecs', choices=[('opus', 'Opus 48kHz'),
+                                    ('g722', 'G.722 16kHz'),
+                                    ('g726', 'G.726 8kHz'),
+                                    ('g711', 'G.711 8kHz'),
+                                    ('gsm', 'GSM 8kHz'),
+                                    ('l16', 'PCM 48kHz')],
+                            )
+
     submit_button = SubmitField('Save')
 
 

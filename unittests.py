@@ -12,6 +12,7 @@
 import os
 from app import app
 from app import db
+from app.models.accounts import Accounts
 import unittest
 import tempfile
 import redis
@@ -99,8 +100,26 @@ class AppTestCase(unittest.TestCase):
             name='Test2',
             server='127.0.0.1',
             username='test',
-            password=''
+            password='',
+            codecs=['opus']
             ))
+        account = Accounts.query.get(1)
+        password_old = account.password
+        assert 'opus' in account.options
+        assert 'gsm' not in account.options
+
+        self.client.post('/accounts/edit/1', data=dict(
+            name='Test2',
+            server='127.0.0.1',
+            username='test',
+            password='test1234',
+            codecs=['opus','gsm']
+            ))
+        account = Accounts.query.get(1)
+        password_new = account.password
+        assert 'opus' in account.options
+        assert 'gsm' in account.options
+        assert password_new != password_old
 
         rv = self.client.get('/accounts/')
         assert b'Test1' not in rv.data
