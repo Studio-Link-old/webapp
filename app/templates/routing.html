@@ -50,4 +50,15 @@ $(function() {
 
 </table>
 </div>
+<p>
+    {% if not otg_status %}
+    <a href="/routing/otg/true" class="btn btn-success" data-toggle="tooltip" data-placement="right" title="Enable USB Audio OTG Client Port">
+	    <i class="glyphicon glyphicon-ok"></i> Enable USB audio
+    </a>
+    {% else %}
+    <a href="/routing/otg/false" class="btn btn-danger" data-toggle="tooltip" data-placement="right" title="Disable USB Audio OTG Client Port">
+	    <i class="glyphicon glyphicon-remove"></i> Disable USB audio
+    </a>
+    {% endif %}
+</p>
 {% endblock %}

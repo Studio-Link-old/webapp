@@ -12,6 +12,7 @@
 from flask import Blueprint, request, flash, url_for, redirect, Response
 from flask import render_template
 import jack
+import subprocess
 
 mod = Blueprint('routing', __name__, url_prefix='/routing')
 
@@ -21,7 +22,7 @@ def index():
     try:
         ports = jack.get_ports()
     except jack.NotConnectedError:
-        jack.attach("studio-webapp")
+        jack.attach('studio-webapp')
         ports = jack.get_ports()
 
     inports = []
@@ -35,8 +36,14 @@ def index():
         if (jack.get_port_flags(port) & jack.IsOutput) > 0:
             outports.append(port)
 
+    otg_systemd_status = subprocess.check_output(['sudo', 'systemctl', 'is-active', 'studio-otg'])
+    if otg_systemd_status == 'active':
+        otg_status = True
+    else:
+        otg_status = False
+
     return render_template('routing.html', inports=inports, outports=outports,
-                           connects=connects)
+                           connects=connects, otg_status=otg_status)
 
 
 @mod.route('/route/<source>/<destination>')
@@ -47,7 +54,7 @@ def route(source, destination):
         jack.attach("studio-webapp")
         jack.connect(source, destination)
 
-    return ""
+    return ''
 
 
 @mod.route('/unroute/<source>/<destination>')
@@ -58,4 +65,16 @@ def unroute(source, destination):
         jack.attach("studio-webapp")
         jack.disconnect(source, destination)
 
-    return ""
+    return ''
+
+
+@mod.route('/otg/<status>')
+def otg(status):
+    if status == 'true':
+        subprocess.call(['sudo', 'systemctl', 'enable', 'studio-otg'])
+        subprocess.call(['sudo', 'systemctl', 'start', 'studio-otg'])
+    else:
+        subprocess.call(['sudo', 'systemctl', 'disable', 'studio-otg'])
+        subprocess.call(['sudo', 'systemctl', 'stop', 'studio-otg'])
+
+    return redirect(url_for('routing.index'))
