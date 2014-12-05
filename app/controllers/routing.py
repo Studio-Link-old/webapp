@@ -35,8 +35,14 @@ def index():
             connects[port] = jack.get_connections(port)
         if (jack.get_port_flags(port) & jack.IsOutput) > 0:
             outports.append(port)
+    try:
+        otg_systemd_status = subprocess.check_output(['sudo',
+                                                      'systemctl',
+                                                      'is-active',
+                                                      'studio-gaudio_in'])
+    except subprocess.CalledProcessError, e:
+        otg_systemd_status = 'failed'
 
-    otg_systemd_status = subprocess.check_output(['sudo', 'systemctl', 'is-active', 'studio-gaudio_in'])
     if otg_systemd_status == 'active':
         otg_status = True
     else:
