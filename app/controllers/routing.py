@@ -36,7 +36,7 @@ def index():
         if (jack.get_port_flags(port) & jack.IsOutput) > 0:
             outports.append(port)
 
-    otg_systemd_status = subprocess.check_output(['sudo', 'systemctl', 'is-active', 'studio-otg'])
+    otg_systemd_status = subprocess.check_output(['sudo', 'systemctl', 'is-active', 'studio-gaudio_in'])
     if otg_systemd_status == 'active':
         otg_status = True
     else:
@@ -71,10 +71,14 @@ def unroute(source, destination):
 @mod.route('/otg/<status>')
 def otg(status):
     if status == 'true':
-        subprocess.call(['sudo', 'systemctl', 'enable', 'studio-otg'])
-        subprocess.call(['sudo', 'systemctl', 'start', 'studio-otg'])
+        subprocess.call(['sudo', 'systemctl', 'enable', 'studio-gaudio_in'])
+        subprocess.call(['sudo', 'systemctl', 'enable', 'studio-gaudio_out'])
+        subprocess.call(['sudo', 'systemctl', 'start', 'studio-gaudio_in'])
+        subprocess.call(['sudo', 'systemctl', 'start', 'studio-gaudio_out'])
     else:
-        subprocess.call(['sudo', 'systemctl', 'disable', 'studio-otg'])
-        subprocess.call(['sudo', 'systemctl', 'stop', 'studio-otg'])
+        subprocess.call(['sudo', 'systemctl', 'stop', 'studio-gaudio_in'])
+        subprocess.call(['sudo', 'systemctl', 'stop', 'studio-gaudio_out'])
+        subprocess.call(['sudo', 'systemctl', 'disable', 'studio-gaudio_in'])
+        subprocess.call(['sudo', 'systemctl', 'disable', 'studio-gaudio_out'])
 
     return redirect(url_for('routing.index'))
