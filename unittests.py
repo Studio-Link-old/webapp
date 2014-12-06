@@ -101,11 +101,11 @@ class AppTestCase(unittest.TestCase):
             server='127.0.0.1',
             username='test',
             password='',
-            codecs=['opus']
+            codecs=['opus/48000/2']
             ))
         account = Accounts.query.get(1)
         password_old = account.password
-        assert 'opus' in account.options
+        assert 'opus/48000/2' in account.options
         assert 'GSM' not in account.options
 
         self.client.post('/accounts/edit/1', data=dict(
@@ -113,11 +113,11 @@ class AppTestCase(unittest.TestCase):
             server='127.0.0.1',
             username='test',
             password='test1234',
-            codecs=['opus','GSM']
+            codecs=['opus/48000/2','GSM']
             ))
         account = Accounts.query.get(1)
         password_new = account.password
-        assert 'opus' in account.options
+        assert 'opus/48000/2' in account.options
         assert 'GSM' in account.options
         assert password_new != password_old
 
