@@ -106,19 +106,19 @@ class AppTestCase(unittest.TestCase):
         account = Accounts.query.get(1)
         password_old = account.password
         assert 'opus' in account.options
-        assert 'gsm' not in account.options
+        assert 'GSM' not in account.options
 
         self.client.post('/accounts/edit/1', data=dict(
             name='Test2',
             server='127.0.0.1',
             username='test',
             password='test1234',
-            codecs=['opus','gsm']
+            codecs=['opus','GSM']
             ))
         account = Accounts.query.get(1)
         password_new = account.password
         assert 'opus' in account.options
-        assert 'gsm' in account.options
+        assert 'GSM' in account.options
         assert password_new != password_old
 
         rv = self.client.get('/accounts/')

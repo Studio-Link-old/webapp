@@ -54,7 +54,7 @@ def add():
 @mod.route('/edit/<id>', methods=('GET', 'POST'))
 def edit(id):
     account = Accounts.query.get(id)
-    account.codecs = ['opus', 'g722', 'g726', 'g711', 'gsm', 'l16']
+    account.codecs = ['opus', 'G722', 'G726', 'PCMU','PCMA', 'GSM', 'L16']
     options = account.options.split(';')
     for option in options:
         if option:

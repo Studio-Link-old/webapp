@@ -37,11 +37,12 @@ class EditForm(Form):
                              default='manual')
     codecs = SelectMultipleField('Codecs',
                                  choices=[('opus', 'Opus 48kHz'),
-                                          ('g722', 'G.722 16kHz'),
-                                          ('g726', 'G.726 8kHz'),
-                                          ('g711', 'G.711 8kHz'),
-                                          ('gsm', 'GSM 8kHz'),
-                                          ('l16', 'PCM 48kHz')])
+                                          ('G722', 'G.722 16kHz'),
+                                          ('G726', 'G.726 8kHz'),
+                                          ('PCMU', 'G.711u 8kHz'),
+                                          ('PCMA', 'G.711a 8kHz'),
+                                          ('GSM', 'GSM 8kHz'),
+                                          ('L16', 'PCM 48kHz')])
 
     submit_button = SubmitField('Save')
 
