@@ -70,7 +70,10 @@ def answer():
 
 @mod.route('/hangup')
 def hangup():
-    baresip.set('hangup', store.get('baresip_ua'))
+    agent = store.get('baresip_ua')
+    if not agent:
+        agent = store.get('call_account')
+    baresip.set('hangup', agent)
     store.set('oncall', 'false')
     store.set('baresip_status', '')
     return redirect('/calls/')
