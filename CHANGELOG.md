@@ -9,6 +9,7 @@
 - Reboot required message #29
 - Single account codec selection
 - Jack audio routing
+- Desktop Notfication
 
 #### Bugfixes
 
