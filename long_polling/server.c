@@ -1,6 +1,7 @@
 #include <sys/types.h>
 #include <sys/select.h>
 #include <sys/socket.h>
+#include <stdlib.h>
 #include <string.h>
 #include <microhttpd.h>
 #include <stdio.h>
@@ -8,7 +9,7 @@
 #include <netinet/in.h>
 
 #define PORT 8888
-
+#define JSON "{\"INCOMING\": \"%s\"}\n"
 
 	static int
 answer_to_connection (void *cls, struct MHD_Connection *connection,
@@ -16,7 +17,7 @@ answer_to_connection (void *cls, struct MHD_Connection *connection,
 		const char *version, const char *upload_data,
 		size_t *upload_data_size, void **con_cls)
 {
-	const char *page = "{}";
+	char *page = "{}";
 	struct MHD_Response *response;
 	int ret;
 	int j;
@@ -32,7 +33,10 @@ answer_to_connection (void *cls, struct MHD_Connection *connection,
 	if (reply->type == REDIS_REPLY_STRING) {
 		printf("baresip_status) '%s'\n", reply->str);
 		if (strcmp(reply->str, "INCOMING") == 0) {
-			page = "{\"INCOMING\": \"sip:studio@studio.lan\"}\n";
+			freeReplyObject(reply);
+			reply = redisCommand(context, "GET baresip_peeruri");
+			page = malloc(strlen(JSON) + strlen(reply->str) + 1);
+			snprintf(page, strlen(JSON) + strlen(reply->str) + 1, JSON, reply->str);
 			freeReplyObject(reply);
 			goto out;
 		}
@@ -48,7 +52,10 @@ answer_to_connection (void *cls, struct MHD_Connection *connection,
 				printf("%u) %s\n", j, reply->element[j]->str);
 			}
 			if (strcmp(reply->element[2]->str, "INCOMING") == 0) {
-				page = "{\"INCOMING\": \"sip:studio@studio.lan\"}\n";
+				redisCommand(context,"UNSUBSCRIBE baresip_call_event");
+				reply = redisCommand(context, "GET baresip_peeruri");
+				page = malloc(strlen(JSON) + strlen(reply->str) + 1);
+				snprintf(page, strlen(JSON) + strlen(reply->str) + 1, JSON, reply->str);
 				freeReplyObject(reply);
 				goto out;
 			}
