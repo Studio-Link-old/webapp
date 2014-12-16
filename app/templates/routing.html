@@ -22,9 +22,9 @@
 
 				{% if c_port == inport %}
 					{% if port in c_value %}
-					<input type="checkbox" checked id="route{{ port |replace(":", "-")}}{{ c_port |replace(":", "-") }}" />
+					<input type="checkbox" checked id="route{{ port |replace(":", "-")}}{{ c_port |replace(":", "-") }}" style="width:20px; height:20px;" />
 					{% else %}
-					<input type="checkbox" id="route{{ port |replace(":", "-")}}{{ c_port |replace(":", "-") }}" />
+					<input type="checkbox" id="route{{ port |replace(":", "-")}}{{ c_port |replace(":", "-") }}" style="width:20px; height:20px;" />
 					{% endif %}
 
 <script>
