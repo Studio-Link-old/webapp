@@ -70,7 +70,7 @@ def edit(id):
         form.populate_obj(account)
         if not request.form['password']:
             account.password = password
-        if account.codecs:
+        if account.codecs and not account.provisioning:
             account.options = ";audio_codecs=" + ','.join(account.codecs)
         db.session.add(account)
         db.session.commit()
