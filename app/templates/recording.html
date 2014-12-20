@@ -1,11 +1,50 @@
 {% extends "base.html" %}
 {% block body_container %}
 
-<h1>Recording</h1>
+{% if not mount_failed %}
+<button type="button" class="btn btn-danger">REC  <span class="glyphicon glyphicon-record"></span></button>
 
 
-{% if mount_status %}
-Mounted
+<table class="table table-striped">
+        <thead>
+                <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th>Duration</th>
+                        <th>Actions</th>
+                </tr>
+        </thead>
+        <tbody>
+		{% for file, value in files.items()|sort(reverse=True) recursive %}
+                <tr>
+                        <td>
+
+                        <a href="#" class="btn btn-primary btn-xs">
+                                <span class="glyphicon glyphicon-play"></span>
+                        </a>
+                        <a href="#" class="btn btn-primary btn-xs">
+                                <span class="glyphicon glyphicon-stop"></span>
+                        </a>
+
+
+                        </td>
+			<td>{{file}}</td>
+			<td>{{value.date}}</td>
+			<td>{{value.duration_min}}:{{value.duration_sec}}</td>
+			<td>
+				<a href="/media/{{file}}" class="btn btn-info btn-xs">
+				<span class="glyphicon glyphicon-floppy-save"></span> Download
+				</a>
+				<a href="/recording/delete/{{file}}" class="btn btn-danger btn-xs">
+				<span class="glyphicon glyphicon-floppy-remove"></span> Delete
+				</a>
+			</td>
+                </tr>
+		{% endfor %}
+        </tbody>
+</table>
+
 {% else %}
 Please insert a SDCARD ...
 {% endif %}

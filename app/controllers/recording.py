@@ -12,6 +12,9 @@
 from flask import Blueprint, request, flash, url_for, redirect, Response
 from flask import render_template
 import subprocess
+import glob
+import time
+import os.path
 
 mod = Blueprint('recording', __name__, url_prefix='/recording')
 
@@ -20,13 +23,21 @@ mod = Blueprint('recording', __name__, url_prefix='/recording')
 def index():
 
     mount_failed = False
+    files = {}
+
     try:
         subprocess.check_call("sudo mount | grep media | grep mmc", shell=True)
     except subprocess.CalledProcessError, e:
         mount_failed = True
 
-    mount_status = False
     if not mount_failed:
-        mount_status = True
+        for flac_file in glob.glob('/media/*.flac'):
+            ctime = time.strftime('%d.%m.%Y', time.gmtime(os.path.getmtime(flac_file)))
+            total_samples = subprocess.check_output("metaflac --show-total-samples "+flac_file, shell=True)
+            duration_min = int(total_samples) / 48000 / 60
+            duration_sec = (int(total_samples) / 48000) - (duration_min * 60)
+            duration_min_str = str(duration_min).zfill(2)
+            duration_sec_str = str(duration_sec).zfill(2)
+            files[flac_file[7:]] = {'date': ctime, 'duration_min': duration_min_str, 'duration_sec': duration_sec_str}
+    return render_template('recording.html',mount_failed=mount_failed,files=files)
 
-    return render_template('recording.html',mount_status=mount_status)
