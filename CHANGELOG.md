@@ -23,6 +23,8 @@
 - Update Librem 0.4.6
 - Added Jack2 upstream version (1.9.10pre-7.06.2014)
 - Improve LAN only support
+- Qemu/Jenkins tests
+- aj-snapshot (jack default routing)
 
 
 ## v14.5.0-alpha (25.05.2014)
