@@ -11,10 +11,22 @@
 
 from flask import Blueprint, request, flash, url_for, redirect, Response
 from flask import render_template
+import subprocess
 
 mod = Blueprint('recording', __name__, url_prefix='/recording')
 
 
 @mod.route('/index')
 def index():
-    return render_template('recording.html')
+
+    mount_failed = False
+    try:
+        subprocess.check_call("sudo mount | grep media | grep mmc", shell=True)
+    except subprocess.CalledProcessError, e:
+        mount_failed = True
+
+    mount_status = False
+    if not mount_failed:
+        mount_status = True
+
+    return render_template('recording.html',mount_status=mount_status)

@@ -3,6 +3,10 @@
 
 <h1>Recording</h1>
 
-Please insert a SDCARD ...
 
+{% if mount_status %}
+Mounted
+{% else %}
+Please insert a SDCARD ...
+{% endif %}
 {% endblock %}
