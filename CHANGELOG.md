@@ -25,6 +25,7 @@
 - Improve LAN only support
 - Qemu/Jenkins tests
 - aj-snapshot (jack default routing)
+- lldp Studio-Link/images#12
 
 
 ## v14.5.0-alpha (25.05.2014)
