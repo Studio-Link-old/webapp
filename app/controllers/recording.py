@@ -39,5 +39,29 @@ def index():
             duration_min_str = str(duration_min).zfill(2)
             duration_sec_str = str(duration_sec).zfill(2)
             files[flac_file[7:]] = {'date': ctime, 'duration_min': duration_min_str, 'duration_sec': duration_sec_str}
-    return render_template('recording.html',mount_failed=mount_failed,files=files)
 
+    try:
+        capture_systemd_status = subprocess.check_output(['sudo',
+                                                          'systemctl',
+                                                          'is-active',
+                                                          'studio-capture'])
+    except subprocess.CalledProcessError, e:
+        capture_systemd_status = 'failed'
+
+    if capture_systemd_status == 'active\n':
+        capture_status = True
+    else:
+        capture_status = False
+
+    return render_template('recording.html',mount_failed=mount_failed,files=files,capture_status=capture_status)
+
+
+@mod.route('/start')
+def start():
+    subprocess.call(['sudo', 'systemctl', 'start', 'studio-capture'])
+    return redirect(url_for('recording.index'))
+
+@mod.route('/stop')
+def stop():
+    subprocess.call(['sudo', 'systemctl', 'stop', 'studio-capture'])
+    return redirect(url_for('recording.index'))

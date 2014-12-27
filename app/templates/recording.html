@@ -2,8 +2,14 @@
 {% block body_container %}
 
 {% if not mount_failed %}
-<button type="button" class="btn btn-danger">REC  <span class="glyphicon glyphicon-record"></span></button>
 
+<p>
+    {% if not capture_status %}
+	<a href="/recording/start" class="btn btn-danger">START REC  <span class="glyphicon glyphicon-record"></span></a>
+    {% else %}
+	<a href="/recording/stop" class="btn btn-danger">STOP REC  <span class="glyphicon glyphicon-record"></span></a>
+    {% endif %}
+</p>
 
 <table class="table table-striped">
         <thead>
