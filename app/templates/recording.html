@@ -25,14 +25,15 @@
 		{% for file, value in files.items()|sort(reverse=True) recursive %}
                 <tr>
                         <td>
-
-                        <a href="#" class="btn btn-primary btn-xs">
+			{% if file != playback %}
+				<a href="/recording/start_play/{{file}}" class="btn btn-primary btn-xs">
                                 <span class="glyphicon glyphicon-play"></span>
                         </a>
-                        <a href="#" class="btn btn-primary btn-xs">
+			{% else %}
+	                        <a href="/recording/stop_play" class="btn btn-primary btn-xs">
                                 <span class="glyphicon glyphicon-stop"></span>
                         </a>
-
+			{% endif %}
 
                         </td>
 			<td>{{file}}</td>

@@ -15,8 +15,10 @@ import subprocess
 import glob
 import time
 import os.path
+import redis
 
 mod = Blueprint('recording', __name__, url_prefix='/recording')
+store = redis.Redis('127.0.0.1')
 
 
 @mod.route('/index')
@@ -53,7 +55,10 @@ def index():
     else:
         capture_status = False
 
-    return render_template('recording.html',mount_failed=mount_failed,files=files,capture_status=capture_status)
+    return render_template('recording.html',mount_failed=mount_failed,
+                                            files=files,
+                                            capture_status=capture_status,
+                                            playback=store.get('playback'))
 
 
 @mod.route('/start')
@@ -64,4 +69,21 @@ def start():
 @mod.route('/stop')
 def stop():
     subprocess.call(['sudo', 'systemctl', 'stop', 'studio-capture'])
+    return redirect(url_for('recording.index'))
+
+@mod.route('/start_play/<filename>')
+def start_play(filename):
+    store.set('playback', filename)
+    subprocess.call(['sudo', 'systemctl', 'start', 'studio-playback'])
+    return redirect(url_for('recording.index'))
+
+@mod.route('/stop_play')
+def stop_play():
+    store.set('playback', 'empty')
+    subprocess.call(['sudo', 'systemctl', 'stop', 'studio-playback'])
+    return redirect(url_for('recording.index'))
+
+@mod.route('/delete/<filename>')
+def delete(filename):
+    subprocess.call(['rm', '/media/'+filename])
     return redirect(url_for('recording.index'))
