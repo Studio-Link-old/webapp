@@ -93,14 +93,3 @@ def mute(direction="playback", card="", mixeridx=0, channel=0, value=0):
     else:
         mixer.setrec(int(value), int(channel))
     return ""
-
-
-@mod.route('/play/<status>')
-def play(status="false"):
-    if status == 'true':
-        r = baresip.set('start_audio_loop')
-        flash('You should hear something... '+r, 'info')
-    else:
-        r = baresip.set('stop_audio_loop')
-        flash('The audio loop stops... '+r, 'info')
-    return redirect(url_for('mixers.index'))

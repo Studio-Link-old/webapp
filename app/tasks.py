@@ -61,13 +61,9 @@ def baresip_config():
     with open(os.getenv('HOME') + '/.baresip/config', 'wb') as fh:
         fh.write(output_from_parsed_template)
 
-    if settings.audio == 'jack':
-        subprocess.call(['sudo', 'systemctl', 'stop', 'studio-jackd'])
-        subprocess.call(['sudo', 'systemctl', 'enable', 'studio-jackd'])
-        subprocess.call(['sudo', 'systemctl', 'start', 'studio-jackd'])
-    else:
-        subprocess.call(['sudo', 'systemctl', 'stop', 'studio-jackd'])
-        subprocess.call(['sudo', 'systemctl', 'disable', 'studio-jackd'])
+    subprocess.call(['sudo', 'systemctl', 'stop', 'studio-jackd'])
+    subprocess.call(['sudo', 'systemctl', 'enable', 'studio-jackd'])
+    subprocess.call(['sudo', 'systemctl', 'start', 'studio-jackd'])
 
     subprocess.call(['sudo', 'systemctl', 'restart', 'baresip'])
 
