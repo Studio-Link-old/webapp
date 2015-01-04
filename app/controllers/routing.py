@@ -82,10 +82,12 @@ def otg(status):
         #subprocess.call(['sudo', 'systemctl', 'enable', 'studio-gaudio_out'])
         #subprocess.call(['sudo', 'systemctl', 'start', 'studio-gaudio_in'])
         #subprocess.call(['sudo', 'systemctl', 'start', 'studio-gaudio_out'])
+        pass
     else:
         #subprocess.call(['sudo', 'systemctl', 'stop', 'studio-gaudio_in'])
         #subprocess.call(['sudo', 'systemctl', 'stop', 'studio-gaudio_out'])
         #subprocess.call(['sudo', 'systemctl', 'disable', 'studio-gaudio_in'])
         #subprocess.call(['sudo', 'systemctl', 'disable', 'studio-gaudio_out'])
+        pass
 
     return redirect(url_for('routing.index'))
