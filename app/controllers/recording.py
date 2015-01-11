@@ -67,11 +67,13 @@ def index():
 @mod.route('/start')
 def start():
     subprocess.call(['sudo', 'systemctl', 'start', 'studio-capture'])
+    store.set('capture_status', 'true')
     return redirect(url_for('recording.index'))
 
 @mod.route('/stop')
 def stop():
     subprocess.call(['sudo', 'systemctl', 'stop', 'studio-capture'])
+    store.set('capture_status', 'false')
     return redirect(url_for('recording.index'))
 
 @mod.route('/start_play/<filename>')

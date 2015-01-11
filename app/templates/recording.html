@@ -25,14 +25,18 @@
 		{% for file, value in files.items()|sort(reverse=True) recursive %}
                 <tr>
                         <td>
-			{% if file != playback %}
-				<a href="/recording/start_play/{{file}}" class="btn btn-primary btn-xs">
-                                <span class="glyphicon glyphicon-play"></span>
-                        </a>
+
+			{% if value.duration_min == "00" and value.duration_sec == "00" %}
 			{% else %}
-	                        <a href="/recording/stop_play" class="btn btn-primary btn-xs">
-                                <span class="glyphicon glyphicon-stop"></span>
-                        </a>
+				{% if file != playback %}
+					<a href="/recording/start_play/{{file}}" class="btn btn-primary btn-xs">
+					<span class="glyphicon glyphicon-play"></span>
+				</a>
+				{% else %}
+					<a href="/recording/stop_play" class="btn btn-primary btn-xs">
+					<span class="glyphicon glyphicon-stop"></span>
+				</a>
+				{% endif %}
 			{% endif %}
 
                         </td>
@@ -40,12 +44,15 @@
 			<td>{{value.date}}</td>
 			<td>{{value.duration_min}}:{{value.duration_sec}}</td>
 			<td>
+				{% if value.duration_min == "00" and value.duration_sec == "00" %}
+				{% else %}
 				<a href="/media/{{file}}" class="btn btn-info btn-xs">
 				<span class="glyphicon glyphicon-floppy-save"></span> Download
 				</a>
 				<a href="/recording/delete/{{file}}" class="btn btn-danger btn-xs">
 				<span class="glyphicon glyphicon-floppy-remove"></span> Delete
 				</a>
+				{% endif %}
 			</td>
                 </tr>
 		{% endfor %}
