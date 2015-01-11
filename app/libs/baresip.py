@@ -17,7 +17,7 @@ import re
 
 
 def curl(param):
-    url = 'http://127.0.0.1:8000/?'
+    url = 'http://127.0.0.1:8000/raw/?'
     try:
         content = requests.get(url+param).content
     except:
@@ -66,7 +66,7 @@ def get(cmd='list', query=''):
 def set(cmd='ua_next', data=''):
 
     if cmd == 'ua_next':
-        return curl('j')
+        return curl('T')
 
     if cmd == 'user_agent':
         accounts = int(Accounts.query.count()) + 1
@@ -79,7 +79,7 @@ def set(cmd='ua_next', data=''):
 
     elif cmd == 'answer':
         set('user_agent', data)
-        return curl('f')
+        return curl('D')
 
     elif cmd == 'hangup':
         set('user_agent', data)
