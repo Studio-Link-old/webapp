@@ -77,6 +77,11 @@
                 </li>
             </ul>
             <div class="navbar-header navbar-right">
+		<h4 class="navbar-text" {%- if not g.capture_status -%}style="display: none"{%- endif -%}>
+			<a style="color: #FFFFFF" href="/recording/index"><span class="label label-info">
+				<span class="glyphicon glyphicon-record"></span> REC</span>
+			</a>
+		</h4>
                 <p class="navbar-text" id="oncall" {%- if not g.oncall -%}style="display: none"{%- endif -%}>
                 <a style="color: #FFFFFF" href="/calls/dial"><span class="glyphicon glyphicon-phone-alt"></span> 
 			{{ g.oncalltext }}

@@ -66,6 +66,10 @@ def before_request():
     else:
         g.reboot_required = False
 
+    if store.get('capture_status') == 'true':
+        g.capture_status = True
+    else:
+        g.capture_status = False
 
 @app.route('/')
 def index():

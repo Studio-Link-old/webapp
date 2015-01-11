@@ -52,8 +52,11 @@ def index():
 
     if capture_systemd_status == 'active\n':
         capture_status = True
+        store.set('capture_status', 'true')
     else:
         capture_status = False
+        store.set('capture_status', 'false')
+
 
     return render_template('recording.html',mount_failed=mount_failed,
                                             files=files,
