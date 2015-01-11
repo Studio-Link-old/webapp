@@ -36,7 +36,8 @@ class EditForm(Form):
                                       ('auto', 'Auto')],
                              default='manual')
     codecs = SelectMultipleField('Codecs',
-                                 choices=[('opus/48000/2', 'Opus 48kHz'),
+                                 choices=[('opus/48000/2', 'Opus 48kHz Stereo'),
+                                          ('opus/48000/1', 'Opus 48kHz Mono'),
                                           ('G722', 'G.722 16kHz'),
                                           ('G726-40/8000/1', 'G.726-40 8kHz'),
                                           ('PCMU', 'G.711u 8kHz'),
@@ -54,4 +55,7 @@ class EditProvisioningForm(Form):
                              choices=[('manual', 'Manual'),
                                       ('auto', 'Auto')],
                              default='manual')
+    codecs = SelectMultipleField('Codecs',
+                                 choices=[('opus/48000/2', 'Opus 48kHz Stereo'),
+                                          ('opus/48000/1', 'Opus 48kHz Mono')])
     submit_button = SubmitField('Save')

@@ -54,13 +54,16 @@ def add():
 @mod.route('/edit/<id>', methods=('GET', 'POST'))
 def edit(id):
     account = Accounts.query.get(id)
-    account.codecs = ['opus/48000/2', 'G722', 'G726-40/8000/1', 'PCMU','PCMA', 'GSM', 'L16']
+    account.codecs = ['opus/48000/2', 'opus/48000/1', 'G722', 'G726-40/8000/1', 'PCMU','PCMA', 'GSM', 'L16']
     options = account.options.split(';')
+    old_options = ""
     for option in options:
         if option:
             (key, value) = option.split('=')
             if key == "audio_codecs":
                 account.codecs = value.split(',')
+            else:
+                old_options = old_options + ";" + option
     password = account.password
     if account.provisioning:
         form = EditProvisioningForm(obj=account)
@@ -70,8 +73,8 @@ def edit(id):
         form.populate_obj(account)
         if not request.form['password']:
             account.password = password
-        if account.codecs and not account.provisioning:
-            account.options = ";audio_codecs=" + ','.join(account.codecs)
+        if account.codecs:
+            account.options = old_options + ";audio_codecs=" + ','.join(account.codecs)
         db.session.add(account)
         db.session.commit()
         account_config()
