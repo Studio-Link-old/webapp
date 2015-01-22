@@ -1,6 +1,6 @@
 # Changelog
 
-## v14.1x.0-beta (xx.xx.2014)
+## v15.1.0-beta (xx.01.2015)
 
 ### Webapp
 
@@ -10,6 +10,7 @@
 - Single account codec selection
 - Jack audio routing
 - Desktop Notfication
+- Recording (double-ender)
 
 #### Bugfixes
 
