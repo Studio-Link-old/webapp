@@ -21,7 +21,7 @@ def curl(param):
     try:
         content = requests.get(url+param).content
     except:
-        flash('baresip connection problem', 'danger')
+        flash('baresip connection problem - please review <a href="/settings">settings</a>', 'danger')
         content = ''
     return content
 
