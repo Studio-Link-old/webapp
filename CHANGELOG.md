@@ -1,6 +1,6 @@
 # Changelog
 
-## v15.1.0-beta (xx.01.2015)
+## v15.1.0-beta (27.01.2015)
 
 ### Webapp
 
@@ -19,10 +19,11 @@
 
 ### Image
 
-- Update Baresip 0.4.11
-- Update Libre 0.4.9
+- Linux Kernel 3.18.2
+- Update Baresip 0.4.12
+- Update Libre 0.4.11
 - Update Librem 0.4.6
-- Added Jack2 upstream version (1.9.10pre-7.06.2014)
+- Added Jack2 upstream version
 - Improve LAN only support
 - Qemu/Jenkins tests
 - aj-snapshot (jack default routing)
