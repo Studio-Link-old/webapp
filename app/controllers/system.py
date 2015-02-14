@@ -22,6 +22,12 @@ import redis
 mod = Blueprint('system', __name__, url_prefix='/system')
 store = redis.Redis('127.0.0.1')
 
+def sdcard_mount_status():
+    try:
+        subprocess.check_call("sudo mount | grep media | grep mmc", shell=True)
+        return True
+    except subprocess.CalledProcessError, e:
+        return False
 
 @mod.route('/shutdown')
 def shutdown():  # pragma: no cover
@@ -64,9 +70,17 @@ def log(match=False):
 @mod.route('/update')
 def update():
     url = 'http://studio-link.de/releases.json'
-    r = requests.get(url)
-    f = open('/etc/studio-release', 'r')
-    current = f.read().rstrip()
+    try:
+        r = requests.get(url)
+        f = open('/etc/studio-release', 'r')
+        current = f.read().rstrip()
+    except:
+        message = "Update error, please check your internet connection and firewall settings."
+        return render_template('error.html', message=message)
+
+    if sdcard_mount_status():
+        message = "Please remove SDCARD before upgrade!"
+        return render_template('error.html', message=message)
 
     releases = []
     for release in r.json():
@@ -96,6 +110,10 @@ def update():
 @mod.route('/upgrade/<version>')
 @mod.route('/upgrade')
 def upgrade(version=False):
+    if sdcard_mount_status():
+        message = "Please remove SDCARD before upgrade!"
+        return render_template('error.html', message=message)
+
     if version:
         store.set('next_release', version)
     tasks.upgrade.delay()

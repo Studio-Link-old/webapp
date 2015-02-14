@@ -11,6 +11,7 @@
 #### Bugfixes
 
 - Better audio routing error message (no internal server error)
+- Prevent Update with SDCard (show error message)
 
 
 ## v15.1.0-beta (27.01.2015)
