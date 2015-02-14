@@ -19,11 +19,17 @@ mod = Blueprint('routing', __name__, url_prefix='/routing')
 
 @mod.route('/index')
 def index():
+
+    ports = None
     try:
         ports = jack.get_ports()
-    except jack.NotConnectedError:
-        jack.attach('studio-webapp')
-        ports = jack.get_ports()
+    except (jack.NotConnectedError, jack.Error):
+        try:
+            jack.detach('studio-webapp')
+            jack.attach('studio-webapp')
+            ports = jack.get_ports()
+        except (jack.NotConnectedError, jack.Error):
+            return render_template('jack_device_error.html')
 
     inports = []
     outports = []
