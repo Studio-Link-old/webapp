@@ -100,10 +100,7 @@ def set(cmd='ua_next', data=''):
 
         return curl('d'+sip)
 
-    elif cmd == 'start_audio_loop':
+    elif cmd == 'audio_stream':
         return curl('a')
-
-    elif cmd == 'stop_audio_loop':
-        return curl('e')
 
     raise NameError('Baresip command not found')

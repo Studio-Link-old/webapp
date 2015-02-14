@@ -38,7 +38,10 @@ def index():
         baresip.set('user_agent', form.accounts.data)
         baresip.set('dial', form.number.data)
         store.set('call_account', form.accounts.data)
-        return redirect('/calls/dial')
+        return render_template('calls/index.html',
+                               form=form,
+                               baresip=baresip.get('list'),
+                               baresip_details=baresip.set('audio_stream'))
     if form.errors:
         for error in form.errors:
             flash(error+': '+form.errors[error][0], 'danger')
@@ -48,15 +51,6 @@ def index():
         form.accounts.data = call_account
 
     return render_template('calls/index.html', form=form)
-
-
-@mod.route('/dial')
-def dial():
-    return render_template('calls/dial.html',
-                           call_number=store.get('call_number'),
-                           call_account=store.get('call_account'),
-                           baresip=baresip.get('list')
-                           )
 
 
 @mod.route('/answer')

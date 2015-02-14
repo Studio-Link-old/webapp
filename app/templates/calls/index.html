@@ -18,8 +18,27 @@
     </button>
 </form>
 
-
 <hr />
-<h2>Call History</h2>
+<h2>Active Calls</h2>
+{% if g.oncall %}
+<p>
+<a href="/calls/hangup" class="btn btn-success"><i class="icon-play icon-white"></i> Cancel call</a>
+</p>
+
+<pre>
+{{baresip}}
+</pre>
+
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#connection" aria-expanded="false" aria-controls="connection">
+details 
+</button>
+<div class="collapse" id="connection">
+	  <div class="well">
+		  {{baresip_details}}
+ 	  </div>
+</div>
+
+{% endif %}
+
 
 {% endblock %}

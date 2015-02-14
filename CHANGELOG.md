@@ -1,5 +1,14 @@
 # Changelog
 
+## v15.1.1-beta (xx.02.2015)
+
+### Webapp
+
+#### Features
+
+- Redesign call view
+
+
 ## v15.1.0-beta (27.01.2015)
 
 ### Webapp

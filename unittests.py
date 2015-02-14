@@ -80,7 +80,7 @@ class AppTestCase(unittest.TestCase):
             accounts='studio@lan',
             number='studio@fe80::21e:68ff:fed5:9d85',
             ))
-        assert b'redirected' in rv.data
+        assert b'Dial' in rv.data
 
 
 ##############################################################
