@@ -30,10 +30,11 @@ function checkCallEvents()
                 function(result) {
                     if (result) {
                         $.ajax({url: "/calls/answer"});
+			setTimeout("window.location = '/calls'", 500);
                     } else {
                         $.ajax({url: "/calls/hangup"});
+                    	setTimeout("checkCallEvents()", 5000);
                     }
-                    setTimeout("checkCallEvents()", 5000);
                 }); 
         } else {
             checkCallEvents();
