@@ -50,7 +50,10 @@ def index():
     if call_account:
         form.accounts.data = call_account
 
-    return render_template('calls/index.html', form=form)
+    return render_template('calls/index.html',
+                           form=form,
+                           baresip=baresip.get('list'),
+                           baresip_details=baresip.set('audio_stream'))
 
 
 @mod.route('/answer')
