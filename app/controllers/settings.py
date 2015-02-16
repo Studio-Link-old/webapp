@@ -60,6 +60,8 @@ def settings():
             # Generate baresip config
             tasks.baresip_config.delay()
             tasks.account_config.delay()
+    elif 'csrf_token' in form.errors:
+        flash('CSRF Error, cookies deactivated?', 'danger')
 
     return render_template('settings.html', form=form,
                            form_password=form_password)
