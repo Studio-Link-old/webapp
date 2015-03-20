@@ -31,7 +31,18 @@ def get(cmd='list', query=''):
     if cmd == 'list':
         return curl('l')
 
+    elif cmd == 'call_active':
+        calls = curl('c')
+        empty_calls = re.search('no active calls', calls)
+        if empty_calls:
+            return False
+        return True
+
     elif cmd == 'reg_status':
+        # Workaround empty calls but no registrations
+        if not get('call_active'):
+            set("hangup")
+
         reg_status = curl('r')
         match = re.search(query + '.*(OK|ERR)', reg_status)
         if not match:

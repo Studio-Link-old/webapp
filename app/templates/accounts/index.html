@@ -40,7 +40,9 @@
         <td>{{ account.username }}@{{ account.server }}</td>
         {% if status[account.id] %}
         <td><span class="label label-success">Online</span></td>
-        {% else %}
+	{% elif g.oncall %}
+        <td><span class="label label-warning">Busy</span></td>
+	{% else %}
         <td><span class="label label-danger">Offline</span></td>
         {% endif %}
         <td>Default</td>
