@@ -95,7 +95,7 @@
 			// the heartbeat transitions to complete
 			var t = latency = new Date - time;
 			++count;
-			update();
+			//update();
 			if (t <= margin) {
 				setTimeout(heartbeatoff, margin - t);
 				setTimeout(ping, wait - t);
