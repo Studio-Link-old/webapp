@@ -50,7 +50,6 @@ class EditForm(Form):
 
 class EditProvisioningForm(Form):
     name = TextField('Name', [InputRequired()])
-    password = PasswordField('Password')
     answermode = SelectField('Answermode',
                              choices=[('manual', 'Manual'),
                                       ('auto', 'Auto')],
