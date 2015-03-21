@@ -1,6 +1,6 @@
 # Changelog
 
-## v15.1.1-beta (xx.02.2015)
+## v15.3.0-beta (xx.03.2015)
 
 ### Webapp
 
@@ -12,6 +12,8 @@
 
 - Better audio routing error message (no internal server error)
 - Prevent Update with SDCard (show error message)
+- Fix account status bugs
+- Fix JS dashboard bug (prevent display graphs)
 
 
 ## v15.1.0-beta (27.01.2015)
