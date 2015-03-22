@@ -17,6 +17,11 @@ from wtforms.validators import InputRequired
 class AddForm(Form):
     name = TextField('Name', [InputRequired()])
     server = TextField('Server', [InputRequired()])
+    transport = SelectField('Transport',
+                             choices=[('udp', 'UDP'),
+                                      ('tcp', 'TCP'),
+                                      ('tls', 'TLS')],
+                             default='udp')
     username = TextField('Username', [InputRequired()])
     password = PasswordField('Password', [InputRequired()])
     answermode = SelectField('Answermode',
@@ -29,6 +34,11 @@ class AddForm(Form):
 class EditForm(Form):
     name = TextField('Name', [InputRequired()])
     server = TextField('Server', [InputRequired()])
+    transport = SelectField('Transport',
+                             choices=[('udp', 'UDP'),
+                                      ('tcp', 'TCP'),
+                                      ('tls', 'TLS')],
+                             default='udp')
     username = TextField('Username', [InputRequired()])
     password = PasswordField('Password')
     answermode = SelectField('Answermode',

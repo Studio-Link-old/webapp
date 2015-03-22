@@ -7,6 +7,7 @@
 #### Features
 
 - Redesign call view
+- Add SIP transport (UDP, TCP and TLS) select field
 
 #### Bugfixes
 
