@@ -16,6 +16,11 @@
 - Fix account status bugs
 - Fix JS dashboard bug (prevent display graphs)
 
+### Image
+
+- Linux Kernel 3.19.1
+- Libre 0.4.12
+- Refresh update page only if server available
 
 ## v15.1.0-beta (27.01.2015)
 

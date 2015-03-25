@@ -34,14 +34,19 @@ def index():
         accounts.append((sip, account.name))
     form.accounts.choices = accounts
 
+    baresip_message = store.get('baresip_message')
+    if baresip_message and store.get('baresip_status') == 'CLOSED':
+        flash(baresip_message, 'danger')
+        baresip.set('hangup')
+        store.set('baresip_message', '')
+
     if form.validate_on_submit():
         baresip.set('user_agent', form.accounts.data)
         baresip.set('dial', form.number.data)
         store.set('call_account', form.accounts.data)
-        return render_template('calls/index.html',
-                               form=form,
-                               baresip=baresip.get('list'),
-                               baresip_details=baresip.set('audio_stream'))
+        time.sleep(1)
+        return redirect('/calls/')
+
     if form.errors:
         for error in form.errors:
             flash(error+': '+form.errors[error][0], 'danger')
