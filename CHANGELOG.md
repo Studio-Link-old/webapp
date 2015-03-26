@@ -1,6 +1,6 @@
 # Changelog
 
-## v15.3.0-beta (xx.03.2015)
+## v15.3.0-beta (26.03.2015)
 
 ### Webapp
 
@@ -21,6 +21,7 @@
 - Linux Kernel 3.19.1
 - Libre 0.4.12
 - Refresh update page only if server available
+
 
 ## v15.1.0-beta (27.01.2015)
 
