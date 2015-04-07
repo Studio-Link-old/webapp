@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block body_container %}
+
+<h1>SIP Accounts</h1>
+
+<p><a href="{{ url_for('contacts.add') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> New Contact</a></p>
+<div class="table-responsive">
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>SIP</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for id,key,value in contacts %}
+    <tr>
+        <td>{{ key }}</td>
+	<td>{{ value }}</td>
+	<td>
+            <p>
+            <a href="/contacts/edit/{{ id }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+            <a href="/contacts/delete/{{ id }}" class="btn btn-danger btn-sm delete-button"><span class="glyphicon glyphicon-remove-circle"></span> Delete</a>
+	    </p>
+        </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<script>
+ $(document).ready(function() {
+     $('.delete-button').click(function() {
+         var answer = confirm("Are you sure you want delete this contact?");
+         if (answer) {
+             return true;
+         } else {
+             return false;
+         }
+     });
+ });
+</script>
+{% endblock %}

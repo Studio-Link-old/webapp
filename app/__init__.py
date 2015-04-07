@@ -52,6 +52,8 @@ app.register_blueprint(routingModule)
 from app.controllers.recording import mod as recordingModule
 app.register_blueprint(recordingModule)
 
+from app.controllers.contacts import mod as contactsModule
+app.register_blueprint(contactsModule)
 
 @app.before_request
 def before_request():
