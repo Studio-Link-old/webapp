@@ -71,8 +71,11 @@ def edit(id):
         form = EditForm(obj=account)
     if form.validate_on_submit():
         form.populate_obj(account)
-        if not request.form['password']:
+        if account.provisioning:
             account.password = password
+        else:
+            if not request.form['password']:
+                account.password = password
         if account.codecs:
             account.options = old_options + ";audio_codecs=" + ','.join(account.codecs)
         db.session.add(account)
