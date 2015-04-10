@@ -125,6 +125,23 @@ class AppTestCase(unittest.TestCase):
         assert b'Test1' not in rv.data
         assert b'Test2' in rv.data
 
+    def test_accounts_provisioning_edit(self):
+        account = Accounts({'username': 'Test', 'provisioning': True,
+            'options': ';test=True', 'answermode': 'manual'})
+        db.session.add(account)
+        db.session.commit()
+        rv = self.client.get('/accounts/edit/1')
+        assert b'Add/Edit SIP Account' in rv.data
+
+        self.client.post('/accounts/edit/1', data=dict(
+            name='Test2',
+            answermode='auto',
+            codecs=['opus/48000/2']
+            ))
+        account = Accounts.query.get(1)
+        assert 'opus/48000/2' in account.options
+        assert 'auto' in account.answermode
+
     def test_accounts_delete(self):
         self.add_account()
         self.client.get('/accounts/delete/1')
