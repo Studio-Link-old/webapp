@@ -1,5 +1,14 @@
 # Changelog
 
+## v15.3.1-beta (8.04.2015)
+
+### Webapp
+
+#### Bugfixes
+
+- Edit Provisioning Account "Bad Request" fixed
+
+
 ## v15.3.0-beta (26.03.2015)
 
 ### Webapp
