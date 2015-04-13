@@ -9,6 +9,14 @@
     {% else %}
     <a href="/recording/stop" class="btn btn-danger"><span class="glyphicon glyphicon-stop"></span> STOP REC</a>
     {% endif %}
+
+    <div>Usage: </div>
+    <div class="progress">
+	    <div class="progress-bar progress-bar-{{sd_usage_message}}" role="progressbar" aria-valuenow="{{sd_usage_percent}}" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;width: {{sd_usage_percent}}%">
+		    {{sd_usage_percent}}%
+	    </div>
+    </div>
+
 </p>
 
 <table class="table table-striped">

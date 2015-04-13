@@ -57,9 +57,21 @@ def index():
         capture_status = False
         store.set('capture_status', 'false')
 
+    if mount_failed:
+        sd_usage_percent = 100
+    else:
+        sd_usage_percent = int(subprocess.check_output("df -m /media | awk '{ print $5 }' | tail -1 | tr -d '%'", shell=True))
+
+    sd_usage_message = 'success'
+    if sd_usage_percent >= 70:
+        sd_usage_message = 'warning'
+    if sd_usage_percent >= 85:
+        sd_usage_message = 'danger'
 
     return render_template('recording.html',mount_failed=mount_failed,
                                             files=files,
+                                            sd_usage_message=sd_usage_message,
+                                            sd_usage_percent=sd_usage_percent,
                                             capture_status=capture_status,
                                             playback=store.get('playback'))
 
