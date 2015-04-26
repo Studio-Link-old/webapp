@@ -1,6 +1,6 @@
 # Changelog
 
-## v15.4.0-beta (xx.04.2015)
+## v15.4.0-beta (26.04.2015)
 
 ### Webapp
 
