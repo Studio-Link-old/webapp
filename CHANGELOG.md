@@ -1,12 +1,19 @@
 # Changelog
 
-## v15.x.0-beta (xx.xx.2015)
+## v15.4.0-beta (xx.04.2015)
 
 ### Webapp
 
-#### Features
+- FEATURE: Show SD-Card usage
 
-- Show SD-Card usage
+### Baresip
+
+- FEATURE: BeagleBone Black GPIO module
+
+### Image
+
+- FIX: gpio permissions with udev rules
+- FIX: studio-capture killmode (flac metadata bug)
 
 
 ## v15.3.1-beta (8.04.2015)
