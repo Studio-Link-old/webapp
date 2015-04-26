@@ -41,7 +41,6 @@
                 {%- for endpoint, caption, logo in [
                 ('index', 'Dashboard', 'glyphicon-dashboard'),
                 ('calls.index', 'Call', 'glyphicon-earphone'),
-                ('contacts.index', 'Contacts', 'glyphicon-user'),
                 ('accounts.index', 'Accounts', 'glyphicon-transfer'),
                 ] %}
                 <li{% if endpoint == request.endpoint %} class=active{% endif %}>
