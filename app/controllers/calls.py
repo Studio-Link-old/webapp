@@ -9,14 +9,13 @@
 # |License: BSD-2-Clause (see LICENSE File)                                  |
 # +--------------------------------------------------------------------------+
 
-from flask import Blueprint, render_template, redirect, request, url_for, flash
+from flask import Blueprint, render_template, redirect, request, flash
 from app.models.accounts import Accounts
 from app.forms.dial import DialForm
 from app.libs import baresip
 import time
 import json
 import redis
-import re
 
 mod = Blueprint('calls', __name__, url_prefix='/calls')
 store = redis.Redis('127.0.0.1')

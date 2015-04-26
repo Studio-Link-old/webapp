@@ -8,4 +8,3 @@
 # |Copyright Sebastian Reimers 2013 - 2015 studio-link.de                    |
 # |License: BSD-2-Clause (see LICENSE File)                                  |
 # +--------------------------------------------------------------------------+
-

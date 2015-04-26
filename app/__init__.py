@@ -8,7 +8,6 @@
 # |Copyright Sebastian Reimers 2013 - 2015 studio-link.de                    |
 # |License: BSD-2-Clause (see LICENSE File)                                  |
 # +--------------------------------------------------------------------------+
-
 from flask import Flask, render_template, g
 from flask_bootstrap import Bootstrap
 from flask_babel import Babel
@@ -55,6 +54,7 @@ app.register_blueprint(recordingModule)
 from app.controllers.contacts import mod as contactsModule
 app.register_blueprint(contactsModule)
 
+
 @app.before_request
 def before_request():
     if store.get('oncall') == 'true':
@@ -72,6 +72,7 @@ def before_request():
         g.capture_status = True
     else:
         g.capture_status = False
+
 
 @app.route('/')
 def index():
