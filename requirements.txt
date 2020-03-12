@@ -11,6 +11,6 @@ redis==2.10.3
 htpasswd==2.0
 urllib3==1.10.3
 requests==2.6.2
-psutil==2.2.1
+psutil==5.6.6
 gunicorn==19.3.0
 py-jack==0.5.2
